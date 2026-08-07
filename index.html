@@ -788,7 +788,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({
-                    quoteType: "국내",
+                    quoteType: (currentLang === 'ko') ? "국내" : "해외",
                     custName: custName,
                     custContact: custContact,
                     custMemo: document.getElementById('custMemo').value.trim(),
