@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>JS STEEL - Premium Steel Solution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4f7f9;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        .premium-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-active {
+            background-color: #1e3a8a;
+            color: white;
+            font-weight: 700;
+            border-bottom: 3px solid #3b82f6;
+        }
+
+        .tab-inactive {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .tab-inactive:hover {
+            color: #1e3a8a;
+            background-color: #e2e8f0;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        @keyframes bounce-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .animate-bounce-slow {
+            animation: bounce-slow 3s ease-in-out infinite;
+        }
+
+        @keyframes slide-in-right {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-slide-in-right {
+            animation: slide-in-right 0.3s ease-out forwards;
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-pop-in {
+            animation: pop-in 0.2s ease-out forwards;
+        }
+
+        /* 마우스가 있는 기기: 오버레이 사용, 하단 버튼 숨김 */
+        @media (hover: hover) and (pointer: fine) {
+            .card-overlay {
+                display: flex;
+            }
+
+            .card-mobile-btn {
+                display: none;
+            }
+        }
+
+        /* 터치 기기: 오버레이 숨김, 하단 버튼 사용 */
+        @media (hover: none),
+        (pointer: coarse) {
+            .card-overlay {
+                display: none;
+            }
+
+            .card-mobile-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="window.scrollTo(0,0)">
+                <img src="https://drive.google.com/thumbnail?id=10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8&sz=w500"
+                    referrerpolicy="no-referrer" alt="JS STEEL" onerror="handleLogoError(this)"
+                    class="h-9 sm:h-11 w-auto object-contain shrink-0">
+                <div class="block">
+                    <h1 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight leading-none">JS STEEL</h1>
+                    <p class="text-[10px] text-slate-500 font-bold mt-1 uppercase tracking-widest"
+                        data-i18n="header-sub">Premium Steel Solution</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="relative w-full md:w-64">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i
+                            class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="제품 검색..."
+                        class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm transition-all shadow-inner">
+                </div>
+
+                <select id="langSelector" onchange="changeLanguage(this.value)"
+                    class="bg-slate-800 text-white text-sm font-bold rounded-lg px-3 py-2 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-md">
+                    <option value="ko">🇰🇷 KOR</option>
+                    <option value="en">🇺🇸 ENG</option>
+                    <option value="ja">🇯🇵 JPN</option>
+                    <option value="vi">🇻🇳 VIE</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Company Intro Section -->
+    <section class="premium-gradient text-white py-16 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold mb-6 border border-blue-500/30">
+                        <i class="fa-solid fa-globe mr-2"></i>Global Standard Steel Provider
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-5 leading-tight tracking-tight">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
+                            data-i18n="intro-title1">건축부터 플랜트까지,</span><br>
+                        <span data-i18n="intro-title2">최적의 철강 자재 파트너</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-8 max-w-xl" data-i18n="intro-desc">
+                        (주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl shadow-2xl">
+                    <h3 class="text-lg font-bold mb-5 flex items-center"><i
+                            class="fa-solid fa-sitemap mr-2 text-blue-400"></i> <span data-i18n="org-title">조직도</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-blue-600/40 border border-blue-400/50 p-3 rounded-lg text-center font-bold"
+                            data-i18n="org-ceo">대표이사</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                data-i18n="org-domestic">내수 영업팀</div>
+                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                data-i18n="org-management">관리팀</div>
+                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                data-i18n="org-qc">생산, 품질관리팀</div>
+                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                data-i18n="org-export">수출팀</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog Main Section -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 flex items-center">
+                    <span data-i18n="cat-title">제품 카탈로그</span>
+                </h2>
+                <p class="text-sm text-slate-500 mt-2 font-medium" data-i18n="cat-subtitle">고품질 철강 자재를 확인하고, 원하시는 제품의
+                    견적을 요청하세요.</p>
+            </div>
+            <div id="statusBadge"
+                class="bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center animate-pulse shadow-sm">
+                <i class="fa-solid fa-spinner fa-spin mr-2"></i> DB 연결 중...
+            </div>
+        </div>
+
+        <div class="overflow-x-auto pb-1 mb-8 custom-scrollbar">
+            <div id="categoryTabs" class="flex space-x-2 border-b-2 border-slate-200 whitespace-nowrap"></div>
+        </div>
+
+        <div id="alertBox"
+            class="hidden mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg text-sm text-red-700 shadow-sm">
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="col-span-full py-20 text-center text-slate-400">
+                <i class="fa-solid fa-layer-group text-5xl mb-4 text-slate-300"></i>
+                <p class="font-bold">구글 데이터베이스 연결 확인 중...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Cart Button -->
+    <div class="fixed bottom-6 right-6 z-50 animate-bounce-slow">
+        <button onclick="toggleCartModal()"
+            class="bg-blue-900 hover:bg-blue-800 text-white rounded-full p-4 shadow-2xl border-2 border-white flex items-center justify-center transition-all transform hover:scale-110">
+            <div class="relative">
+                <i class="fa-solid fa-file-invoice text-2xl"></i>
+                <span id="cartBadge"
+                    class="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center border border-white hidden">0</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- 규격 선택 모달 -->
+    <div id="specModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSpecModal()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-md p-6 transform transition-all animate-pop-in">
+            <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-3">
+                <div>
+                    <span id="specModalCat"
+                        class="text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">분류</span>
+                    <h3 id="specModalTitle" class="text-xl font-black text-slate-800 mt-1">제품명</h3>
+                </div>
+                <button onclick="closeSpecModal()" class="text-slate-400 hover:text-slate-600"><i
+                        class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-size-label">규격 / 사이즈
+                        선택</label>
+                    <select id="specSelect"
+                        class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-qty-label">수량</label>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="changeSpecModalQty(-1)"
+                            class="w-10 h-10 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">-</button>
+                        <input type="number" id="specModalQty" value="1" min="1"
+                            class="flex-grow text-center font-bold text-slate-800 border border-slate-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <button onclick="changeSpecModalQty(1)"
+                            class="w-10 h-10 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-2">
+                <button onclick="closeSpecModal()"
+                    class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-lg"
+                    data-i18n="btn-cancel">취소</button>
+                <button onclick="confirmAddToCart()"
+                    class="w-2/3 bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow-md flex items-center justify-center">
+                    <i class="fa-solid fa-cart-plus mr-2"></i> <span data-i18n="btn-add-confirm">장바구니 담기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quotation Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleCartModal()"></div>
+        <div
+            class="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col animate-slide-in-right">
+            <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-black text-lg flex items-center"><i
+                        class="fa-solid fa-clipboard-list mr-2 text-blue-400"></i> <span data-i18n="cart-title">견적
+                        요청함</span></h3>
+                <button onclick="toggleCartModal()" class="text-slate-300 hover:text-white"><i
+                        class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <div class="flex-grow overflow-y-auto p-5 bg-slate-50 custom-scrollbar" id="cartItemsContainer"></div>
+
+            <div class="border-t border-slate-200 p-5 bg-white">
+                <div class="space-y-3 mb-4">
+                    <input type="text" id="custName"
+                        class="w-full text-sm border border-slate-300 rounded px-3 py-2 outline-none"
+                        placeholder="회사명 / 담당자명">
+                    <input type="text" id="custContact"
+                        class="w-full text-sm border border-slate-300 rounded px-3 py-2 outline-none"
+                        placeholder="연락처 또는 이메일">
+                    <textarea id="custMemo" rows="2"
+                        class="w-full text-sm border border-slate-300 rounded px-3 py-2 outline-none custom-scrollbar"
+                        placeholder="추가 문의사항"></textarea>
+                </div>
+                <button id="btnSubmitQuote" onclick="submitQuotation()"
+                    class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow-md flex items-center justify-center transition-all">
+                    <i id="btnSubmitIcon" class="fa-solid fa-paper-plane mr-2"></i> <span id="btnSubmitText"
+                        data-i18n="cart-submit">견적서 요청하기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="customAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAlertModal()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-sm p-6 transform transition-all animate-pop-in">
+            <div class="text-center mb-5">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-circle-exclamation text-3xl text-blue-600"></i>
+                </div>
+                <h3 class="text-lg font-black text-slate-800 mb-2">알림</h3>
+                <p id="customAlertMsg" class="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed"></p>
+            </div>
+            <button onclick="closeAlertModal()"
+                class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg">확인</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-50 transition-all duration-300 opacity-0 pointer-events-none flex items-center">
+        <i class="fa-solid fa-circle-info text-blue-400 mr-2 text-lg"></i>
+        <span id="toastMsg">알림 메시지</span>
+    </div>
+
+    <!-- JavaScript Application -->
+    <script>
+        var dict = {
+            ko: {
+                "header-sub": "원스톱 철강 유통 및 임가공",
+                "intro-title1": "건축부터 플랜트까지,", "intro-title2": "최적의 철강 자재 파트너",
+                "intro-desc": "(주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.",
+                "org-title": "조직도 (Organization)", "org-ceo": "대표이사", "org-domestic": "내수 영업팀", "org-management": "관리팀", "org-qc": "생산·품질관리팀", "org-export": "수출팀",
+                "cat-title": "제품 카탈로그", "cat-subtitle": "고품질 철강 자재를 확인하고, 원하시는 제품의 견적을 요청하세요.",
+                "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
+                "btn-add-cart": "견적 담기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
+                "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
+                "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기"
+            },
+            en: {
+                "header-sub": "One-Stop Steel & Fabrication",
+                "intro-title1": "From Architecture to Plants,", "intro-title2": "Your Optimal Steel Partner",
+                "intro-desc": "JS STEEL provides comprehensive steel solutions from pipe supply to structural design and precision fabrication.",
+                "org-title": "Organization", "org-ceo": "CEO", "org-domestic": "Domestic Sales", "org-management": "Management", "org-qc": "Production & QC", "org-export": "Export Team",
+                "cat-title": "Product Catalog", "cat-subtitle": "Check our high-quality steel materials and request a quote.",
+                "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
+                "btn-add-cart": "Add to Quote", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
+                "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
+                "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart"
+            },
+            ja: {
+                "header-sub": "ワンストップ鉄鋼流通および加工",
+                "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
+                "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
+                "org-title": "組織図 (Organization)", "org-ceo": "代表取締役", "org-domestic": "国内営業チーム", "org-management": "管理チーム", "org-qc": "生産・品質管理チーム", "org-export": "輸出チーム",
+                "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材を確認し、ご希望の製品の見積もり를 依頼してください。",
+                "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
+                "btn-add-cart": "見積もり追加", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
+                "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
+                "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加"
+            },
+            vi: {
+                "header-sub": "Giải pháp Thép & Gia công Một điểm stop",
+                "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
+                "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
+                "org-title": "Sơ đồ Tổ chức", "org-ceo": "Tổng Giám đốc", "org-domestic": "Kinh doanh Trong nước", "org-management": "Ban Quản lý", "org-qc": "Sản xuất & QC", "org-export": "Đội Xuất khẩu",
+                "cat-title": "Danh mục Sản phẩm", "cat-subtitle": "Kiểm tra các vật liệu thép chất lượng cao và yêu cầu báo giá.",
+                "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
+                "btn-add-cart": "Thêm vào Báo giá", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
+                "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
+                "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng"
+            }
+        };
+
+        var rawSheetData = [];
+        var globalProducts = [];
+        var quotationCart = [];
+        var currentLang = 'ko';
+        var currentCategory = 'ALL';
+        var activeProductForModal = null;
+
+        var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
+
+        window.onload = function () {
+            changeLanguage('ko');
+            loadLiveCatalog(1);
+        };
+
+        function formatImageUrl(url) {
+            if (!url) return "";
+            var strUrl = String(url).trim();
+
+            if (strUrl.includes("drive.google.com") || strUrl.includes("lh3.google")) {
+                var match = strUrl.match(/\/d\/([^\/\?]+)/) || strUrl.match(/id=([^&]+)/);
+                if (match && match[1]) {
+                    return "https://drive.google.com/thumbnail?id=" + match[1] + "&sz=w1000";
+                }
+            }
+            return strUrl;
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                var key = el.getAttribute('data-i18n');
+                if (dict[lang] && dict[lang][key]) el.innerHTML = dict[lang][key];
+            });
+
+            if (rawSheetData.length > 0) {
+                parseProductsForLang();
+                renderCategoryTabs();
+                renderCatalog();
+            }
+            renderCartUI();
+        }
+
+        async function loadLiveCatalog(attempt) {
+            attempt = attempt || 1;
+            var MAX_ATTEMPTS = 3;
+            var badge = document.getElementById('statusBadge');
+
+            try {
+                if (attempt > 1) {
+                    badge.className = "bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
+                    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 재연결 중... (' + attempt + '/' + MAX_ATTEMPTS + ')';
+                }
+
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function () { controller.abort(); }, 20000);
+
+                var response = await fetch(API_URL + '?t=' + Date.now(), { signal: controller.signal });
+                clearTimeout(timeoutId);
+
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                var data = await response.json();
+                if (!data || data.length === 0) throw new Error('시트에 데이터가 없습니다.');
+
+                rawSheetData = data;
+                parseProductsForLang();
+
+                badge.className = "bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
+                badge.innerHTML = '<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> 동기화 완료: ' + globalProducts.length + '건';
+
+                currentCategory = 'ALL';
+                renderCategoryTabs();
+                renderCatalog();
+
+            } catch (error) {
+                console.error("Load error (attempt " + attempt + "):", error);
+
+                if (attempt < MAX_ATTEMPTS) {
+                    var delay = attempt * 1500;
+                    setTimeout(function () { loadLiveCatalog(attempt + 1); }, delay);
+                    return;
+                }
+
+                badge.className = "bg-red-50 border border-red-200 text-red-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm cursor-pointer";
+                badge.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> 연동 실패 · 다시 시도';
+                badge.onclick = function () { loadLiveCatalog(1); };
+            }
+        }
+
+        function parseProductsForLang() {
+            var parsedDB = [];
+            var langUpper = (currentLang || 'ko').toUpperCase();
+
+            rawSheetData.forEach(function (row) {
+                var productId = row["제품코드"] || row["품번"] || row["ID"] || "";
+                if (!productId) return;
+
+                // 1. 카드의 대표 규격 텍스트 (H열 -> 없으면 P열)
+                var specRawText = String(
+                    row["_COL_H_REPSPEC"] || row["대표규격_" + langUpper] || row["대표규격"] || row["대표규격_KO"] ||
+                    row["_COL_P_SPEC"] || row["규격_" + langUpper] || row["규격"] || row["SPEC"] || ""
+                ).trim();
+
+                // 2. 팝업창 드롭다운 규격 목록 (P열 우선! -> 없으면 H열)
+                var specListText = String(
+                    row["_COL_P_SPEC"] || row["규격_" + langUpper] || row["규격"] || row["SPEC"] ||
+                    row["_COL_H_REPSPEC"] || row["대표규격_" + langUpper] || row["대표규격"] || ""
+                ).trim();
+
+                var specList = [];
+                if (specListText && specListText !== "undefined" && specListText !== "null") {
+                    specList = specListText.split(/[,/|\n;]/).map(function (s) {
+                        return s.trim();
+                    }).filter(function (s) {
+                        return s.length > 0;
+                    });
+                }
+
+                if (specList.length === 0) {
+                    specList = [specRawText || "기본 규격"];
+                }
+
+                var cat = row["대분류_" + langUpper] || row["대분류"] || row["대분류_KO"] || "기타자재";
+                var name = row["품명_" + langUpper] || row["품명"] || row["품명_KO"] || row["제품명"] || "제품명 미기재";
+                var proc = row["가공옵션_" + langUpper] || row["가공_" + langUpper] ||
+                    row["가공옵션"] || row["가공옵션_KO"] || row["가공"] || "-";
+                var desc = row["설명_" + langUpper] || row["설명"] || row["설명_KO"] || row["제품설명_" + langUpper] || "";
+                var rawImg = row["대표이미지_URL"] || row["대표이미지"] || row["이미지URL"] || row["이미지"] || "";
+
+                parsedDB.push({
+                    id: String(productId),
+                    cat_ko: cat,
+                    name_ko: name,
+                    specRaw: specRawText || "기본 규격",
+                    specList: specList,
+                    proc_ko: proc,
+                    rawImgUrl: rawImg,
+                    image: formatImageUrl(rawImg),
+                    desc_ko: desc
+                });
+            });
+
+            globalProducts = parsedDB;
+        }
+
+        function renderCategoryTabs() {
+            var tabsContainer = document.getElementById('categoryTabs');
+            var categories = Array.from(new Set(globalProducts.map(function (p) { return p.cat_ko; })));
+
+            var allText = (dict[currentLang] && dict[currentLang]["tab-all"]) ? dict[currentLang]["tab-all"] : "전체보기";
+            var html = '<button onclick="setCategory(\'ALL\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === 'ALL' ? 'tab-active' : 'tab-inactive') + '">' + allText + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + globalProducts.length + '</span></button>';
+
+            categories.forEach(function (cat) {
+                if (!cat) return;
+                var count = globalProducts.filter(function (p) { return p.cat_ko === cat; }).length;
+                html += '<button onclick="setCategory(\'' + cat + '\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === cat ? 'tab-active' : 'tab-inactive') + '">' + cat + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + count + '</span></button>';
+            });
+
+            tabsContainer.innerHTML = html;
+        }
+
+        function setCategory(catKey) {
+            currentCategory = catKey;
+            renderCategoryTabs();
+            renderCatalog();
+        }
+
+        function handleImgError(imgEl, rawImgUrl) {
+            if (!rawImgUrl) {
+                imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
+                return;
+            }
+            var match = rawImgUrl.match(/\/d\/([^\/\?]+)/) || rawImgUrl.match(/id=([^&]+)/);
+            if (match && match[1] && !imgEl.dataset.triedFallback) {
+                imgEl.dataset.triedFallback = "true";
+                imgEl.src = "https://lh3.googleusercontent.com/d/" + match[1];
+            } else {
+                imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
+            }
+        }
+
+        function renderCatalog() {
+            var grid = document.getElementById('productGrid');
+            var searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
+            grid.innerHTML = '';
+
+            var filtered = globalProducts;
+            if (currentCategory !== 'ALL') {
+                filtered = filtered.filter(function (p) { return p.cat_ko === currentCategory; });
+            }
+            if (searchKw) {
+                filtered = filtered.filter(function (p) {
+                    return p.name_ko.toLowerCase().includes(searchKw) || p.cat_ko.toLowerCase().includes(searchKw) || p.specRaw.toLowerCase().includes(searchKw);
+                });
+            }
+
+            if (filtered.length === 0) {
+                var noResMsg = (dict[currentLang] && dict[currentLang]["no-result"]) ? dict[currentLang]["no-result"] : "검색 결과가 없습니다.";
+                grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-400 font-bold">' + noResMsg + '</div>';
+                return;
+            }
+
+            var specLbl = (dict[currentLang] && dict[currentLang]["spec-label"]) ? dict[currentLang]["spec-label"] : "규격";
+            var procLbl = (dict[currentLang] && dict[currentLang]["proc-label"]) ? dict[currentLang]["proc-label"] : "가공";
+            var btnAddCartText = (dict[currentLang] && dict[currentLang]["btn-add-cart"]) ? dict[currentLang]["btn-add-cart"] : "견적 담기";
+
+            filtered.forEach(function (p) {
+                var card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300';
+
+                var imgTag = p.image
+                    ? '<img src="' + p.image + '" referrerpolicy="no-referrer" onerror="handleImgError(this, \'' + p.rawImgUrl + '\')" class="w-full h-full object-cover">'
+                    : '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
+
+                card.innerHTML =
+                    '<div class="relative aspect-[4/3] bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100">' +
+                    imgTag +
+                    '<div class="card-overlay absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-center justify-center z-20">' +
+                    '<button onclick="openSpecModal(\'' + p.id + '\')" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg">' +
+                    '<i class="fa-solid fa-ruler-combined mr-2"></i>' + btnAddCartText +
+                    '</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="p-5 flex flex-col flex-grow">' +
+                    '<div class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded w-fit mb-2">' + p.cat_ko + '</div>' +
+                    '<h4 class="text-lg font-black text-slate-800 mb-3">' + p.name_ko + '</h4>' +
+                    '<div class="space-y-1 text-xs text-slate-600 font-mono bg-slate-50 p-2 rounded mb-3">' +
+                    '<div><strong>' + specLbl + ':</strong> ' + p.specRaw + '</div>' +
+                    '<div><strong>' + procLbl + ':</strong> ' + p.proc_ko + '</div>' +
+                    '</div>' +
+                    '<p class="text-xs text-slate-500 line-clamp-2 mb-4">' + p.desc_ko + '</p>' +
+                    '<button onclick="openSpecModal(\'' + p.id + '\')" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md">' +
+                    '<i class="fa-solid fa-ruler-combined mr-2"></i>' + btnAddCartText +
+                    '</button>' +
+                    '</div>';;
+                grid.appendChild(card);
+            });
+        }
+
+        function openSpecModal(productId) {
+            var product = globalProducts.find(function (p) { return p.id === productId; });
+            if (!product) return;
+
+            activeProductForModal = product;
+            document.getElementById('specModalCat').innerText = product.cat_ko;
+            document.getElementById('specModalTitle').innerText = product.name_ko;
+            document.getElementById('specModalQty').value = 1;
+
+            var select = document.getElementById('specSelect');
+            select.innerHTML = '';
+
+            if (product.specList && product.specList.length > 0) {
+                product.specList.forEach(function (spec) {
+                    var opt = document.createElement('option');
+                    opt.value = spec;
+                    opt.innerText = spec;
+                    select.appendChild(opt);
+                });
+            } else {
+                var opt = document.createElement('option');
+                opt.value = product.specRaw || "기본 규격";
+                opt.innerText = product.specRaw || "기본 규격";
+                select.appendChild(opt);
+            }
+
+            document.getElementById('specModal').classList.remove('hidden');
+        }
+
+        function closeSpecModal() {
+            document.getElementById('specModal').classList.add('hidden');
+            activeProductForModal = null;
+        }
+
+        function changeSpecModalQty(delta) {
+            var qtyInput = document.getElementById('specModalQty');
+            var current = parseInt(qtyInput.value) || 1;
+            current += delta;
+            if (current < 1) current = 1;
+            qtyInput.value = current;
+        }
+
+        function confirmAddToCart() {
+            if (!activeProductForModal) return;
+            var spec = document.getElementById('specSelect').value || activeProductForModal.specRaw;
+            var qty = parseInt(document.getElementById('specModalQty').value) || 1;
+
+            var existing = quotationCart.find(function (item) { return item.id === activeProductForModal.id && item.selectedSpec === spec; });
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                quotationCart.push({
+                    id: activeProductForModal.id,
+                    name_ko: activeProductForModal.name_ko,
+                    selectedSpec: spec,
+                    qty: qty
+                });
+            }
+
+            updateCartBadge();
+            renderCartUI();
+            closeSpecModal();
+
+            var toastMsgText = (dict[currentLang] && dict[currentLang]["toast-added"]) ? dict[currentLang]["toast-added"] : "견적함에 추가되었습니다.";
+            showToast(toastMsgText);
+        }
+
+        function updateCartBadge() {
+            var badge = document.getElementById('cartBadge');
+            badge.innerText = quotationCart.length;
+            if (quotationCart.length > 0) badge.classList.remove('hidden');
+            else badge.classList.add('hidden');
+        }
+
+        function toggleCartModal() {
+            var modal = document.getElementById('cartModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                renderCartUI();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function renderCartUI() {
+            var container = document.getElementById('cartItemsContainer');
+            if (quotationCart.length === 0) {
+                var emptyMsg = (dict[currentLang] && dict[currentLang]["cart-empty"]) ? dict[currentLang]["cart-empty"] : "견적함에 담긴 제품이 없습니다.";
+                container.innerHTML = '<div class="text-center text-slate-400 py-10 font-bold">' + emptyMsg + '</div>';
+                return;
+            }
+
+            var specLbl = (dict[currentLang] && dict[currentLang]["spec-label"]) ? dict[currentLang]["spec-label"] : "규격";
+            var html = '';
+            quotationCart.forEach(function (item, index) {
+                html +=
+                    '<div class="bg-white p-3 rounded-lg border border-slate-200 mb-3 flex items-center justify-between">' +
+                    '<div>' +
+                    '<h5 class="text-sm font-bold text-slate-800">' + item.name_ko + '</h5>' +
+                    '<p class="text-xs text-blue-900 font-mono font-bold mt-0.5">' + specLbl + ': ' + item.selectedSpec + '</p>' +
+                    '</div>' +
+                    '<div class="flex items-center space-x-2">' +
+                    '<input type="number" min="1" value="' + item.qty + '" onchange="quotationCart[' + index + '].qty=parseInt(this.value)||1" class="w-12 text-center border rounded font-bold text-sm py-1">' +
+                    '<button onclick="quotationCart.splice(' + index + ',1); updateCartBadge(); renderCartUI();" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button>' +
+                    '</div>' +
+                    '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function customAlert(msg) {
+            document.getElementById('customAlertMsg').innerText = msg;
+            document.getElementById('customAlertModal').classList.remove('hidden');
+        }
+
+        function closeAlertModal() {
+            document.getElementById('customAlertModal').classList.add('hidden');
+        }
+
+        function submitQuotation() {
+            if (quotationCart.length === 0) return customAlert("견적함이 비어있습니다.");
+            var custName = document.getElementById('custName').value.trim();
+            var custContact = document.getElementById('custContact').value.trim();
+            if (!custName || !custContact) return customAlert("회사명과 연락처를 입력해주세요.");
+
+            var btn = document.getElementById('btnSubmitQuote');
+            var icon = document.getElementById('btnSubmitIcon');
+            var textSpan = document.getElementById('btnSubmitText');
+
+            // 1. 요청 진행 상태 UI 적용 (로딩 아이콘 및 문구 변경, 클릭 방지)
+            btn.disabled = true;
+            btn.classList.remove('bg-blue-900', 'hover:bg-blue-800');
+            btn.classList.add('bg-slate-500', 'cursor-not-allowed');
+
+            icon.className = "fa-solid fa-spinner fa-spin mr-2";
+            var submittingMsg = (dict[currentLang] && dict[currentLang]["cart-submitting"]) ? dict[currentLang]["cart-submitting"] : "견적서 요청 중...";
+            textSpan.innerText = submittingMsg;
+
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    quoteType: "국내",
+                    custName: custName,
+                    custContact: custContact,
+                    custMemo: document.getElementById('custMemo').value.trim(),
+                    cart: quotationCart.map(function (i) { return { id: i.id, name: i.name_ko, spec: i.selectedSpec, qty: i.qty }; })
+                })
+            })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (data.status === 'success') {
+                        toggleCartModal();
+                        var sentMsg = (dict[currentLang] && dict[currentLang]["toast-sent"]) ? dict[currentLang]["toast-sent"] : "견적서 요청이 완료되었습니다!";
+                        showToast(sentMsg);
+                        quotationCart = [];
+                        updateCartBadge();
+                    } else {
+                        customAlert("전송 실패: " + data.message);
+                    }
+                })
+                .catch(function (err) { customAlert("통신 오류가 발생했습니다."); })
+                .finally(function () {
+                    // 2. 요청 완료 후 버튼 상태 복구
+                    btn.disabled = false;
+                    btn.classList.remove('bg-slate-500', 'cursor-not-allowed');
+                    btn.classList.add('bg-blue-900', 'hover:bg-blue-800');
+
+                    icon.className = "fa-solid fa-paper-plane mr-2";
+                    var originalMsg = (dict[currentLang] && dict[currentLang]["cart-submit"]) ? dict[currentLang]["cart-submit"] : "견적서 요청하기";
+                    textSpan.innerText = originalMsg;
+                });
+        }
+
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-4');
+            setTimeout(function () {
+                toast.classList.remove('opacity-100', 'translate-y-4');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
