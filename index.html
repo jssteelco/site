@@ -344,11 +344,13 @@
                     <i class="fa-solid fa-circle-exclamation text-3xl text-blue-600"></i>
                 </div>
                 <h3 class="text-lg font-black text-slate-800 mb-2">알림</h3>
+                <h3 id="customAlertTitle" class="text-lg font-black text-slate-800 mb-2">알림</h3>
                 <p id="customAlertMsg" class="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed"></p>
             </div>
             <button onclick="closeAlertModal()"
                 class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg">확인</button>
         </div>
+        <button id="customAlertBtn" onclick="closeAlertModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg">확인</button>
     </div>
 
     <!-- Toast Notification -->
@@ -370,7 +372,13 @@
                 "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
                 "btn-add-cart": "견적 담기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
-                "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기"
+                "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기",
+                "alert-title": "알림", "alert-confirm": "확인",
+                "alert-empty-cart": "견적함이 비어있습니다.",
+                "alert-need-info": "회사명과 연락처를 입력해주세요.",
+                "alert-send-fail": "전송 실패: ", "alert-network-err": "통신 오류가 발생했습니다.",
+                "ph-search": "제품 검색...", "ph-name": "회사명 / 담당자명",
+                "ph-contact": "연락처 또는 이메일", "ph-memo": "추가 문의사항"
             },
             en: {
                 "header-sub": "One-Stop Steel & Fabrication",
@@ -381,7 +389,13 @@
                 "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
                 "btn-add-cart": "Add to Quote", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
-                "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart"
+                "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart",
+                "alert-title": "Notice", "alert-confirm": "OK",
+                "alert-empty-cart": "Your quotation cart is empty.",
+                "alert-need-info": "Please enter your company name and contact information.",
+                "alert-send-fail": "Failed to send: ", "alert-network-err": "A network error occurred.",
+                "ph-search": "Search products...", "ph-name": "Company / Contact person",
+                "ph-contact": "Phone or email", "ph-memo": "Additional inquiries"
             },
             ja: {
                 "header-sub": "ワンストップ鉄鋼流通および加工",
@@ -392,7 +406,13 @@
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
                 "btn-add-cart": "見積もり追加", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
-                "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加"
+                "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加",
+                "alert-title": "お知らせ", "alert-confirm": "確認",
+                "alert-empty-cart": "見積もりカートが空です。",
+                "alert-need-info": "会社名とご連絡先を入力してください。",
+                "alert-send-fail": "送信失敗: ", "alert-network-err": "通信エラーが発生しました。",
+                "ph-search": "製品検索...", "ph-name": "会社名 / ご担当者名",
+                "ph-contact": "電話番号またはメール", "ph-memo": "追加のお問い合わせ"
             },
             vi: {
                 "header-sub": "Giải pháp Thép & Gia công Một điểm stop",
@@ -403,10 +423,18 @@
                 "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
                 "btn-add-cart": "Thêm vào Báo giá", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
-                "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng"
+                "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng",
+                "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
+                "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
+                "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
+                "alert-send-fail": "Gửi thất bại: ", "alert-network-err": "Đã xảy ra lỗi kết nối.",
+                "ph-search": "Tìm sản phẩm...", "ph-name": "Công ty / Người liên hệ",
+                "ph-contact": "Số điện thoại hoặc email", "ph-memo": "Yêu cầu bổ sung"
             }
         };
-
+        function t(key, fallback) {
+            return (dict[currentLang] && dict[currentLang][key]) ? dict[currentLang][key] : (fallback || key);
+        }
         var rawSheetData = [];
         var globalProducts = [];
         var quotationCart = [];
@@ -440,6 +468,11 @@
                 var key = el.getAttribute('data-i18n');
                 if (dict[lang] && dict[lang][key]) el.innerHTML = dict[lang][key];
             });
+
+            document.getElementById('searchInput').placeholder = t("ph-search", "제품 검색...");
+            document.getElementById('custName').placeholder = t("ph-name", "회사명 / 담당자명");
+            document.getElementById('custContact').placeholder = t("ph-contact", "연락처 또는 이메일");
+            document.getElementById('custMemo').placeholder = t("ph-memo", "추가 문의사항");
 
             if (rawSheetData.length > 0) {
                 parseProductsForLang();
@@ -758,6 +791,8 @@
 
         function customAlert(msg) {
             document.getElementById('customAlertMsg').innerText = msg;
+            document.getElementById('customAlertTitle').innerText = t("alert-title", "알림");
+            document.getElementById('customAlertBtn').innerText = t("alert-confirm", "확인");
             document.getElementById('customAlertModal').classList.remove('hidden');
         }
 
@@ -766,10 +801,10 @@
         }
 
         function submitQuotation() {
-            if (quotationCart.length === 0) return customAlert("견적함이 비어있습니다.");
+            if (quotationCart.length === 0) return customAlert(t("alert-empty-cart", "견적함이 비어있습니다."));
             var custName = document.getElementById('custName').value.trim();
             var custContact = document.getElementById('custContact').value.trim();
-            if (!custName || !custContact) return customAlert("회사명과 연락처를 입력해주세요.");
+            if (!custName || !custContact) return customAlert(t("alert-need-info", "회사명과 연락처를 입력해주세요."));
 
             var btn = document.getElementById('btnSubmitQuote');
             var icon = document.getElementById('btnSubmitIcon');
@@ -804,10 +839,10 @@
                         quotationCart = [];
                         updateCartBadge();
                     } else {
-                        customAlert("전송 실패: " + data.message);
+                        customAlert(t("alert-send-fail", "전송 실패: ") + data.message);
                     }
                 })
-                .catch(function (err) { customAlert("통신 오류가 발생했습니다."); })
+                .catch(function (err) { customAlert(t("alert-network-err", "통신 오류가 발생했습니다.")); })
                 .finally(function () {
                     // 2. 요청 완료 후 버튼 상태 복구
                     btn.disabled = false;
