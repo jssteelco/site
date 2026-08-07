@@ -105,6 +105,17 @@
             animation: pop-in 0.2s ease-out forwards;
         }
 
+        /* 모달 표시 제어: hidden/flex 클래스 충돌 방지 */
+        .modal-wrap {
+            display: none;
+        }
+
+        .modal-wrap.is-open {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* 마우스가 있는 기기: 오버레이 사용, 하단 버튼 숨김 */
         @media (hover: hover) and (pointer: fine) {
             .card-overlay {
@@ -220,7 +231,7 @@
             </div>
             <div id="statusBadge"
                 class="bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center animate-pulse shadow-sm">
-                <i class="fa-solid fa-spinner fa-spin mr-2"></i> DB 연결 중...
+                <i class="fa-solid fa-spinner fa-spin mr-2"></i> <span data-i18n="db-connecting">DB 연결 중...</span>
             </div>
         </div>
 
@@ -235,7 +246,7 @@
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div class="col-span-full py-20 text-center text-slate-400">
                 <i class="fa-solid fa-layer-group text-5xl mb-4 text-slate-300"></i>
-                <p class="font-bold">구글 데이터베이스 연결 확인 중...</p>
+                <p class="font-bold" data-i18n="db-checking">구글 데이터베이스 연결 확인 중...</p>
             </div>
         </div>
     </main>
@@ -253,7 +264,7 @@
     </div>
 
     <!-- 규격 선택 모달 -->
-    <div id="specModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center">
+    <div id="specModal" class="modal-wrap fixed inset-0 z-[150]">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSpecModal()"></div>
         <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-md p-6 transform transition-all animate-pop-in">
             <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-3">
@@ -336,21 +347,19 @@
     </div>
 
     <!-- Alert Modal -->
-    <div id="customAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center">
+    <div id="customAlertModal" class="modal-wrap fixed inset-0 z-[200]">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAlertModal()"></div>
         <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-sm p-6 transform transition-all animate-pop-in">
             <div class="text-center mb-5">
                 <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-circle-exclamation text-3xl text-blue-600"></i>
                 </div>
-                <h3 class="text-lg font-black text-slate-800 mb-2">알림</h3>
                 <h3 id="customAlertTitle" class="text-lg font-black text-slate-800 mb-2">알림</h3>
                 <p id="customAlertMsg" class="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed"></p>
             </div>
-            <button onclick="closeAlertModal()"
+            <button id="customAlertBtn" onclick="closeAlertModal()"
                 class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg">확인</button>
         </div>
-        <button id="customAlertBtn" onclick="closeAlertModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-lg">확인</button>
     </div>
 
     <!-- Toast Notification -->
@@ -378,7 +387,10 @@
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
                 "alert-send-fail": "전송 실패: ", "alert-network-err": "통신 오류가 발생했습니다.",
                 "ph-search": "제품 검색...", "ph-name": "회사명 / 담당자명",
-                "ph-contact": "연락처 또는 이메일", "ph-memo": "추가 문의사항"
+                "ph-contact": "연락처 또는 이메일", "ph-memo": "추가 문의사항",
+                "db-connecting": "DB 연결 중...", "db-checking": "구글 데이터베이스 연결 확인 중...",
+                "db-retrying": "재연결 중...", "db-synced": "동기화 완료: ", "db-count-unit": "건",
+                "db-failed": "연동 실패 · 다시 시도", "default-spec": "기본 규격"
             },
             en: {
                 "header-sub": "One-Stop Steel & Fabrication",
@@ -395,14 +407,17 @@
                 "alert-need-info": "Please enter your company name and contact information.",
                 "alert-send-fail": "Failed to send: ", "alert-network-err": "A network error occurred.",
                 "ph-search": "Search products...", "ph-name": "Company / Contact person",
-                "ph-contact": "Phone or email", "ph-memo": "Additional inquiries"
+                "ph-contact": "Phone or email", "ph-memo": "Additional inquiries",
+                "db-connecting": "Connecting to database...", "db-checking": "Checking database connection...",
+                "db-retrying": "Reconnecting...", "db-synced": "Synced: ", "db-count-unit": " items",
+                "db-failed": "Connection failed · Retry", "default-spec": "Standard"
             },
             ja: {
                 "header-sub": "ワンストップ鉄鋼流通および加工",
                 "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
                 "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
                 "org-title": "組織図 (Organization)", "org-ceo": "代表取締役", "org-domestic": "国内営業チーム", "org-management": "管理チーム", "org-qc": "生産・品質管理チーム", "org-export": "輸出チーム",
-                "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材を確認し、ご希望の製品の見積もり를 依頼してください。",
+                "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材をご確認いただき、ご希望の製品の見積もりをご依頼ください。",
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
                 "btn-add-cart": "見積もり追加", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
@@ -412,10 +427,13 @@
                 "alert-need-info": "会社名とご連絡先を入力してください。",
                 "alert-send-fail": "送信失敗: ", "alert-network-err": "通信エラーが発生しました。",
                 "ph-search": "製品検索...", "ph-name": "会社名 / ご担当者名",
-                "ph-contact": "電話番号またはメール", "ph-memo": "追加のお問い合わせ"
+                "ph-contact": "電話番号またはメール", "ph-memo": "追加のお問い合わせ",
+                "db-connecting": "データベース接続中...", "db-checking": "データベース接続を確認中...",
+                "db-retrying": "再接続中...", "db-synced": "同期完了: ", "db-count-unit": "件",
+                "db-failed": "連携失敗 · 再試行", "default-spec": "標準規格"
             },
             vi: {
-                "header-sub": "Giải pháp Thép & Gia công Một điểm stop",
+                "header-sub": "Giải pháp Thép & Gia công Trọn gói",
                 "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
                 "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
                 "org-title": "Sơ đồ Tổ chức", "org-ceo": "Tổng Giám đốc", "org-domestic": "Kinh doanh Trong nước", "org-management": "Ban Quản lý", "org-qc": "Sản xuất & QC", "org-export": "Đội Xuất khẩu",
@@ -429,12 +447,13 @@
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
                 "alert-send-fail": "Gửi thất bại: ", "alert-network-err": "Đã xảy ra lỗi kết nối.",
                 "ph-search": "Tìm sản phẩm...", "ph-name": "Công ty / Người liên hệ",
-                "ph-contact": "Số điện thoại hoặc email", "ph-memo": "Yêu cầu bổ sung"
+                "ph-contact": "Số điện thoại hoặc email", "ph-memo": "Yêu cầu bổ sung",
+                "db-connecting": "Đang kết nối cơ sở dữ liệu...", "db-checking": "Đang kiểm tra kết nối...",
+                "db-retrying": "Đang kết nối lại...", "db-synced": "Đồng bộ xong: ", "db-count-unit": " mục",
+                "db-failed": "Kết nối thất bại · Thử lại", "default-spec": "Quy cách tiêu chuẩn"
             }
         };
-        function t(key, fallback) {
-            return (dict[currentLang] && dict[currentLang][key]) ? dict[currentLang][key] : (fallback || key);
-        }
+
         var rawSheetData = [];
         var globalProducts = [];
         var quotationCart = [];
@@ -444,10 +463,24 @@
 
         var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
 
+        // 번역 헬퍼
+        function t(key, fallback) {
+            return (dict[currentLang] && dict[currentLang][key]) ? dict[currentLang][key] : (fallback || key);
+        }
+
         window.onload = function () {
             changeLanguage('ko');
             loadLiveCatalog(1);
         };
+
+        function handleLogoError(imgEl) {
+            if (!imgEl.dataset.triedFallback) {
+                imgEl.dataset.triedFallback = "true";
+                imgEl.src = "https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8";
+            } else {
+                imgEl.outerHTML = '<div class="h-9 sm:h-11 w-9 sm:w-11 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black text-lg shrink-0">JS</div>';
+            }
+        }
 
         function formatImageUrl(url) {
             if (!url) return "";
@@ -469,6 +502,7 @@
                 if (dict[lang] && dict[lang][key]) el.innerHTML = dict[lang][key];
             });
 
+            // placeholder 번역
             document.getElementById('searchInput').placeholder = t("ph-search", "제품 검색...");
             document.getElementById('custName').placeholder = t("ph-name", "회사명 / 담당자명");
             document.getElementById('custContact').placeholder = t("ph-contact", "연락처 또는 이메일");
@@ -490,7 +524,7 @@
             try {
                 if (attempt > 1) {
                     badge.className = "bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
-                    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 재연결 중... (' + attempt + '/' + MAX_ATTEMPTS + ')';
+                    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ' + t("db-retrying", "재연결 중...") + ' (' + attempt + '/' + MAX_ATTEMPTS + ')';
                 }
 
                 var controller = new AbortController();
@@ -508,7 +542,7 @@
                 parseProductsForLang();
 
                 badge.className = "bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
-                badge.innerHTML = '<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> 동기화 완료: ' + globalProducts.length + '건';
+                badge.innerHTML = '<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ' + t("db-synced", "동기화 완료: ") + globalProducts.length + t("db-count-unit", "건");
 
                 currentCategory = 'ALL';
                 renderCategoryTabs();
@@ -524,7 +558,7 @@
                 }
 
                 badge.className = "bg-red-50 border border-red-200 text-red-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm cursor-pointer";
-                badge.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> 연동 실패 · 다시 시도';
+                badge.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> ' + t("db-failed", "연동 실패 · 다시 시도");
                 badge.onclick = function () { loadLiveCatalog(1); };
             }
         }
@@ -532,6 +566,7 @@
         function parseProductsForLang() {
             var parsedDB = [];
             var langUpper = (currentLang || 'ko').toUpperCase();
+            var defaultSpec = t("default-spec", "기본 규격");
 
             rawSheetData.forEach(function (row) {
                 var productId = row["제품코드"] || row["품번"] || row["ID"] || "";
@@ -559,7 +594,7 @@
                 }
 
                 if (specList.length === 0) {
-                    specList = [specRawText || "기본 규격"];
+                    specList = [specRawText || defaultSpec];
                 }
 
                 var cat = row["대분류_" + langUpper] || row["대분류"] || row["대분류_KO"] || "기타자재";
@@ -573,7 +608,7 @@
                     id: String(productId),
                     cat_ko: cat,
                     name_ko: name,
-                    specRaw: specRawText || "기본 규격",
+                    specRaw: specRawText || defaultSpec,
                     specList: specList,
                     proc_ko: proc,
                     rawImgUrl: rawImg,
@@ -589,7 +624,7 @@
             var tabsContainer = document.getElementById('categoryTabs');
             var categories = Array.from(new Set(globalProducts.map(function (p) { return p.cat_ko; })));
 
-            var allText = (dict[currentLang] && dict[currentLang]["tab-all"]) ? dict[currentLang]["tab-all"] : "전체보기";
+            var allText = t("tab-all", "전체보기");
             var html = '<button onclick="setCategory(\'ALL\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === 'ALL' ? 'tab-active' : 'tab-inactive') + '">' + allText + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + globalProducts.length + '</span></button>';
 
             categories.forEach(function (cat) {
@@ -637,14 +672,13 @@
             }
 
             if (filtered.length === 0) {
-                var noResMsg = (dict[currentLang] && dict[currentLang]["no-result"]) ? dict[currentLang]["no-result"] : "검색 결과가 없습니다.";
-                grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-400 font-bold">' + noResMsg + '</div>';
+                grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-400 font-bold">' + t("no-result", "검색 결과가 없습니다.") + '</div>';
                 return;
             }
 
-            var specLbl = (dict[currentLang] && dict[currentLang]["spec-label"]) ? dict[currentLang]["spec-label"] : "규격";
-            var procLbl = (dict[currentLang] && dict[currentLang]["proc-label"]) ? dict[currentLang]["proc-label"] : "가공";
-            var btnAddCartText = (dict[currentLang] && dict[currentLang]["btn-add-cart"]) ? dict[currentLang]["btn-add-cart"] : "견적 담기";
+            var specLbl = t("spec-label", "규격");
+            var procLbl = t("proc-label", "가공");
+            var btnAddCartText = t("btn-add-cart", "견적 담기");
 
             filtered.forEach(function (p) {
                 var card = document.createElement('div');
@@ -674,7 +708,7 @@
                     '<button onclick="openSpecModal(\'' + p.id + '\')" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md">' +
                     '<i class="fa-solid fa-ruler-combined mr-2"></i>' + btnAddCartText +
                     '</button>' +
-                    '</div>';;
+                    '</div>';
                 grid.appendChild(card);
             });
         }
@@ -691,25 +725,22 @@
             var select = document.getElementById('specSelect');
             select.innerHTML = '';
 
-            if (product.specList && product.specList.length > 0) {
-                product.specList.forEach(function (spec) {
-                    var opt = document.createElement('option');
-                    opt.value = spec;
-                    opt.innerText = spec;
-                    select.appendChild(opt);
-                });
-            } else {
-                var opt = document.createElement('option');
-                opt.value = product.specRaw || "기본 규격";
-                opt.innerText = product.specRaw || "기본 규격";
-                select.appendChild(opt);
-            }
+            var list = (product.specList && product.specList.length > 0)
+                ? product.specList
+                : [product.specRaw || t("default-spec", "기본 규격")];
 
-            document.getElementById('specModal').classList.remove('hidden');
+            list.forEach(function (spec) {
+                var opt = document.createElement('option');
+                opt.value = spec;
+                opt.innerText = spec;
+                select.appendChild(opt);
+            });
+
+            document.getElementById('specModal').classList.add('is-open');
         }
 
         function closeSpecModal() {
-            document.getElementById('specModal').classList.add('hidden');
+            document.getElementById('specModal').classList.remove('is-open');
             activeProductForModal = null;
         }
 
@@ -741,9 +772,7 @@
             updateCartBadge();
             renderCartUI();
             closeSpecModal();
-
-            var toastMsgText = (dict[currentLang] && dict[currentLang]["toast-added"]) ? dict[currentLang]["toast-added"] : "견적함에 추가되었습니다.";
-            showToast(toastMsgText);
+            showToast(t("toast-added", "견적함에 추가되었습니다."));
         }
 
         function updateCartBadge() {
@@ -766,12 +795,11 @@
         function renderCartUI() {
             var container = document.getElementById('cartItemsContainer');
             if (quotationCart.length === 0) {
-                var emptyMsg = (dict[currentLang] && dict[currentLang]["cart-empty"]) ? dict[currentLang]["cart-empty"] : "견적함에 담긴 제품이 없습니다.";
-                container.innerHTML = '<div class="text-center text-slate-400 py-10 font-bold">' + emptyMsg + '</div>';
+                container.innerHTML = '<div class="text-center text-slate-400 py-10 font-bold">' + t("cart-empty", "견적함에 담긴 제품이 없습니다.") + '</div>';
                 return;
             }
 
-            var specLbl = (dict[currentLang] && dict[currentLang]["spec-label"]) ? dict[currentLang]["spec-label"] : "규격";
+            var specLbl = t("spec-label", "규격");
             var html = '';
             quotationCart.forEach(function (item, index) {
                 html +=
@@ -793,11 +821,11 @@
             document.getElementById('customAlertMsg').innerText = msg;
             document.getElementById('customAlertTitle').innerText = t("alert-title", "알림");
             document.getElementById('customAlertBtn').innerText = t("alert-confirm", "확인");
-            document.getElementById('customAlertModal').classList.remove('hidden');
+            document.getElementById('customAlertModal').classList.add('is-open');
         }
 
         function closeAlertModal() {
-            document.getElementById('customAlertModal').classList.add('hidden');
+            document.getElementById('customAlertModal').classList.remove('is-open');
         }
 
         function submitQuotation() {
@@ -810,14 +838,13 @@
             var icon = document.getElementById('btnSubmitIcon');
             var textSpan = document.getElementById('btnSubmitText');
 
-            // 1. 요청 진행 상태 UI 적용 (로딩 아이콘 및 문구 변경, 클릭 방지)
+            // 1. 요청 진행 상태 UI 적용
             btn.disabled = true;
             btn.classList.remove('bg-blue-900', 'hover:bg-blue-800');
             btn.classList.add('bg-slate-500', 'cursor-not-allowed');
 
             icon.className = "fa-solid fa-spinner fa-spin mr-2";
-            var submittingMsg = (dict[currentLang] && dict[currentLang]["cart-submitting"]) ? dict[currentLang]["cart-submitting"] : "견적서 요청 중...";
-            textSpan.innerText = submittingMsg;
+            textSpan.innerText = t("cart-submitting", "견적서 요청 중...");
 
             fetch(API_URL, {
                 method: 'POST',
@@ -834,10 +861,15 @@
                 .then(function (data) {
                     if (data.status === 'success') {
                         toggleCartModal();
-                        var sentMsg = (dict[currentLang] && dict[currentLang]["toast-sent"]) ? dict[currentLang]["toast-sent"] : "견적서 요청이 완료되었습니다!";
-                        showToast(sentMsg);
+                        showToast(t("toast-sent", "견적서 요청이 완료되었습니다!"));
                         quotationCart = [];
                         updateCartBadge();
+
+                        // 입력칸 초기화
+                        document.getElementById('custName').value = '';
+                        document.getElementById('custContact').value = '';
+                        document.getElementById('custMemo').value = '';
+                        renderCartUI();
                     } else {
                         customAlert(t("alert-send-fail", "전송 실패: ") + data.message);
                     }
@@ -850,8 +882,7 @@
                     btn.classList.add('bg-blue-900', 'hover:bg-blue-800');
 
                     icon.className = "fa-solid fa-paper-plane mr-2";
-                    var originalMsg = (dict[currentLang] && dict[currentLang]["cart-submit"]) ? dict[currentLang]["cart-submit"] : "견적서 요청하기";
-                    textSpan.innerText = originalMsg;
+                    textSpan.innerText = t("cart-submit", "견적서 요청하기");
                 });
         }
 
