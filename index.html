@@ -5,7 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>JS STEEL - Premium Steel Solution</title>
+
+    <!-- ===== 기본 정보 ===== -->
+    <title>JS STEEL (주)제이에스스틸 | 강관·형강·강판 유통 및 정밀 임가공</title>
+    <meta name="description"
+        content="(주)제이에스스틸은 2011년 설립 이래 강관, 형강, 강판, 봉강 등 KS 규격 철강 자재 유통과 절단·타공·절곡 정밀 임가공을 제공합니다. 온라인으로 제품을 확인하고 견적을 요청하세요.">
+    <meta name="keywords" content="제이에스스틸, JS STEEL, 강관, 형강, 강판, 봉강, 각관, H형강, 철강유통, 임가공, 절단, 타공, 절곡, 김해 철강">
+    <meta name="author" content="JS STEEL Co., Ltd.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jssteel.co.kr/">
+
+    <!-- ===== 파비콘 ===== -->
+    <link rel="icon" type="image/png"
+        href="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8">
+    <link rel="apple-touch-icon"
+        href="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8">
+    <meta name="theme-color" content="#1e3a8a">
+
+    <!-- ===== 카카오톡 · 페이스북 공유 (Open Graph) ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="JS STEEL">
+    <meta property="og:title" content="JS STEEL (주)제이에스스틸 | 종합 철강 솔루션">
+    <meta property="og:description" content="건축부터 플랜트까지, 최적의 철강 자재 파트너. 강관·형강·강판 유통과 정밀 임가공을 한 번에.">
+    <meta property="og:image" content="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8">
+    <meta property="og:url" content="https://jssteel.co.kr/">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <meta property="og:locale:alternate" content="vi_VN">
+
+    <!-- ===== 트위터 카드 ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JS STEEL (주)제이에스스틸 | 종합 철강 솔루션">
+    <meta name="twitter:description" content="건축부터 플랜트까지, 최적의 철강 자재 파트너.">
+    <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8">
+
+    <!-- ===== 구글 검색 결과용 회사 정보 ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "(주)제이에스스틸",
+      "alternateName": "JS STEEL Co., Ltd.",
+      "url": "https://jssteel.co.kr/",
+      "logo": "https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8",
+      "foundingDate": "2011",
+      "description": "강관, 형강, 강판, 봉강 등 철강 자재 유통 및 절단·타공·절곡 정밀 임가공 전문 기업",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "해반천로 130번길 39, 206호",
+        "addressLocality": "김해시",
+        "addressRegion": "경상남도",
+        "addressCountry": "KR"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+82-55-335-3501",
+        "faxNumber": "+82-55-331-4582",
+        "contactType": "sales",
+        "availableLanguage": ["Korean", "English", "Japanese", "Vietnamese"]
+      }
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -354,8 +415,7 @@
                             <div class="flex flex-wrap gap-3">
                                 <button onclick="goPage('products')"
                                     class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-all">
-                                    <i class="fa-solid fa-layer-group mr-2"></i><span data-i18n="home-cta-products">제품
-                                        카탈로그 보기</span>
+                                    <i class="fa-solid fa-layer-group mr-2"></i><span data-i18n="home-cta-products">제품 한눈에 보기</span>
                                 </button>
                                 <button onclick="goPage('location')"
                                     class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm px-6 py-3 rounded-lg transition-all">
@@ -474,7 +534,7 @@
                                 <div class="flex py-3">
                                     <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-tel">연락처
                                     </dt>
-                                    <dd class="text-slate-800 font-semibold">TEL <span data-i18n="co-tel">055-335-3501~2</span> / FAX <span data-i18n="co-fax">055-331-4582</span></dd>
+                                    <dd class="text-slate-800 font-semibold">TEL <a href="tel:055-335-3501" class="tel-link hover:text-blue-800 hover:underline" data-i18n="co-tel">055-335-3501~2</a> / FAX <span data-i18n="co-fax">055-331-4582</span></dd>
                                 </div>
                             </dl>
                         </div>
@@ -585,7 +645,7 @@
                                     <div>
                                         <p class="font-bold text-slate-500 text-xs mb-0.5" data-i18n="location-tel">전화
                                         </p>
-                                        <p class="font-semibold text-slate-800" data-i18n="co-tel">055-335-3501~2</p>
+                                        <a href="tel:055-335-3501" class="tel-link font-semibold text-slate-800 hover:text-blue-800 hover:underline" data-i18n="co-tel">055-335-3501~2</a>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -608,11 +668,16 @@
                             </div>
                         </div>
 
-                        <button onclick="goPage('products')"
-                            class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm py-4 rounded-2xl shadow-md transition-all">
-                            <i class="fa-solid fa-file-invoice mr-2"></i><span data-i18n="location-cta">온라인으로 견적
-                                요청하기</span>
-                        </button>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <a href="tel:055-335-3501"
+                                class="tel-link bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm py-4 rounded-2xl shadow-md transition-all flex items-center justify-center">
+                                <i class="fa-solid fa-phone mr-2"></i><span data-i18n="location-call">전화 문의하기</span>
+                            </a>
+                            <button onclick="goPage('products')"
+                                class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm py-4 rounded-2xl shadow-md transition-all">
+                                <i class="fa-solid fa-file-invoice mr-2"></i><span data-i18n="location-cta">온라인 견적 요청</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -703,6 +768,146 @@
             </section>
         </div>
 
+        <!-- ===================== 개인정보처리방침 ===================== -->
+        <div id="page-privacy" class="page hidden">
+            <section class="premium-gradient text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight" data-i18n="privacy-title">개인정보처리방침</h2>
+                    <p class="text-slate-300 text-sm mt-2" data-i18n="privacy-sub">고객님의 개인정보를 소중히 보호합니다.</p>
+                </div>
+            </section>
+
+            <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div id="privacyLangNotice"
+                    class="hidden bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold px-4 py-3 rounded-lg mb-6 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                    <span data-i18n="privacy-lang-note">본 개인정보처리방침은 한국어를 정본으로 합니다.</span>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-8">(주)제이에스스틸(이하 "회사")은
+                        정보주체의 개인정보를 중요시하며, 「개인정보 보호법」 등 관련 법령을 준수하고 있습니다. 회사는 개인정보처리방침을 통해 수집하는 개인정보의 항목과 이용 목적,
+                        보유 기간 및 정보주체의 권리를 안내드립니다.</p>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">1. 수집하는 개인정보 항목 및 수집 방법</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">회사는 온라인 견적 요청 서비스 제공을 위해 아래와 같은 최소한의 개인정보를 수집합니다.
+
+· 수집 항목 : 회사명 또는 담당자명, 연락처(전화번호 또는 이메일), 요청 품목 및 문의사항
+· 수집 방법 : 홈페이지 견적 요청 양식을 통한 이용자의 자발적 입력
+
+회사는 사상, 건강 등 정보주체의 기본적 인권을 현저히 침해할 우려가 있는 민감정보와 고유식별정보를 수집하지 않습니다.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">2. 개인정보의 수집 및 이용 목적</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">수집한 개인정보는 다음의 목적으로만 이용되며, 목적 외의 용도로는 이용되지 않습니다.
+
+· 견적서 작성 및 회신
+· 요청 내용 확인을 위한 연락 및 상담
+· 거래 성사 시 계약 이행 및 납품 관련 업무 처리</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">3. 개인정보의 보유 및 이용 기간</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">회사는 수집 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 다만 다음의 경우 명시한 기간 동안 보관합니다.
+
+· 견적 요청 및 상담 기록 : 수집일로부터 3년
+· 관계 법령에 따른 보존
+  - 계약 또는 청약철회 등에 관한 기록 : 5년 (전자상거래 등에서의 소비자보호에 관한 법률)
+  - 대금결제 및 재화 등의 공급에 관한 기록 : 5년 (동법)
+  - 소비자의 불만 또는 분쟁처리에 관한 기록 : 3년 (동법)</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">4. 개인정보의 제3자 제공</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">회사는 정보주체의 개인정보를 제2조에서 명시한 범위 내에서만 처리하며, 정보주체의 동의나 법률의 특별한 규정 등
+                                「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 제3자에게 제공합니다.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">5. 개인정보 처리의 위탁</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">회사는 서비스 운영을 위해 아래와 같이 개인정보 처리 업무를 위탁하고 있습니다.
+
+· 수탁업체 : Google LLC
+· 위탁 업무 : 견적 요청 데이터의 저장 및 처리 (Google Workspace)
+· 보유 기간 : 위탁 계약 종료 시 또는 보유 기간 만료 시까지
+
+회사는 위탁계약 체결 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">6. 정보주체의 권리와 행사 방법</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">정보주체는 언제든지 다음의 권리를 행사할 수 있습니다.
+
+· 개인정보 열람 요구
+· 오류가 있을 경우 정정 요구
+· 삭제 요구
+· 처리정지 요구
+
+위 권리 행사는 아래 연락처를 통해 서면, 전화, 이메일로 요청하실 수 있으며, 회사는 지체 없이 조치하겠습니다.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">7. 개인정보의 파기 절차 및 방법</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">보유 기간이 경과하거나 처리 목적이 달성된 개인정보는 지체 없이 파기합니다.
+
+· 전자적 파일 형태 : 복구 및 재생이 불가능한 방법으로 영구 삭제
+· 종이 문서 형태 : 분쇄하거나 소각</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">8. 개인정보의 안전성 확보 조치</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다.
+
+· 개인정보 취급 담당자의 최소화 및 교육
+· 개인정보 처리 시스템에 대한 접근 권한 관리
+· 개인정보의 암호화 전송 (HTTPS)
+· 접속 기록의 보관</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">9. 개인정보 보호책임자</h3>
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 text-sm">
+                                <dl class="space-y-2">
+                                    <div class="flex">
+                                        <dt class="w-24 shrink-0 font-bold text-slate-500"
+                                            data-i18n="privacy-officer-name">성명</dt>
+                                        <dd class="text-slate-800 font-semibold" data-i18n="privacy-officer">추후 지정 예정</dd>
+                                    </div>
+                                    <div class="flex">
+                                        <dt class="w-24 shrink-0 font-bold text-slate-500"
+                                            data-i18n="privacy-officer-tel">연락처</dt>
+                                        <dd><a href="tel:055-335-3501" class="tel-link text-slate-800 font-semibold hover:text-blue-800 hover:underline" data-i18n="co-tel">055-335-3501~2</a></dd>
+                                    </div>
+                                    <div class="flex">
+                                        <dt class="w-24 shrink-0 font-bold text-slate-500"
+                                            data-i18n="privacy-officer-email">이메일</dt>
+                                        <dd class="text-slate-800 font-semibold" data-i18n="privacy-email">추후 등록 예정</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed mt-4 whitespace-pre-line">개인정보 침해에 대한 신고나 상담이 필요하신 경우 아래 기관에 문의하실 수 있습니다.
+
+· 개인정보침해신고센터 (privacy.kisa.or.kr / 국번없이 118)
+· 개인정보 분쟁조정위원회 (kopico.go.kr / 1833-6972)
+· 대검찰청 사이버수사과 (spo.go.kr / 1301)
+· 경찰청 사이버수사국 (ecrm.police.go.kr / 국번없이 182)</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 mb-3 pb-2 border-b border-slate-100">10. 개인정보처리방침의 변경</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">이 개인정보처리방침은 법령 및 회사 정책 변경에 따라 개정될 수 있으며, 변경 시 홈페이지를 통해 공지합니다.</p>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-slate-400 font-bold mt-10 pt-6 border-t border-slate-100"
+                        data-i18n="privacy-date">시행일자 : 2026년 1월 1일</p>
+                </div>
+            </section>
+        </div>
+
     </main>
 
     <!-- ===================== Footer ===================== -->
@@ -743,7 +948,7 @@
                 <div>
                     <h4 class="text-white font-black text-sm mb-4" data-i18n="footer-contact">연락처</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li class="flex gap-2"><i class="fa-solid fa-phone mt-1 text-xs w-3.5"></i><span data-i18n="co-tel">055-335-3501~2</span>
+                        <li class="flex gap-2"><i class="fa-solid fa-phone mt-1 text-xs w-3.5"></i><a href="tel:055-335-3501" class="tel-link hover:text-white transition-colors" data-i18n="co-tel">055-335-3501~2</a>
                         </li>
                         <li class="flex gap-2"><i class="fa-solid fa-fax mt-1 text-xs w-3.5"></i><span data-i18n="co-fax">055-331-4582</span>
                         </li>
@@ -758,11 +963,26 @@
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                 <p>&copy; 2026 JS STEEL Co., Ltd. All rights reserved.</p>
-                <p><span data-i18n="footer-biznum">사업자등록번호</span> <span data-i18n="co-biznum">615-81-82934</span> &nbsp;|&nbsp; <span
-                        data-i18n="about-row-ceo">대표이사</span> <span data-i18n="co-ceo">박수민</span></p>
+                <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+                    <span><span data-i18n="footer-biznum">사업자등록번호</span> <span
+                            data-i18n="co-biznum">615-81-82934</span></span>
+                    <span class="text-slate-700">|</span>
+                    <span><span data-i18n="about-row-ceo">대표이사</span> <span data-i18n="co-ceo">박수민</span></span>
+                    <span class="text-slate-700">|</span>
+                    <button onclick="goPage('privacy')" class="font-bold text-slate-300 hover:text-white transition-colors"
+                        data-i18n="privacy-title">개인정보처리방침</button>
+                </div>
             </div>
         </div>
     </footer>
+
+    <!-- 맨 위로 버튼 -->
+    <button id="scrollTopBtn" onclick="scrollToTop()" aria-label="맨 위로"
+        class="fixed bottom-24 right-6 z-40 w-11 h-11 rounded-full bg-white border border-slate-300 text-slate-600
+               shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none
+               hover:bg-slate-50 hover:text-blue-900 hover:border-blue-300">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
 
     <!-- Floating Cart Button -->
     <div id="floatingCart" class="fixed bottom-6 right-6 z-50 animate-bounce-slow hidden">
@@ -849,6 +1069,18 @@
                         class="w-full text-sm border border-slate-300 rounded px-3 py-2 outline-none custom-scrollbar"
                         placeholder="추가 문의사항"></textarea>
                 </div>
+
+                <label class="flex items-start gap-2 mb-4 cursor-pointer">
+                    <input type="checkbox" id="privacyAgree"
+                        class="mt-0.5 w-4 h-4 shrink-0 accent-blue-900 cursor-pointer">
+                    <span class="text-xs text-slate-600 leading-snug">
+                        <span data-i18n="privacy-agree">개인정보 수집·이용에 동의합니다.</span>
+                        <button type="button" onclick="openPrivacyFromCart()"
+                            class="ml-1 underline font-bold text-blue-800 hover:text-blue-600"
+                            data-i18n="privacy-view">전문 보기</button>
+                    </span>
+                </label>
+
                 <button id="btnSubmitQuote" onclick="submitQuotation()"
                     class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow-md flex items-center justify-center transition-all">
                     <i id="btnSubmitIcon" class="fa-solid fa-paper-plane mr-2"></i> <span id="btnSubmitText"
@@ -890,7 +1122,7 @@
                 "nav-products": "제품소개", "nav-resources": "자료실",
                 "intro-title1": "건축부터 플랜트까지,", "intro-title2": "최적의 철강 자재 파트너",
                 "intro-desc": "(주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.",
-                "home-cta-products": "제품 카탈로그 보기", "home-cta-contact": "오시는 길",
+                "home-cta-products": "제품 한눈에 보기", "home-cta-contact": "오시는 길",
                 "home-cat-title": "취급 품목", "cat-more": "외",
                 "home-biz-title": "사업 영역", "home-biz-sub": "원자재 공급부터 정밀 임가공까지 한 번에 해결합니다.",
                 "home-biz1-title": "철강 유통", "home-biz1-desc": "강관, 형강, 강판, 봉강 등 KS 규격 자재를 안정적으로 공급합니다.",
@@ -907,7 +1139,7 @@
                 "company-address": "경남 김해시 해반천로 130번길 39, 206호",
                 "co-name": "(주)제이에스스틸 / JS STEEL", "co-ceo": "박수민", "co-founded": "2011년",
                 "co-biznum": "615-81-82934", "co-type": "도소매 / 철강",
-                "co-tel": "055-335-3501~2", "co-fax": "055-331-4582",
+                "co-tel": "055-335-3501~2", "co-fax": "055-331-4582", "co-tel-link": "055-335-3501",
                 "history-empty": "연혁 정보를 준비 중입니다.",
                 "history-hero-sub": "한 걸음씩 쌓아온 JS STEEL의 발자취",
                 "placeholder-notice": "아래 내용은 예시입니다. 실제 내용으로 교체해 주세요.",
@@ -920,7 +1152,7 @@
                 "location-hero-sub": "언제든 편하게 방문·문의해 주세요.",
                 "location-info-title": "찾아오시는 길", "location-tel": "전화", "location-fax": "팩스",
                 "location-hours": "업무시간", "location-hours-val": "평일 08:30 ~ 18:00 (주말·공휴일 휴무)",
-                "location-cta": "온라인으로 견적 요청하기",
+                "location-cta": "온라인 견적 요청", "location-call": "전화 문의하기",
                 "resources-hero-sub": "제품 규격서와 인증 자료를 확인하실 수 있습니다.",
                 "res-1-title": "JS STEEL 제품 종합 카탈로그", "res-2-title": "품질 시험성적서 (밀시트) 안내",
                 "res-3-title": "규격별 중량 계산표", "res-4-title": "거래 안내 및 납품 절차",
@@ -939,6 +1171,13 @@
                 "alert-empty-cart": "견적함이 비어있습니다.",
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
                 "alert-send-fail": "전송 실패: ", "alert-network-err": "통신 오류가 발생했습니다.",
+                "alert-need-privacy": "개인정보 수집·이용에 동의해 주세요.",
+                "privacy-title": "개인정보처리방침", "privacy-sub": "고객님의 개인정보를 소중히 보호합니다.",
+                "privacy-agree": "개인정보 수집·이용에 동의합니다.", "privacy-view": "전문 보기",
+                "privacy-officer": "추후 지정 예정", "privacy-email": "추후 등록 예정",
+                "privacy-officer-name": "성명", "privacy-officer-tel": "연락처", "privacy-officer-email": "이메일",
+                "privacy-date": "시행일자 : 2026년 1월 1일",
+                "privacy-lang-note": "본 개인정보처리방침은 한국어를 정본으로 합니다.",
                 "ph-search": "제품 검색...", "ph-name": "회사명 / 담당자명",
                 "ph-contact": "연락처 또는 이메일", "ph-memo": "추가 문의사항",
                 "db-connecting": "DB 연결 중...", "db-checking": "구글 데이터베이스 연결 확인 중...",
@@ -951,7 +1190,7 @@
                 "nav-products": "Products", "nav-resources": "Resources",
                 "intro-title1": "From Architecture to Plants,", "intro-title2": "Your Optimal Steel Partner",
                 "intro-desc": "JS STEEL provides comprehensive steel solutions from pipe supply to structural design and precision fabrication.",
-                "home-cta-products": "View Product Catalog", "home-cta-contact": "Location",
+                "home-cta-products": "Browse All Products", "home-cta-contact": "Location",
                 "home-cat-title": "Product Lineup", "cat-more": "& more",
                 "home-biz-title": "Our Business", "home-biz-sub": "From raw material supply to precision fabrication, all in one place.",
                 "home-biz1-title": "Steel Distribution", "home-biz1-desc": "Reliable supply of KS standard pipes, sections, plates and bars.",
@@ -968,7 +1207,7 @@
                 "company-address": "39, Haebancheon-ro 130beon-gil, Gimhae-si, Gyeongsangnam-do, Korea",
                 "co-name": "JS STEEL Co., Ltd.", "co-ceo": "Park Su-min", "co-founded": "2011",
                 "co-biznum": "615-81-82934", "co-type": "Wholesale & Retail / Steel",
-                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582", "co-tel-link": "+82553353501",
                 "history-empty": "Our history is being prepared.",
                 "history-hero-sub": "The milestones we have built step by step",
                 "placeholder-notice": "The content below is a sample. Please replace it with actual information.",
@@ -981,7 +1220,7 @@
                 "location-hero-sub": "Please feel free to visit or contact us anytime.",
                 "location-info-title": "How to Find Us", "location-tel": "Phone", "location-fax": "Fax",
                 "location-hours": "Business Hours", "location-hours-val": "Weekdays 08:30 - 18:00 (closed weekends & holidays)",
-                "location-cta": "Request a Quote Online",
+                "location-cta": "Request a Quote", "location-call": "Call Us",
                 "resources-hero-sub": "Product specifications and certification documents.",
                 "res-1-title": "JS STEEL Comprehensive Product Catalog", "res-2-title": "Quality Test Report (Mill Sheet) Guide",
                 "res-3-title": "Weight Calculation Table by Specification", "res-4-title": "Trading Guide and Delivery Process",
@@ -1000,6 +1239,13 @@
                 "alert-empty-cart": "Your quotation cart is empty.",
                 "alert-need-info": "Please enter your company name and contact information.",
                 "alert-send-fail": "Failed to send: ", "alert-network-err": "A network error occurred.",
+                "alert-need-privacy": "Please agree to the collection and use of personal information.",
+                "privacy-title": "Privacy Policy", "privacy-sub": "We take the protection of your personal data seriously.",
+                "privacy-agree": "I agree to the collection and use of my personal information.", "privacy-view": "View full text",
+                "privacy-officer": "To be designated", "privacy-email": "To be registered",
+                "privacy-officer-name": "Name", "privacy-officer-tel": "Phone", "privacy-officer-email": "Email",
+                "privacy-date": "Effective date : January 1, 2026",
+                "privacy-lang-note": "This Privacy Policy is provided in Korean, which is the authoritative version.",
                 "ph-search": "Search products...", "ph-name": "Company / Contact person",
                 "ph-contact": "Phone or email", "ph-memo": "Additional inquiries",
                 "db-connecting": "Connecting to database...", "db-checking": "Checking database connection...",
@@ -1012,7 +1258,7 @@
                 "nav-products": "製品紹介", "nav-resources": "資料室",
                 "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
                 "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
-                "home-cta-products": "製品カタログを見る", "home-cta-contact": "アクセス",
+                "home-cta-products": "製品を一覧で見る", "home-cta-contact": "アクセス",
                 "home-cat-title": "取扱品目", "cat-more": "ほか",
                 "home-biz-title": "事業領域", "home-biz-sub": "原材料の供給から精密加工までワンストップで対応します。",
                 "home-biz1-title": "鉄鋼流通", "home-biz1-desc": "鋼管、形鋼、鋼板、棒鋼などKS規格資材を安定的に供給します。",
@@ -1029,7 +1275,7 @@
                 "company-address": "韓国 慶尚南道 金海市 海畔川路130番ギル 39, 206号",
                 "co-name": "(株)JSスチール / JS STEEL", "co-ceo": "パク・スミン", "co-founded": "2011年",
                 "co-biznum": "615-81-82934", "co-type": "卸売・小売 / 鉄鋼",
-                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582", "co-tel-link": "+82553353501",
                 "history-empty": "沿革を準備中です。",
                 "history-hero-sub": "一歩ずつ積み重ねてきたJS STEELの歩み",
                 "placeholder-notice": "以下の内容はサンプルです。実際の内容に差し替えてください。",
@@ -1042,7 +1288,7 @@
                 "location-hero-sub": "いつでもお気軽にご来訪・お問い合わせください。",
                 "location-info-title": "アクセス案内", "location-tel": "電話", "location-fax": "FAX",
                 "location-hours": "営業時間", "location-hours-val": "平日 08:30 ~ 18:00 (土日祝休み)",
-                "location-cta": "オンラインで見積もりを依頼する",
+                "location-cta": "オンライン見積もり", "location-call": "電話でのお問い合わせ",
                 "resources-hero-sub": "製品規格書と認証資料をご確認いただけます。",
                 "res-1-title": "JS STEEL 製品総合カタログ", "res-2-title": "品質試験成績書(ミルシート)のご案内",
                 "res-3-title": "規格別 重量計算表", "res-4-title": "取引案内および納品プロセス",
@@ -1061,6 +1307,13 @@
                 "alert-empty-cart": "見積もりカートが空です。",
                 "alert-need-info": "会社名とご連絡先を入力してください。",
                 "alert-send-fail": "送信失敗: ", "alert-network-err": "通信エラーが発生しました。",
+                "alert-need-privacy": "個人情報の収集・利用にご同意ください。",
+                "privacy-title": "個人情報取扱方針", "privacy-sub": "お客様の個人情報を大切に保護します。",
+                "privacy-agree": "個人情報の収集・利用に同意します。", "privacy-view": "全文を見る",
+                "privacy-officer": "追って指定予定", "privacy-email": "追って登録予定",
+                "privacy-officer-name": "氏名", "privacy-officer-tel": "連絡先", "privacy-officer-email": "メール",
+                "privacy-date": "施行日 : 2026年1月1日",
+                "privacy-lang-note": "本個人情報取扱方針は韓国語を正本とします。",
                 "ph-search": "製品検索...", "ph-name": "会社名 / ご担当者名",
                 "ph-contact": "電話番号またはメール", "ph-memo": "追加のお問い合わせ",
                 "db-connecting": "データベース接続中...", "db-checking": "データベース接続を確認中...",
@@ -1073,7 +1326,7 @@
                 "nav-products": "Sản phẩm", "nav-resources": "Tài liệu",
                 "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
                 "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
-                "home-cta-products": "Xem danh mục sản phẩm", "home-cta-contact": "Liên hệ",
+                "home-cta-products": "Xem toàn bộ sản phẩm", "home-cta-contact": "Liên hệ",
                 "home-cat-title": "Danh mục sản phẩm", "cat-more": "& khác",
                 "home-biz-title": "Lĩnh vực kinh doanh", "home-biz-sub": "Từ cung ứng nguyên liệu đến gia công chính xác, tất cả tại một nơi.",
                 "home-biz1-title": "Phân phối thép", "home-biz1-desc": "Cung cấp ổn định ống thép, thép hình, thép tấm, thép thanh theo tiêu chuẩn KS.",
@@ -1090,7 +1343,7 @@
                 "company-address": "39, Haebancheon-ro 130beon-gil, Gimhae-si, Gyeongsangnam-do, Hàn Quốc",
                 "co-name": "Công ty TNHH JS STEEL", "co-ceo": "Park Su-min", "co-founded": "2011",
                 "co-biznum": "615-81-82934", "co-type": "Bán buôn & bán lẻ / Thép",
-                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582", "co-tel-link": "+82553353501",
                 "history-empty": "Lịch sử công ty đang được cập nhật.",
                 "history-hero-sub": "Những dấu mốc JS STEEL đã xây dựng từng bước",
                 "placeholder-notice": "Nội dung dưới đây là ví dụ. Vui lòng thay bằng thông tin thực tế.",
@@ -1103,7 +1356,7 @@
                 "location-hero-sub": "Quý khách có thể ghé thăm hoặc liên hệ bất cứ lúc nào.",
                 "location-info-title": "Hướng dẫn đường đi", "location-tel": "Điện thoại", "location-fax": "Fax",
                 "location-hours": "Giờ làm việc", "location-hours-val": "Thứ 2 - Thứ 6, 08:30 - 18:00 (nghỉ cuối tuần & ngày lễ)",
-                "location-cta": "Yêu cầu báo giá trực tuyến",
+                "location-cta": "Yêu cầu báo giá", "location-call": "Gọi cho chúng tôi",
                 "resources-hero-sub": "Quý khách có thể xem quy cách sản phẩm và tài liệu chứng nhận.",
                 "res-1-title": "Danh mục sản phẩm tổng hợp JS STEEL", "res-2-title": "Hướng dẫn chứng chỉ chất lượng (Mill Sheet)",
                 "res-3-title": "Bảng tính trọng lượng theo quy cách", "res-4-title": "Hướng dẫn giao dịch và quy trình giao hàng",
@@ -1122,6 +1375,13 @@
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
                 "alert-send-fail": "Gửi thất bại: ", "alert-network-err": "Đã xảy ra lỗi kết nối.",
+                "alert-need-privacy": "Vui lòng đồng ý với việc thu thập và sử dụng thông tin cá nhân.",
+                "privacy-title": "Chính sách bảo mật", "privacy-sub": "Chúng tôi bảo vệ nghiêm ngặt thông tin cá nhân của quý khách.",
+                "privacy-agree": "Tôi đồng ý với việc thu thập và sử dụng thông tin cá nhân.", "privacy-view": "Xem toàn văn",
+                "privacy-officer": "Sẽ chỉ định sau", "privacy-email": "Sẽ đăng ký sau",
+                "privacy-officer-name": "Họ tên", "privacy-officer-tel": "Điện thoại", "privacy-officer-email": "Email",
+                "privacy-date": "Ngày hiệu lực : 01/01/2026",
+                "privacy-lang-note": "Chính sách bảo mật này được cung cấp bằng tiếng Hàn, là bản có hiệu lực pháp lý.",
                 "ph-search": "Tìm sản phẩm...", "ph-name": "Công ty / Người liên hệ",
                 "ph-contact": "Số điện thoại hoặc email", "ph-memo": "Yêu cầu bổ sung",
                 "db-connecting": "Đang kết nối cơ sở dữ liệu...", "db-checking": "Đang kiểm tra kết nối...",
@@ -1140,7 +1400,7 @@
 
         var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
 
-        var PAGES = ['home', 'about', 'history', 'location', 'products', 'resources'];
+        var PAGES = ['home', 'about', 'history', 'location', 'products', 'resources', 'privacy'];
 
         // 번역 헬퍼
         function t(key, fallback) {
@@ -1182,6 +1442,7 @@
                 history.replaceState(null, '', '#' + page);
             }
             if (!skipScroll) window.scrollTo(0, 0);
+            updateScrollTopBtn();
         }
 
         function toggleMobileNav() {
@@ -1498,6 +1759,11 @@
 
         function changeLanguage(lang) {
             currentLang = lang;
+
+            // 검색엔진·스크린리더용 언어 표기
+            var htmlLangMap = { ko: 'ko', en: 'en', ja: 'ja', vi: 'vi' };
+            document.documentElement.lang = htmlLangMap[lang] || 'ko';
+
             document.querySelectorAll('[data-i18n]').forEach(function (el) {
                 var key = el.getAttribute('data-i18n');
                 if (dict[lang] && dict[lang][key]) el.textContent = dict[lang][key];
@@ -1518,6 +1784,24 @@
             renderHistory();
             renderResources();
             renderCartUI();
+
+            // 개인정보처리방침 정본 안내 (한국어 외 언어에서만)
+            var pn = document.getElementById('privacyLangNotice');
+            if (pn) pn.classList.toggle('hidden', lang === 'ko');
+
+            updateTelLinks();
+        }
+
+        /** 전화번호 표기가 바뀌어도 통화 링크가 항상 유효하도록 갱신 */
+        function updateTelLinks() {
+            var raw = t('co-tel-link', t('co-tel', '055-335-3501'));
+            // '~2' 같은 내선 표기를 떼고 숫자와 + 만 남김
+            var num = String(raw).split('~')[0].replace(/[^0-9+]/g, '');
+            if (!num) return;
+
+            document.querySelectorAll('.tel-link').forEach(function (a) {
+                a.setAttribute('href', 'tel:' + num);
+            });
         }
 
         async function loadLiveCatalog(attempt) {
@@ -1962,6 +2246,13 @@
             container.innerHTML = html;
         }
 
+        /** 견적함에서 개인정보처리방침 전문 열기 */
+        function openPrivacyFromCart() {
+            var modal = document.getElementById('cartModal');
+            if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+            goPage('privacy');
+        }
+
         function customAlert(msg) {
             document.getElementById('customAlertMsg').innerText = msg;
             document.getElementById('customAlertTitle').innerText = t("alert-title", "알림");
@@ -1978,6 +2269,11 @@
             var custName = document.getElementById('custName').value.trim();
             var custContact = document.getElementById('custContact').value.trim();
             if (!custName || !custContact) return customAlert(t("alert-need-info", "회사명과 연락처를 입력해주세요."));
+
+            var agree = document.getElementById('privacyAgree');
+            if (!agree || !agree.checked) {
+                return customAlert(t("alert-need-privacy", "개인정보 수집·이용에 동의해 주세요."));
+            }
 
             var btn = document.getElementById('btnSubmitQuote');
             var icon = document.getElementById('btnSubmitIcon');
@@ -2012,6 +2308,7 @@
                         document.getElementById('custName').value = '';
                         document.getElementById('custContact').value = '';
                         document.getElementById('custMemo').value = '';
+                        document.getElementById('privacyAgree').checked = false;
                         renderCartUI();
                     } else {
                         customAlert(t("alert-send-fail", "전송 실패: ") + data.message);
@@ -2027,6 +2324,26 @@
                     textSpan.innerText = t("cart-submit", "견적서 요청하기");
                 });
         }
+
+        // ===================== 맨 위로 버튼 =====================
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateScrollTopBtn() {
+            var btn = document.getElementById('scrollTopBtn');
+            if (!btn) return;
+
+            if (window.scrollY > 400) {
+                btn.classList.remove('opacity-0', 'pointer-events-none');
+                btn.classList.add('opacity-100');
+            } else {
+                btn.classList.add('opacity-0', 'pointer-events-none');
+                btn.classList.remove('opacity-100');
+            }
+        }
+
+        window.addEventListener('scroll', updateScrollTopBtn, { passive: true });
 
         function showToast(msg) {
             var toast = document.getElementById('toast');
