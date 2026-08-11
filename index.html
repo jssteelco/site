@@ -287,13 +287,13 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-qty-label">수량</label>
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center gap-2 w-full">
                         <button onclick="changeSpecModalQty(-1)"
-                            class="w-10 h-10 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">-</button>
+                            class="w-10 h-10 shrink-0 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">-</button>
                         <input type="number" id="specModalQty" value="1" min="1"
-                            class="flex-grow text-center font-bold text-slate-800 border border-slate-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            class="flex-1 min-w-0 text-center font-bold text-slate-800 border border-slate-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <button onclick="changeSpecModalQty(1)"
-                            class="w-10 h-10 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">+</button>
+                            class="w-10 h-10 shrink-0 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">+</button>
                     </div>
                 </div>
             </div>
@@ -803,12 +803,12 @@
             var html = '';
             quotationCart.forEach(function (item, index) {
                 html +=
-                    '<div class="bg-white p-3 rounded-lg border border-slate-200 mb-3 flex items-center justify-between">' +
-                    '<div>' +
+                    '<div class="bg-white p-3 rounded-lg border border-slate-200 mb-3 flex items-center justify-between gap-3">' +
+                    '<div class="min-w-0">' +
                     '<h5 class="text-sm font-bold text-slate-800">' + item.name_ko + '</h5>' +
                     '<p class="text-xs text-blue-900 font-mono font-bold mt-0.5">' + specLbl + ': ' + item.selectedSpec + '</p>' +
                     '</div>' +
-                    '<div class="flex items-center space-x-2">' +
+                    '<div class="flex items-center space-x-2 shrink-0">' +
                     '<input type="number" min="1" value="' + item.qty + '" onchange="quotationCart[' + index + '].qty=parseInt(this.value)||1" class="w-12 text-center border rounded font-bold text-sm py-1">' +
                     '<button onclick="quotationCart.splice(' + index + ',1); updateCartBadge(); renderCartUI();" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button>' +
                     '</div>' +
