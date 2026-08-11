@@ -891,7 +891,7 @@
                 "intro-title1": "건축부터 플랜트까지,", "intro-title2": "최적의 철강 자재 파트너",
                 "intro-desc": "(주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.",
                 "home-cta-products": "제품 카탈로그 보기", "home-cta-contact": "오시는 길",
-                "home-cat-title": "취급 품목",
+                "home-cat-title": "취급 품목", "cat-more": "외",
                 "home-biz-title": "사업 영역", "home-biz-sub": "원자재 공급부터 정밀 임가공까지 한 번에 해결합니다.",
                 "home-biz1-title": "철강 유통", "home-biz1-desc": "강관, 형강, 강판, 봉강 등 KS 규격 자재를 안정적으로 공급합니다.",
                 "home-biz2-title": "정밀 임가공", "home-biz2-desc": "절단, 타공, 절곡 등 고객 도면에 맞춘 가공으로 현장 작업을 줄여드립니다.",
@@ -952,7 +952,7 @@
                 "intro-title1": "From Architecture to Plants,", "intro-title2": "Your Optimal Steel Partner",
                 "intro-desc": "JS STEEL provides comprehensive steel solutions from pipe supply to structural design and precision fabrication.",
                 "home-cta-products": "View Product Catalog", "home-cta-contact": "Location",
-                "home-cat-title": "Product Lineup",
+                "home-cat-title": "Product Lineup", "cat-more": "& more",
                 "home-biz-title": "Our Business", "home-biz-sub": "From raw material supply to precision fabrication, all in one place.",
                 "home-biz1-title": "Steel Distribution", "home-biz1-desc": "Reliable supply of KS standard pipes, sections, plates and bars.",
                 "home-biz2-title": "Precision Fabrication", "home-biz2-desc": "Cutting, punching and bending to your drawings, reducing on-site work.",
@@ -1013,7 +1013,7 @@
                 "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
                 "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
                 "home-cta-products": "製品カタログを見る", "home-cta-contact": "アクセス",
-                "home-cat-title": "取扱品目",
+                "home-cat-title": "取扱品目", "cat-more": "ほか",
                 "home-biz-title": "事業領域", "home-biz-sub": "原材料の供給から精密加工までワンストップで対応します。",
                 "home-biz1-title": "鉄鋼流通", "home-biz1-desc": "鋼管、形鋼、鋼板、棒鋼などKS規格資材を安定的に供給します。",
                 "home-biz2-title": "精密加工", "home-biz2-desc": "切断、穴あけ、曲げなどお客様の図面に合わせた加工で現場作業を削減します。",
@@ -1074,7 +1074,7 @@
                 "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
                 "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
                 "home-cta-products": "Xem danh mục sản phẩm", "home-cta-contact": "Liên hệ",
-                "home-cat-title": "Danh mục sản phẩm",
+                "home-cat-title": "Danh mục sản phẩm", "cat-more": "& khác",
                 "home-biz-title": "Lĩnh vực kinh doanh", "home-biz-sub": "Từ cung ứng nguyên liệu đến gia công chính xác, tất cả tại một nơi.",
                 "home-biz1-title": "Phân phối thép", "home-biz1-desc": "Cung cấp ổn định ống thép, thép hình, thép tấm, thép thanh theo tiêu chuẩn KS.",
                 "home-biz2-title": "Gia công chính xác", "home-biz2-desc": "Cắt, đục lỗ, uốn theo bản vẽ của khách hàng, giảm khối lượng thi công tại công trường.",
@@ -1607,11 +1607,13 @@
                 var rawImg = row["대표이미지_URL"] || row["대표이미지"] || row["이미지URL"] || row["이미지"] || "";
 
                 var catKey = String(row["대분류_KO"] || row["대분류"] || cat).trim();
+                var sub = String(row["중분류_" + langUpper] || row["중분류_KO"] || row["중분류"] || "").trim();
 
                 parsedDB.push({
                     id: String(productId),
                     catKey: catKey,
                     cat_ko: String(cat).trim(),
+                    sub_ko: sub,
                     name_ko: String(name).trim(),
                     specRaw: specRawText || defaultSpec,
                     specList: specList,
@@ -1648,32 +1650,44 @@
                 return;
             }
 
-            // 대분류별 집계 (표시 순서 유지)
+            // 대분류별 집계 + 중분류 수집 (표시 순서 유지)
             var seen = {};
             var cats = [];
             globalProducts.forEach(function (p) {
                 var key = p.catKey || p.cat_ko;
                 if (!key) return;
                 if (!seen[key]) {
-                    seen[key] = { key: key, label: p.cat_ko, count: 0 };
+                    seen[key] = { key: key, label: p.cat_ko, subs: [], subSeen: {} };
                     cats.push(seen[key]);
                 }
-                seen[key].count++;
+                var sub = p.sub_ko;
+                if (sub && !seen[key].subSeen[sub]) {
+                    seen[key].subSeen[sub] = true;
+                    seen[key].subs.push(sub);
+                }
             });
 
+            var MAX_SUB = 3;
             var html = '';
+
             cats.slice(0, 8).forEach(function (c) {
                 var icon = CAT_ICONS[c.key] || 'fa-cube';
+
+                var subText = c.subs.slice(0, MAX_SUB).join(' · ');
+                if (c.subs.length > MAX_SUB) subText += ' ' + t('cat-more', '외');
+
                 html +=
                     '<button onclick="goCategory(\'' + esc(c.label).replace(/'/g, "\\'") + '\')" ' +
                     'class="bg-slate-800/70 hover:bg-blue-600/40 border border-slate-600/50 hover:border-blue-400/50 ' +
-                    'p-3 rounded-lg text-left transition-all group">' +
+                    'p-3 rounded-lg text-left transition-all">' +
                     '<div class="flex items-center gap-2">' +
-                    '<i class="fa-solid ' + icon + ' text-blue-400 text-sm w-4 text-center"></i>' +
+                    '<i class="fa-solid ' + icon + ' text-blue-400 text-sm w-4 text-center shrink-0"></i>' +
                     '<span class="text-xs font-bold text-white truncate">' + esc(c.label) + '</span>' +
                     '</div>' +
-                    '<p class="text-[10px] text-slate-400 font-semibold mt-1 ml-6">' + c.count +
-                    t('db-count-unit', '건') + '</p>' +
+                    (subText
+                        ? '<p class="text-[10px] text-slate-400 font-medium mt-1 ml-6 leading-snug">' +
+                          esc(subText) + '</p>'
+                        : '') +
                     '</button>';
             });
 
