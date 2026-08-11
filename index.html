@@ -367,23 +367,10 @@
 
                         <div class="glass-panel p-6 rounded-2xl shadow-2xl">
                             <h3 class="text-lg font-bold mb-5 flex items-center"><i
-                                    class="fa-solid fa-sitemap mr-2 text-blue-400"></i> <span
-                                    data-i18n="org-title">조직도</span>
+                                    class="fa-solid fa-layer-group mr-2 text-blue-400"></i> <span
+                                    data-i18n="home-cat-title">취급 품목</span>
                             </h3>
-                            <div class="space-y-3">
-                                <div class="bg-blue-600/40 border border-blue-400/50 p-3 rounded-lg text-center font-bold"
-                                    data-i18n="org-ceo">대표이사</div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                        data-i18n="org-domestic">내수 영업팀</div>
-                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                        data-i18n="org-management">관리팀</div>
-                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                        data-i18n="org-qc">생산, 품질관리팀</div>
-                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                        data-i18n="org-export">수출팀</div>
-                                </div>
-                            </div>
+                            <div id="homeCategories" class="grid grid-cols-2 gap-3"></div>
                         </div>
                     </div>
                 </div>
@@ -669,6 +656,8 @@
                         <p class="font-bold" data-i18n="db-checking">구글 데이터베이스 연결 확인 중...</p>
                     </div>
                 </div>
+
+                <div id="productPager" class="hidden flex-wrap items-center justify-center gap-1.5 mt-10"></div>
             </section>
         </div>
 
@@ -902,6 +891,7 @@
                 "intro-title1": "건축부터 플랜트까지,", "intro-title2": "최적의 철강 자재 파트너",
                 "intro-desc": "(주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.",
                 "home-cta-products": "제품 카탈로그 보기", "home-cta-contact": "오시는 길",
+                "home-cat-title": "취급 품목",
                 "home-biz-title": "사업 영역", "home-biz-sub": "원자재 공급부터 정밀 임가공까지 한 번에 해결합니다.",
                 "home-biz1-title": "철강 유통", "home-biz1-desc": "강관, 형강, 강판, 봉강 등 KS 규격 자재를 안정적으로 공급합니다.",
                 "home-biz2-title": "정밀 임가공", "home-biz2-desc": "절단, 타공, 절곡 등 고객 도면에 맞춘 가공으로 현장 작업을 줄여드립니다.",
@@ -962,6 +952,7 @@
                 "intro-title1": "From Architecture to Plants,", "intro-title2": "Your Optimal Steel Partner",
                 "intro-desc": "JS STEEL provides comprehensive steel solutions from pipe supply to structural design and precision fabrication.",
                 "home-cta-products": "View Product Catalog", "home-cta-contact": "Location",
+                "home-cat-title": "Product Lineup",
                 "home-biz-title": "Our Business", "home-biz-sub": "From raw material supply to precision fabrication, all in one place.",
                 "home-biz1-title": "Steel Distribution", "home-biz1-desc": "Reliable supply of KS standard pipes, sections, plates and bars.",
                 "home-biz2-title": "Precision Fabrication", "home-biz2-desc": "Cutting, punching and bending to your drawings, reducing on-site work.",
@@ -1022,6 +1013,7 @@
                 "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
                 "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
                 "home-cta-products": "製品カタログを見る", "home-cta-contact": "アクセス",
+                "home-cat-title": "取扱品目",
                 "home-biz-title": "事業領域", "home-biz-sub": "原材料の供給から精密加工までワンストップで対応します。",
                 "home-biz1-title": "鉄鋼流通", "home-biz1-desc": "鋼管、形鋼、鋼板、棒鋼などKS規格資材を安定的に供給します。",
                 "home-biz2-title": "精密加工", "home-biz2-desc": "切断、穴あけ、曲げなどお客様の図面に合わせた加工で現場作業を削減します。",
@@ -1082,6 +1074,7 @@
                 "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
                 "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
                 "home-cta-products": "Xem danh mục sản phẩm", "home-cta-contact": "Liên hệ",
+                "home-cat-title": "Danh mục sản phẩm",
                 "home-biz-title": "Lĩnh vực kinh doanh", "home-biz-sub": "Từ cung ứng nguyên liệu đến gia công chính xác, tất cả tại một nơi.",
                 "home-biz1-title": "Phân phối thép", "home-biz1-desc": "Cung cấp ổn định ống thép, thép hình, thép tấm, thép thanh theo tiêu chuẩn KS.",
                 "home-biz2-title": "Gia công chính xác", "home-biz2-desc": "Cắt, đục lỗ, uốn theo bản vẽ của khách hàng, giảm khối lượng thi công tại công trường.",
@@ -1223,6 +1216,7 @@
             goPage(PAGES.indexOf(initial) !== -1 ? initial : 'home', true);
             renderHistory();
             renderResources();
+            renderHomeCategories();
             loadSiteContent();
             loadLiveCatalog(1);
         };
@@ -1319,7 +1313,8 @@
             return resourceData.filter(function (r) {
                 return ['KO', 'EN', 'JA', 'VI'].some(function (L) {
                     return String(r[L] || '').toLowerCase().indexOf(kw) !== -1;
-                }) || String(r.ext || '').toLowerCase().indexOf(kw) !== -1;
+                }) || String(r.ext || '').toLowerCase().indexOf(kw) !== -1
+                   || String(r.date || '').indexOf(kw) !== -1;
             });
         }
 
@@ -1436,15 +1431,18 @@
             var L = (currentLang || 'ko').toUpperCase();
             var html = '';
 
-            pageItems.forEach(function (r) {
+            pageItems.forEach(function (r, idx) {
+                // 번호는 시트에 등록된 순서(추가한 순서)를 그대로 사용
+                var num = (r.order && r.order < 9999) ? r.order : (start + idx + 1);
                 var title = r[L] || r.KO || '';
                 var ext = (r.ext || '').toUpperCase();
                 var style = RES_ICONS[ext] || { icon: 'fa-file-lines', bg: 'bg-slate-100', fg: 'text-slate-600' };
 
-                var meta = '';
-                if (ext && r.size) meta = ext + ' · ' + r.size;
-                else if (ext) meta = ext;
-                else if (r.size) meta = r.size;
+                var parts = [];
+                if (ext) parts.push(ext);
+                if (r.size) parts.push(r.size);
+                if (r.date) parts.push(r.date);
+                var meta = parts.join(' · ');
 
                 var action = r.url
                     ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener" ' +
@@ -1453,7 +1451,8 @@
                     : '<span class="text-xs font-bold text-slate-400 shrink-0">' + t('res-preparing', '준비중') + '</span>';
 
                 html +=
-                    '<div class="flex items-center gap-4 p-5 hover:bg-slate-50 transition-all">' +
+                    '<div class="flex items-center gap-3 sm:gap-4 p-5 hover:bg-slate-50 transition-all">' +
+                    '<span class="w-6 shrink-0 text-center text-sm font-black text-slate-300 tabular-nums">' + num + '</span>' +
                     '<div class="w-11 h-11 rounded-xl ' + style.bg + ' ' + style.fg + ' flex items-center justify-center shrink-0">' +
                     '<i class="fa-solid ' + style.icon + ' text-lg"></i>' +
                     '</div>' +
@@ -1515,6 +1514,7 @@
                 renderCategoryTabs();
                 renderCatalog();
             }
+            renderHomeCategories();
             renderHistory();
             renderResources();
             renderCartUI();
@@ -1551,6 +1551,7 @@
                 currentCategory = 'ALL';
                 renderCategoryTabs();
                 renderCatalog();
+                renderHomeCategories();
 
             } catch (error) {
                 console.error("Load error (attempt " + attempt + "):", error);
@@ -1605,8 +1606,11 @@
                 var desc = row["설명_" + langUpper] || row["설명_KO"] || row["설명_KR"] || "";
                 var rawImg = row["대표이미지_URL"] || row["대표이미지"] || row["이미지URL"] || row["이미지"] || "";
 
+                var catKey = String(row["대분류_KO"] || row["대분류"] || cat).trim();
+
                 parsedDB.push({
                     id: String(productId),
+                    catKey: catKey,
                     cat_ko: String(cat).trim(),
                     name_ko: String(name).trim(),
                     specRaw: specRawText || defaultSpec,
@@ -1619,6 +1623,69 @@
             });
 
             globalProducts = parsedDB;
+        }
+
+        // 대분류별 아이콘 (한국어 기준)
+        var CAT_ICONS = {
+            '강관': 'fa-circle-notch',
+            '형강': 'fa-grip-lines',
+            '강판': 'fa-square',
+            '봉강': 'fa-minus',
+            '건설가설재': 'fa-helmet-safety',
+            '부자재': 'fa-screwdriver-wrench',
+            'ETC': 'fa-ellipsis',
+            '기타자재': 'fa-ellipsis'
+        };
+
+        /** 메인 화면의 취급 품목 카드 */
+        function renderHomeCategories() {
+            var wrap = document.getElementById('homeCategories');
+            if (!wrap) return;
+
+            if (!globalProducts || globalProducts.length === 0) {
+                wrap.innerHTML = '<div class="col-span-2 py-6 text-center text-slate-400 text-xs font-bold">' +
+                    t('db-connecting', 'DB 연결 중...') + '</div>';
+                return;
+            }
+
+            // 대분류별 집계 (표시 순서 유지)
+            var seen = {};
+            var cats = [];
+            globalProducts.forEach(function (p) {
+                var key = p.catKey || p.cat_ko;
+                if (!key) return;
+                if (!seen[key]) {
+                    seen[key] = { key: key, label: p.cat_ko, count: 0 };
+                    cats.push(seen[key]);
+                }
+                seen[key].count++;
+            });
+
+            var html = '';
+            cats.slice(0, 8).forEach(function (c) {
+                var icon = CAT_ICONS[c.key] || 'fa-cube';
+                html +=
+                    '<button onclick="goCategory(\'' + esc(c.label).replace(/'/g, "\\'") + '\')" ' +
+                    'class="bg-slate-800/70 hover:bg-blue-600/40 border border-slate-600/50 hover:border-blue-400/50 ' +
+                    'p-3 rounded-lg text-left transition-all group">' +
+                    '<div class="flex items-center gap-2">' +
+                    '<i class="fa-solid ' + icon + ' text-blue-400 text-sm w-4 text-center"></i>' +
+                    '<span class="text-xs font-bold text-white truncate">' + esc(c.label) + '</span>' +
+                    '</div>' +
+                    '<p class="text-[10px] text-slate-400 font-semibold mt-1 ml-6">' + c.count +
+                    t('db-count-unit', '건') + '</p>' +
+                    '</button>';
+            });
+
+            wrap.innerHTML = html;
+        }
+
+        /** 메인에서 카테고리를 눌렀을 때: 제품소개로 이동 + 해당 분류 선택 */
+        function goCategory(cat) {
+            currentCategory = cat;
+            goPage('products');
+            renderCategoryTabs();
+            renderCatalog();
         }
 
         function renderCategoryTabs() {
@@ -1647,12 +1714,14 @@
             imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
         }
 
-        function renderCatalog() {
-            var grid = document.getElementById('productGrid');
-            var searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
-            grid.innerHTML = '';
+        var PROD_PER_PAGE = 24;   // 한 페이지에 보여줄 제품 수
+        var productPage = 1;
 
+        /** 카테고리·검색어로 걸러진 제품 목록 */
+        function getFilteredProducts() {
+            var searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
             var filtered = globalProducts;
+
             if (currentCategory !== 'ALL') {
                 filtered = filtered.filter(function (p) { return p.cat_ko === currentCategory; });
             }
@@ -1663,22 +1732,89 @@
                         || p.specRaw.toLowerCase().indexOf(searchKw) !== -1;
                 });
             }
+            return filtered;
+        }
+
+        function goProductPage(page) {
+            var total = Math.ceil(getFilteredProducts().length / PROD_PER_PAGE) || 1;
+            if (page < 1) page = 1;
+            if (page > total) page = total;
+            productPage = page;
+            renderCatalog(true);
+            var grid = document.getElementById('productGrid');
+            if (grid && grid.scrollIntoView) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderProductPager() {
+            var pager = document.getElementById('productPager');
+            if (!pager) return;
+
+            var total = Math.ceil(getFilteredProducts().length / PROD_PER_PAGE);
+            if (total <= 1) {
+                pager.classList.add('hidden');
+                pager.classList.remove('flex');
+                pager.innerHTML = '';
+                return;
+            }
+            pager.classList.remove('hidden');
+            pager.classList.add('flex');
+
+            var html = '';
+            html += '<button class="pg-btn" onclick="goProductPage(' + (productPage - 1) + ')"' +
+                    (productPage === 1 ? ' disabled' : '') + '>' +
+                    '<i class="fa-solid fa-chevron-left text-[10px]"></i></button>';
+
+            var nums = [];
+            for (var p = 1; p <= total; p++) {
+                if (p === 1 || p === total || Math.abs(p - productPage) <= 1) nums.push(p);
+            }
+
+            var prev = 0;
+            nums.forEach(function (p) {
+                if (prev && p - prev > 1) html += '<span class="pg-dots">...</span>';
+                html += '<button class="pg-btn' + (p === productPage ? ' is-current' : '') +
+                        '" onclick="goProductPage(' + p + ')">' + p + '</button>';
+                prev = p;
+            });
+
+            html += '<button class="pg-btn" onclick="goProductPage(' + (productPage + 1) + ')"' +
+                    (productPage === total ? ' disabled' : '') + '>' +
+                    '<i class="fa-solid fa-chevron-right text-[10px]"></i></button>';
+
+            pager.innerHTML = html;
+        }
+
+        function renderCatalog(keepPage) {
+            var grid = document.getElementById('productGrid');
+            var pager = document.getElementById('productPager');
+            grid.innerHTML = '';
+
+            if (!keepPage) productPage = 1;
+
+            var filtered = getFilteredProducts();
 
             if (filtered.length === 0) {
                 grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-400 font-bold">' + t("no-result", "검색 결과가 없습니다.") + '</div>';
+                if (pager) { pager.classList.add('hidden'); pager.innerHTML = ''; }
                 return;
             }
+
+            var totalPages = Math.ceil(filtered.length / PROD_PER_PAGE);
+            if (productPage > totalPages) productPage = totalPages;
+
+            var start = (productPage - 1) * PROD_PER_PAGE;
+            var pageItems = filtered.slice(start, start + PROD_PER_PAGE);
 
             var specLbl = t("spec-label", "규격");
             var procLbl = t("proc-label", "가공");
             var btnAddCartText = t("btn-add-cart", "견적 담기");
 
-            filtered.forEach(function (p) {
+            pageItems.forEach(function (p) {
                 var card = document.createElement('div');
                 card.className = 'bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300';
 
                 var imgTag = p.image
-                    ? '<img src="' + p.image + '" referrerpolicy="no-referrer" onerror="handleImgError(this)" class="w-full h-full object-cover">'
+                    ? '<img src="' + p.image + '" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="handleImgError(this)" class="w-full h-full object-cover">'
                     : '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
 
                 card.innerHTML =
@@ -1704,6 +1840,8 @@
                     '</div>';
                 grid.appendChild(card);
             });
+
+            renderProductPager();
         }
 
         function openSpecModal(productId) {
