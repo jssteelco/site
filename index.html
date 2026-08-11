@@ -105,6 +105,22 @@
             animation: pop-in 0.2s ease-out forwards;
         }
 
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-enter {
+            animation: fade-up 0.25s ease-out;
+        }
+
         /* 모달 표시 제어: hidden/flex 클래스 충돌 방지 */
         .modal-wrap {
             display: none;
@@ -114,6 +130,85 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* 자료실 페이지 버튼 */
+        .pg-btn {
+            min-width: 2.25rem;
+            height: 2.25rem;
+            padding: 0 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background: #fff;
+            color: #475569;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pg-btn:hover:not(:disabled) {
+            border-color: #1e3a8a;
+            color: #1e3a8a;
+            background: #eff6ff;
+        }
+
+        .pg-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pg-btn.is-current {
+            background: #1e3a8a;
+            border-color: #1e3a8a;
+            color: #fff;
+        }
+
+        .pg-dots {
+            padding: 0 0.25rem;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* 데스크톱 네비게이션 드롭다운 */
+        .nav-item > .nav-dropdown {
+            display: none;
+        }
+
+        .nav-item:hover > .nav-dropdown {
+            display: block;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #334155;
+            border-radius: 0.5rem;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #1e3a8a;
+            background: #eff6ff;
+        }
+
+        .nav-link.is-active {
+            color: #1e3a8a;
+        }
+
+        .nav-link.is-active::after {
+            content: "";
+            position: absolute;
+            left: 0.9rem;
+            right: 0.9rem;
+            bottom: 0.1rem;
+            height: 2px;
+            background: #1e3a8a;
+            border-radius: 2px;
         }
 
         /* 마우스가 있는 기기: 오버레이 사용, 하단 버튼 숨김 */
@@ -143,12 +238,13 @@
 
 <body class="min-h-screen flex flex-col relative">
 
-    <!-- Header Navigation -->
+    <!-- ===================== Header ===================== -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="window.scrollTo(0,0)">
-                <img src="https://drive.google.com/thumbnail?id=10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8&sz=w500"
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+
+            <!-- 로고 -->
+            <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="goPage('home')">
+                <img src="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8"
                     referrerpolicy="no-referrer" alt="JS STEEL" onerror="handleLogoError(this)"
                     class="h-9 sm:h-11 w-auto object-contain shrink-0">
                 <div class="block">
@@ -158,101 +254,529 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="relative w-full md:w-64">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i
-                            class="fa-solid fa-magnifying-glass"></i></span>
-                    <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="제품 검색..."
-                        class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm transition-all shadow-inner">
-                </div>
+            <!-- 우측: 네비게이션 + 언어 선택 + 모바일 메뉴 버튼 -->
+            <div class="flex items-center gap-2 shrink-0">
+
+                <!-- 데스크톱 네비게이션 -->
+                <nav class="hidden lg:flex items-center gap-1 mr-2">
+                    <div class="nav-item relative">
+                        <button class="nav-link" id="navAbout" onclick="goPage('about')">
+                            <span data-i18n="nav-about">회사소개</span>
+                            <i class="fa-solid fa-chevron-down text-[9px] ml-1 opacity-60"></i>
+                        </button>
+                        <div class="nav-dropdown absolute right-0 top-full pt-1 w-44">
+                            <div class="bg-white border border-slate-200 rounded-xl shadow-xl py-2 overflow-hidden">
+                                <button onclick="goPage('about')"
+                                    class="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-900"
+                                    data-i18n="nav-about-overview">회사소개</button>
+                                <button onclick="goPage('history')"
+                                    class="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-900"
+                                    data-i18n="nav-history">연혁</button>
+                                <button onclick="goPage('location')"
+                                    class="w-full text-left px-4 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-900"
+                                    data-i18n="nav-location">오시는 길</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="nav-link" id="navProducts" onclick="goPage('products')"
+                        data-i18n="nav-products">제품소개</button>
+                    <button class="nav-link" id="navResources" onclick="goPage('resources')"
+                        data-i18n="nav-resources">자료실</button>
+                </nav>
 
                 <select id="langSelector" onchange="changeLanguage(this.value)"
-                    class="bg-slate-800 text-white text-sm font-bold rounded-lg px-3 py-2 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-md">
+                    class="bg-slate-800 text-white text-xs sm:text-sm font-bold rounded-lg px-2 sm:px-3 py-2 border-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-md">
                     <option value="ko">🇰🇷 KOR</option>
                     <option value="en">🇺🇸 ENG</option>
                     <option value="ja">🇯🇵 JPN</option>
                     <option value="vi">🇻🇳 VIE</option>
                 </select>
+
+                <button onclick="toggleMobileNav()"
+                    class="lg:hidden w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <i id="mobileNavIcon" class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 모바일 네비게이션 -->
+        <div id="mobileNav" class="hidden lg:hidden border-t border-slate-200 bg-white">
+            <div class="max-w-7xl mx-auto px-4 py-3 space-y-1">
+                <button onclick="toggleMobileSub()"
+                    class="w-full flex items-center justify-between px-3 py-3 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50">
+                    <span data-i18n="nav-about">회사소개</span>
+                    <i id="mobileSubIcon" class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                </button>
+                <div id="mobileSub" class="hidden pl-3 space-y-1">
+                    <button onclick="goPage('about')"
+                        class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:bg-blue-50 hover:text-blue-900"
+                        data-i18n="nav-about-overview">회사소개</button>
+                    <button onclick="goPage('history')"
+                        class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:bg-blue-50 hover:text-blue-900"
+                        data-i18n="nav-history">연혁</button>
+                    <button onclick="goPage('location')"
+                        class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:bg-blue-50 hover:text-blue-900"
+                        data-i18n="nav-location">오시는 길</button>
+                </div>
+                <button onclick="goPage('products')"
+                    class="w-full text-left px-3 py-3 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50"
+                    data-i18n="nav-products">제품소개</button>
+                <button onclick="goPage('resources')"
+                    class="w-full text-left px-3 py-3 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50"
+                    data-i18n="nav-resources">자료실</button>
             </div>
         </div>
     </header>
 
-    <!-- Company Intro Section -->
-    <section class="premium-gradient text-white py-16 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <div
-                        class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold mb-6 border border-blue-500/30">
-                        <i class="fa-solid fa-globe mr-2"></i>Global Standard Steel Provider
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-black mb-5 leading-tight tracking-tight">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
-                            data-i18n="intro-title1">건축부터 플랜트까지,</span><br>
-                        <span data-i18n="intro-title2">최적의 철강 자재 파트너</span>
-                    </h2>
-                    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-8 max-w-xl" data-i18n="intro-desc">
-                        (주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.
-                    </p>
-                </div>
+    <main class="flex-grow w-full">
 
-                <div class="glass-panel p-6 rounded-2xl shadow-2xl">
-                    <h3 class="text-lg font-bold mb-5 flex items-center"><i
-                            class="fa-solid fa-sitemap mr-2 text-blue-400"></i> <span data-i18n="org-title">조직도</span>
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="bg-blue-600/40 border border-blue-400/50 p-3 rounded-lg text-center font-bold"
-                            data-i18n="org-ceo">대표이사</div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                data-i18n="org-domestic">내수 영업팀</div>
-                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                data-i18n="org-management">관리팀</div>
-                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                data-i18n="org-qc">생산, 품질관리팀</div>
-                            <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
-                                data-i18n="org-export">수출팀</div>
+        <!-- ===================== HOME ===================== -->
+        <div id="page-home" class="page hidden">
+            <section class="premium-gradient text-white py-16 relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <div
+                                class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold mb-6 border border-blue-500/30">
+                                <i class="fa-solid fa-globe mr-2"></i>Global Standard Steel Provider
+                            </div>
+                            <h2 class="text-4xl md:text-5xl font-black mb-5 leading-tight tracking-tight">
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
+                                    data-i18n="intro-title1">건축부터 플랜트까지,</span><br>
+                                <span data-i18n="intro-title2">최적의 철강 자재 파트너</span>
+                            </h2>
+                            <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-8 max-w-xl"
+                                data-i18n="intro-desc">
+                                (주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을
+                                제공합니다.
+                            </p>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="goPage('products')"
+                                    class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-6 py-3 rounded-lg shadow-lg transition-all">
+                                    <i class="fa-solid fa-layer-group mr-2"></i><span data-i18n="home-cta-products">제품
+                                        카탈로그 보기</span>
+                                </button>
+                                <button onclick="goPage('location')"
+                                    class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm px-6 py-3 rounded-lg transition-all">
+                                    <i class="fa-solid fa-location-dot mr-2"></i><span
+                                        data-i18n="home-cta-contact">오시는 길</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-2xl shadow-2xl">
+                            <h3 class="text-lg font-bold mb-5 flex items-center"><i
+                                    class="fa-solid fa-sitemap mr-2 text-blue-400"></i> <span
+                                    data-i18n="org-title">조직도</span>
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="bg-blue-600/40 border border-blue-400/50 p-3 rounded-lg text-center font-bold"
+                                    data-i18n="org-ceo">대표이사</div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-domestic">내수 영업팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-management">관리팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-qc">생산, 품질관리팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-export">수출팀</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Catalog Main Section -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-            <div>
-                <h2 class="text-3xl font-black text-slate-900 flex items-center">
-                    <span data-i18n="cat-title">제품 카탈로그</span>
-                </h2>
-                <p class="text-sm text-slate-500 mt-2 font-medium" data-i18n="cat-subtitle">고품질 철강 자재를 확인하고, 원하시는 제품의
-                    견적을 요청하세요.</p>
-            </div>
-            <div id="statusBadge"
-                class="bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center animate-pulse shadow-sm">
-                <i class="fa-solid fa-spinner fa-spin mr-2"></i> <span data-i18n="db-connecting">DB 연결 중...</span>
-            </div>
+            <!-- 사업영역 -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-black text-slate-900" data-i18n="home-biz-title">사업 영역</h2>
+                    <p class="text-sm text-slate-500 mt-2 font-medium" data-i18n="home-biz-sub">원자재 공급부터 정밀 임가공까지 한 번에
+                        해결합니다.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm hover:shadow-lg transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-truck-fast text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-800 mb-2" data-i18n="home-biz1-title">철강 유통</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="home-biz1-desc">강관, 형강, 강판, 봉강 등 KS
+                            규격 자재를 안정적으로 공급합니다.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm hover:shadow-lg transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-800 mb-2" data-i18n="home-biz2-title">정밀 임가공</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="home-biz2-desc">절단, 타공, 절곡 등 고객 도면에
+                            맞춘 가공으로 현장 작업을 줄여드립니다.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm hover:shadow-lg transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-earth-asia text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-black text-slate-800 mb-2" data-i18n="home-biz3-title">수출 · 해외 대응</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="home-biz3-desc">해외 규격 대응과 다국어 견적으로
+                            글로벌 프로젝트를 지원합니다.</p>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <div class="overflow-x-auto pb-1 mb-8 custom-scrollbar">
-            <div id="categoryTabs" class="flex space-x-2 border-b-2 border-slate-200 whitespace-nowrap"></div>
+        <!-- ===================== 회사소개 ===================== -->
+        <div id="page-about" class="page hidden">
+            <section class="premium-gradient text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight" data-i18n="nav-about-overview">회사소개</h2>
+                    <p class="text-slate-300 text-sm mt-2" data-i18n="about-hero-sub">신뢰로 쌓아온 종합 철강 솔루션 파트너</p>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+                            <h3 class="text-xl font-black text-slate-800 mb-4" data-i18n="about-greeting-title">인사말</h3>
+                            <p class="text-sm text-slate-600 leading-loose whitespace-pre-line"
+                                data-i18n="about-greeting-body">안녕하십니까. (주)제이에스스틸을 찾아주셔서 감사합니다.
+
+저희는 2011년 설립 이래 건축 자재용 파이프 공급을 시작으로, 대형 플랜트 강구조물과 정밀 임가공에 이르기까지 사업 영역을 넓혀왔습니다.
+
+품질과 납기, 그리고 정직한 거래를 최우선 가치로 삼아 고객사와 함께 성장하겠습니다.</p>
+                            <p class="text-sm font-black text-slate-800 mt-6 text-right">(주)제이에스스틸 <span
+                                    data-i18n="about-ceo-label">대표이사</span> <span data-i18n="co-ceo">박수민</span></p>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+                            <h3 class="text-xl font-black text-slate-800 mb-4" data-i18n="about-overview-title">회사 개요</h3>
+                            <dl class="divide-y divide-slate-100 text-sm">
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-name">회사명
+                                    </dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="co-name">(주)제이에스스틸 / JS STEEL</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-ceo">대표이사
+                                    </dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="co-ceo">박수민</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-est">설립</dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="co-founded">2011년</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-biznum">
+                                        사업자등록번호</dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="co-biznum">615-81-82934</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-type">업태 / 종목
+                                    </dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="co-type">도소매 / 철강</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-addr">주소</dt>
+                                    <dd class="text-slate-800 font-semibold" data-i18n="company-address">경남 김해시 해반천로
+                                        130번길 39, 206호</dd>
+                                </div>
+                                <div class="flex py-3">
+                                    <dt class="w-28 shrink-0 font-bold text-slate-500" data-i18n="about-row-tel">연락처
+                                    </dt>
+                                    <dd class="text-slate-800 font-semibold">TEL <span data-i18n="co-tel">055-335-3501~2</span> / FAX <span data-i18n="co-fax">055-331-4582</span></dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="premium-gradient text-white rounded-2xl p-7 shadow-lg">
+                            <h3 class="text-lg font-bold mb-5 flex items-center"><i
+                                    class="fa-solid fa-sitemap mr-2 text-blue-400"></i> <span
+                                    data-i18n="org-title">조직도</span></h3>
+                            <div class="space-y-3">
+                                <div class="bg-blue-600/40 border border-blue-400/50 p-3 rounded-lg text-center font-bold text-sm"
+                                    data-i18n="org-ceo">대표이사</div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-domestic">내수 영업팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-management">관리팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-qc">생산, 품질관리팀</div>
+                                    <div class="bg-slate-800/80 border border-slate-600/50 p-3 rounded-lg text-center text-xs font-semibold"
+                                        data-i18n="org-export">수출팀</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+                            <h3 class="text-base font-black text-slate-800 mb-3" data-i18n="about-quick-title">바로가기</h3>
+                            <div class="space-y-2">
+                                <button onclick="goPage('history')"
+                                    class="w-full text-left px-4 py-3 rounded-lg bg-slate-50 hover:bg-blue-50 text-sm font-bold text-slate-600 hover:text-blue-900 transition-all">
+                                    <i class="fa-solid fa-clock-rotate-left mr-2"></i><span
+                                        data-i18n="nav-history">연혁</span>
+                                </button>
+                                <button onclick="goPage('location')"
+                                    class="w-full text-left px-4 py-3 rounded-lg bg-slate-50 hover:bg-blue-50 text-sm font-bold text-slate-600 hover:text-blue-900 transition-all">
+                                    <i class="fa-solid fa-location-dot mr-2"></i><span
+                                        data-i18n="nav-location">오시는 길</span>
+                                </button>
+                                <button onclick="goPage('products')"
+                                    class="w-full text-left px-4 py-3 rounded-lg bg-slate-50 hover:bg-blue-50 text-sm font-bold text-slate-600 hover:text-blue-900 transition-all">
+                                    <i class="fa-solid fa-layer-group mr-2"></i><span
+                                        data-i18n="nav-products">제품소개</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <div id="alertBox"
-            class="hidden mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg text-sm text-red-700 shadow-sm">
+        <!-- ===================== 연혁 ===================== -->
+        <div id="page-history" class="page hidden">
+            <section class="premium-gradient text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight" data-i18n="nav-history">연혁</h2>
+                    <p class="text-slate-300 text-sm mt-2" data-i18n="history-hero-sub">한 걸음씩 쌓아온 JS STEEL의 발자취</p>
+                </div>
+            </section>
+
+            <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div id="historyNotice"
+                    class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-3 rounded-lg mb-8 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                    <span data-i18n="placeholder-notice">아래 내용은 예시입니다. 실제 내용으로 교체해 주세요.</span>
+                </div>
+
+                <div id="historyList" class="relative pl-8 border-l-2 border-slate-200 space-y-10">
+                </div>
+            </section>
         </div>
 
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div class="col-span-full py-20 text-center text-slate-400">
-                <i class="fa-solid fa-layer-group text-5xl mb-4 text-slate-300"></i>
-                <p class="font-bold" data-i18n="db-checking">구글 데이터베이스 연결 확인 중...</p>
-            </div>
+        <!-- ===================== 오시는 길 ===================== -->
+        <div id="page-location" class="page hidden">
+            <section class="premium-gradient text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight" data-i18n="nav-location">오시는 길</h2>
+                    <p class="text-slate-300 text-sm mt-2" data-i18n="location-hero-sub">언제든 편하게 방문·문의해 주세요.</p>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3">
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+                            <iframe
+                                src="https://maps.google.com/maps?q=%EA%B2%BD%EB%82%A8%20%EA%B9%80%ED%95%B4%EC%8B%9C%20%ED%95%B4%EB%B0%98%EC%B2%9C%EB%A1%9C%20130%EB%B2%88%EA%B8%B8%2039&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                                class="w-full h-[380px]" style="border:0;" loading="lazy"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+                            <h3 class="text-lg font-black text-slate-800 mb-5" data-i18n="location-info-title">찾아오시는 길
+                            </h3>
+                            <div class="space-y-5 text-sm">
+                                <div class="flex gap-3">
+                                    <i class="fa-solid fa-location-dot text-blue-800 mt-1 w-4 text-center"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-500 text-xs mb-0.5" data-i18n="about-row-addr">주소
+                                        </p>
+                                        <p class="font-semibold text-slate-800" data-i18n="company-address">경남 김해시 해반천로
+                                            130번길 39, 206호</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <i class="fa-solid fa-phone text-blue-800 mt-1 w-4 text-center"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-500 text-xs mb-0.5" data-i18n="location-tel">전화
+                                        </p>
+                                        <p class="font-semibold text-slate-800" data-i18n="co-tel">055-335-3501~2</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <i class="fa-solid fa-fax text-blue-800 mt-1 w-4 text-center"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-500 text-xs mb-0.5" data-i18n="location-fax">팩스
+                                        </p>
+                                        <p class="font-semibold text-slate-800" data-i18n="co-fax">055-331-4582</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <i class="fa-solid fa-clock text-blue-800 mt-1 w-4 text-center"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-500 text-xs mb-0.5" data-i18n="location-hours">
+                                            업무시간</p>
+                                        <p class="font-semibold text-slate-800" data-i18n="location-hours-val">평일 08:30 ~
+                                            18:00 (주말·공휴일 휴무)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="goPage('products')"
+                            class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold text-sm py-4 rounded-2xl shadow-md transition-all">
+                            <i class="fa-solid fa-file-invoice mr-2"></i><span data-i18n="location-cta">온라인으로 견적
+                                요청하기</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
+
+        <!-- ===================== 제품소개 (카탈로그) ===================== -->
+        <div id="page-products" class="page hidden">
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-900 flex items-center">
+                            <span data-i18n="cat-title">제품 카탈로그</span>
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-2 font-medium" data-i18n="cat-subtitle">고품질 철강 자재를 확인하고,
+                            원하시는 제품의 견적을 요청하세요.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto">
+                        <div class="relative w-full sm:w-64">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i
+                                    class="fa-solid fa-magnifying-glass"></i></span>
+                            <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="제품 검색..."
+                                class="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm transition-all shadow-sm">
+                        </div>
+
+                        <div id="statusBadge"
+                            class="bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center animate-pulse shadow-sm shrink-0">
+                            <i class="fa-solid fa-spinner fa-spin mr-2"></i> <span data-i18n="db-connecting">DB 연결
+                                중...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto pb-1 mb-8 custom-scrollbar">
+                    <div id="categoryTabs" class="flex space-x-2 border-b-2 border-slate-200 whitespace-nowrap"></div>
+                </div>
+
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div class="col-span-full py-20 text-center text-slate-400">
+                        <i class="fa-solid fa-layer-group text-5xl mb-4 text-slate-300"></i>
+                        <p class="font-bold" data-i18n="db-checking">구글 데이터베이스 연결 확인 중...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===================== 자료실 ===================== -->
+        <div id="page-resources" class="page hidden">
+            <section class="premium-gradient text-white py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight" data-i18n="nav-resources">자료실</h2>
+                    <p class="text-slate-300 text-sm mt-2" data-i18n="resources-hero-sub">제품 규격서와 인증 자료를 확인하실 수 있습니다.</p>
+                </div>
+            </section>
+
+            <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                <div id="resourceNotice"
+                    class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-3 rounded-lg mb-8 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                    <span data-i18n="placeholder-notice">아래 내용은 예시입니다. 실제 내용으로 교체해 주세요.</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                    <p id="resourceCount" class="text-sm text-slate-500 font-bold"></p>
+                    <div class="relative w-full sm:w-72">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="resourceSearch" oninput="onResourceSearch()"
+                            placeholder="자료 검색..."
+                            class="w-full pl-9 pr-9 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm transition-all shadow-sm">
+                        <button id="resourceSearchClear" onclick="clearResourceSearch()"
+                            class="hidden absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                    <div id="resourceList" class="divide-y divide-slate-100"></div>
+                </div>
+
+                <div id="resourcePager" class="hidden flex-wrap items-center justify-center gap-1.5 mt-8"></div>
+
+                <p class="text-center text-sm text-slate-400 font-medium mt-8" data-i18n="res-contact-note">필요한 자료가 있으시면
+                    055-335-3501로 문의해 주세요.</p>
+            </section>
+        </div>
+
     </main>
 
+    <!-- ===================== Footer ===================== -->
+    <footer class="bg-slate-900 text-slate-400 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8"
+                            referrerpolicy="no-referrer" alt="JS STEEL" onerror="handleFooterLogoError(this)"
+                            class="h-10 w-auto object-contain bg-white rounded-lg p-1.5">
+                        <div>
+                            <p class="text-lg font-black text-white leading-none">JS STEEL</p>
+                            <p class="text-[10px] font-bold uppercase tracking-widest mt-1"
+                                data-i18n="header-sub">Premium Steel Solution</p>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed max-w-md" data-i18n="footer-desc">건축부터 플랜트까지, 최적의 철강 자재와 정밀 임가공
+                        솔루션을 제공합니다.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-black text-sm mb-4" data-i18n="footer-menu">바로가기</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="goPage('about')" class="hover:text-white transition-colors"
+                                data-i18n="nav-about-overview">회사소개</button></li>
+                        <li><button onclick="goPage('history')" class="hover:text-white transition-colors"
+                                data-i18n="nav-history">연혁</button></li>
+                        <li><button onclick="goPage('products')" class="hover:text-white transition-colors"
+                                data-i18n="nav-products">제품소개</button></li>
+                        <li><button onclick="goPage('resources')" class="hover:text-white transition-colors"
+                                data-i18n="nav-resources">자료실</button></li>
+                        <li><button onclick="goPage('location')" class="hover:text-white transition-colors"
+                                data-i18n="nav-location">오시는 길</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-black text-sm mb-4" data-i18n="footer-contact">연락처</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li class="flex gap-2"><i class="fa-solid fa-phone mt-1 text-xs w-3.5"></i><span data-i18n="co-tel">055-335-3501~2</span>
+                        </li>
+                        <li class="flex gap-2"><i class="fa-solid fa-fax mt-1 text-xs w-3.5"></i><span data-i18n="co-fax">055-331-4582</span>
+                        </li>
+                        <li class="flex gap-2"><i class="fa-solid fa-location-dot mt-1 text-xs w-3.5"></i><span
+                                data-i18n="company-address">경남 김해시 해반천로 130번길 39, 206호</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-800">
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <p>&copy; 2026 JS STEEL Co., Ltd. All rights reserved.</p>
+                <p><span data-i18n="footer-biznum">사업자등록번호</span> <span data-i18n="co-biznum">615-81-82934</span> &nbsp;|&nbsp; <span
+                        data-i18n="about-row-ceo">대표이사</span> <span data-i18n="co-ceo">박수민</span></p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Floating Cart Button -->
-    <div class="fixed bottom-6 right-6 z-50 animate-bounce-slow">
+    <div id="floatingCart" class="fixed bottom-6 right-6 z-50 animate-bounce-slow hidden">
         <button onclick="toggleCartModal()"
             class="bg-blue-900 hover:bg-blue-800 text-white rounded-full p-4 shadow-2xl border-2 border-white flex items-center justify-center transition-all transform hover:scale-110">
             <div class="relative">
@@ -266,7 +790,7 @@
     <!-- 규격 선택 모달 -->
     <div id="specModal" class="modal-wrap fixed inset-0 z-[150]">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSpecModal()"></div>
-        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-md p-6 transform transition-all animate-pop-in">
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-md p-6 transform transition-all animate-pop-in max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-3">
                 <div>
                     <span id="specModalCat"
@@ -313,8 +837,7 @@
     <!-- Quotation Cart Modal -->
     <div id="cartModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleCartModal()"></div>
-        <div
-            class="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col animate-slide-in-right">
+        <div class="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col animate-slide-in-right">
             <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
                 <h3 class="font-black text-lg flex items-center"><i
                         class="fa-solid fa-clipboard-list mr-2 text-blue-400"></i> <span data-i18n="cart-title">견적
@@ -374,9 +897,49 @@
         var dict = {
             ko: {
                 "header-sub": "원스톱 철강 유통 및 임가공",
+                "nav-about": "회사소개", "nav-about-overview": "회사소개", "nav-history": "연혁", "nav-location": "오시는 길",
+                "nav-products": "제품소개", "nav-resources": "자료실",
                 "intro-title1": "건축부터 플랜트까지,", "intro-title2": "최적의 철강 자재 파트너",
                 "intro-desc": "(주)제이에스스틸은 2011년 설립 이래, 건축자재용 파이프 공급부터 대형 플랜트 강구조물 설계, 정밀 임가공까지 아우르는 종합 철강 솔루션을 제공합니다.",
+                "home-cta-products": "제품 카탈로그 보기", "home-cta-contact": "오시는 길",
+                "home-biz-title": "사업 영역", "home-biz-sub": "원자재 공급부터 정밀 임가공까지 한 번에 해결합니다.",
+                "home-biz1-title": "철강 유통", "home-biz1-desc": "강관, 형강, 강판, 봉강 등 KS 규격 자재를 안정적으로 공급합니다.",
+                "home-biz2-title": "정밀 임가공", "home-biz2-desc": "절단, 타공, 절곡 등 고객 도면에 맞춘 가공으로 현장 작업을 줄여드립니다.",
+                "home-biz3-title": "수출 · 해외 대응", "home-biz3-desc": "해외 규격 대응과 다국어 견적으로 글로벌 프로젝트를 지원합니다.",
                 "org-title": "조직도 (Organization)", "org-ceo": "대표이사", "org-domestic": "내수 영업팀", "org-management": "관리팀", "org-qc": "생산·품질관리팀", "org-export": "수출팀",
+                "about-hero-sub": "신뢰로 쌓아온 종합 철강 솔루션 파트너",
+                "about-greeting-title": "인사말",
+                "about-greeting-body": "안녕하십니까. (주)제이에스스틸을 찾아주셔서 감사합니다.\n\n저희는 2011년 설립 이래 건축 자재용 파이프 공급을 시작으로, 대형 플랜트 강구조물과 정밀 임가공에 이르기까지 사업 영역을 넓혀왔습니다.\n\n품질과 납기, 그리고 정직한 거래를 최우선 가치로 삼아 고객사와 함께 성장하겠습니다.",
+                "about-ceo-label": "대표이사", "about-overview-title": "회사 개요",
+                "about-row-name": "회사명", "about-row-ceo": "대표이사", "about-row-est": "설립", "about-row-biznum": "사업자등록번호",
+                "about-row-type": "업태 / 종목", "about-row-type-val": "도소매 / 철강", "about-row-addr": "주소", "about-row-tel": "연락처",
+                "about-quick-title": "바로가기",
+                "company-address": "경남 김해시 해반천로 130번길 39, 206호",
+                "co-name": "(주)제이에스스틸 / JS STEEL", "co-ceo": "박수민", "co-founded": "2011년",
+                "co-biznum": "615-81-82934", "co-type": "도소매 / 철강",
+                "co-tel": "055-335-3501~2", "co-fax": "055-331-4582",
+                "history-empty": "연혁 정보를 준비 중입니다.",
+                "history-hero-sub": "한 걸음씩 쌓아온 JS STEEL의 발자취",
+                "placeholder-notice": "아래 내용은 예시입니다. 실제 내용으로 교체해 주세요.",
+                "history-2011": "(주)제이에스스틸 설립, 건축자재용 파이프 유통 개시",
+                "history-2015": "임가공 설비 도입, 절단·타공 가공 서비스 시작",
+                "history-2018": "김해 본사 및 자재 야적장 확장 이전",
+                "history-2021": "플랜트 강구조물 자재 공급 실적 확대",
+                "history-2024": "수출팀 신설, 해외 시장 진출 본격화",
+                "history-2026": "다국어 온라인 제품 카탈로그 오픈",
+                "location-hero-sub": "언제든 편하게 방문·문의해 주세요.",
+                "location-info-title": "찾아오시는 길", "location-tel": "전화", "location-fax": "팩스",
+                "location-hours": "업무시간", "location-hours-val": "평일 08:30 ~ 18:00 (주말·공휴일 휴무)",
+                "location-cta": "온라인으로 견적 요청하기",
+                "resources-hero-sub": "제품 규격서와 인증 자료를 확인하실 수 있습니다.",
+                "res-1-title": "JS STEEL 제품 종합 카탈로그", "res-2-title": "품질 시험성적서 (밀시트) 안내",
+                "res-3-title": "규격별 중량 계산표", "res-4-title": "거래 안내 및 납품 절차",
+                "res-preparing": "준비중", "res-download": "다운로드", "res-empty": "등록된 자료가 없습니다.",
+                "res-no-result": "검색 결과가 없습니다.", "res-total": "전체 ", "res-found": "검색 결과 ",
+                "res-count-unit": "건", "ph-res-search": "자료 검색...",
+                "res-contact-note": "필요한 자료가 있으시면 055-335-3501로 문의해 주세요.",
+                "footer-desc": "건축부터 플랜트까지, 최적의 철강 자재와 정밀 임가공 솔루션을 제공합니다.",
+                "footer-menu": "바로가기", "footer-contact": "연락처", "footer-biznum": "사업자등록번호",
                 "cat-title": "제품 카탈로그", "cat-subtitle": "고품질 철강 자재를 확인하고, 원하시는 제품의 견적을 요청하세요.",
                 "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
                 "btn-add-cart": "견적 담기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
@@ -394,9 +957,49 @@
             },
             en: {
                 "header-sub": "One-Stop Steel & Fabrication",
+                "nav-about": "About Us", "nav-about-overview": "Company Profile", "nav-history": "History", "nav-location": "Location",
+                "nav-products": "Products", "nav-resources": "Resources",
                 "intro-title1": "From Architecture to Plants,", "intro-title2": "Your Optimal Steel Partner",
                 "intro-desc": "JS STEEL provides comprehensive steel solutions from pipe supply to structural design and precision fabrication.",
+                "home-cta-products": "View Product Catalog", "home-cta-contact": "Location",
+                "home-biz-title": "Our Business", "home-biz-sub": "From raw material supply to precision fabrication, all in one place.",
+                "home-biz1-title": "Steel Distribution", "home-biz1-desc": "Reliable supply of KS standard pipes, sections, plates and bars.",
+                "home-biz2-title": "Precision Fabrication", "home-biz2-desc": "Cutting, punching and bending to your drawings, reducing on-site work.",
+                "home-biz3-title": "Export & Global", "home-biz3-desc": "Overseas standard compliance and multilingual quotes for global projects.",
                 "org-title": "Organization", "org-ceo": "CEO", "org-domestic": "Domestic Sales", "org-management": "Management", "org-qc": "Production & QC", "org-export": "Export Team",
+                "about-hero-sub": "A trusted partner in total steel solutions",
+                "about-greeting-title": "Message from the CEO",
+                "about-greeting-body": "Thank you for visiting JS STEEL.\n\nSince our founding in 2011, we have grown from supplying construction pipes to handling large plant steel structures and precision fabrication.\n\nQuality, on-time delivery and honest business remain our highest priorities as we grow together with our customers.",
+                "about-ceo-label": "CEO", "about-overview-title": "Company Overview",
+                "about-row-name": "Company", "about-row-ceo": "CEO", "about-row-est": "Founded", "about-row-biznum": "Business No.",
+                "about-row-type": "Business Type", "about-row-type-val": "Wholesale & Retail / Steel", "about-row-addr": "Address", "about-row-tel": "Contact",
+                "about-quick-title": "Quick Links",
+                "company-address": "39, Haebancheon-ro 130beon-gil, Gimhae-si, Gyeongsangnam-do, Korea",
+                "co-name": "JS STEEL Co., Ltd.", "co-ceo": "Park Su-min", "co-founded": "2011",
+                "co-biznum": "615-81-82934", "co-type": "Wholesale & Retail / Steel",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "history-empty": "Our history is being prepared.",
+                "history-hero-sub": "The milestones we have built step by step",
+                "placeholder-notice": "The content below is a sample. Please replace it with actual information.",
+                "history-2011": "JS STEEL founded; began distribution of construction pipes",
+                "history-2015": "Introduced fabrication equipment; started cutting and punching services",
+                "history-2018": "Relocated and expanded Gimhae headquarters and material yard",
+                "history-2021": "Expanded supply record for plant steel structures",
+                "history-2024": "Established export team and entered overseas markets",
+                "history-2026": "Launched multilingual online product catalog",
+                "location-hero-sub": "Please feel free to visit or contact us anytime.",
+                "location-info-title": "How to Find Us", "location-tel": "Phone", "location-fax": "Fax",
+                "location-hours": "Business Hours", "location-hours-val": "Weekdays 08:30 - 18:00 (closed weekends & holidays)",
+                "location-cta": "Request a Quote Online",
+                "resources-hero-sub": "Product specifications and certification documents.",
+                "res-1-title": "JS STEEL Comprehensive Product Catalog", "res-2-title": "Quality Test Report (Mill Sheet) Guide",
+                "res-3-title": "Weight Calculation Table by Specification", "res-4-title": "Trading Guide and Delivery Process",
+                "res-preparing": "Coming soon", "res-download": "Download", "res-empty": "No documents available yet.",
+                "res-no-result": "No matching documents found.", "res-total": "Total ", "res-found": "Found ",
+                "res-count-unit": " items", "ph-res-search": "Search documents...",
+                "res-contact-note": "For any documents you need, please contact +82-55-335-3501.",
+                "footer-desc": "From architecture to plants, we deliver optimal steel materials and precision fabrication.",
+                "footer-menu": "Menu", "footer-contact": "Contact", "footer-biznum": "Business No.",
                 "cat-title": "Product Catalog", "cat-subtitle": "Check our high-quality steel materials and request a quote.",
                 "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
                 "btn-add-cart": "Add to Quote", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
@@ -414,9 +1017,49 @@
             },
             ja: {
                 "header-sub": "ワンストップ鉄鋼流通および加工",
+                "nav-about": "会社紹介", "nav-about-overview": "会社概要", "nav-history": "沿革", "nav-location": "アクセス",
+                "nav-products": "製品紹介", "nav-resources": "資料室",
                 "intro-title1": "建築からプラントまで、", "intro-title2": "最適な鉄鋼資材パートナー",
                 "intro-desc": "(株)JSスチールは、建築資材用パイプの供給から大型プラント鋼構造物の設計、精密加工まで網羅する総合鉄鋼ソリューションを提供します。",
+                "home-cta-products": "製品カタログを見る", "home-cta-contact": "アクセス",
+                "home-biz-title": "事業領域", "home-biz-sub": "原材料の供給から精密加工までワンストップで対応します。",
+                "home-biz1-title": "鉄鋼流通", "home-biz1-desc": "鋼管、形鋼、鋼板、棒鋼などKS規格資材を安定的に供給します。",
+                "home-biz2-title": "精密加工", "home-biz2-desc": "切断、穴あけ、曲げなどお客様の図面に合わせた加工で現場作業を削減します。",
+                "home-biz3-title": "輸出・海外対応", "home-biz3-desc": "海外規格対応と多言語見積もりでグローバルプロジェクトを支援します。",
                 "org-title": "組織図 (Organization)", "org-ceo": "代表取締役", "org-domestic": "国内営業チーム", "org-management": "管理チーム", "org-qc": "生産・品質管理チーム", "org-export": "輸出チーム",
+                "about-hero-sub": "信頼を積み重ねてきた総合鉄鋼ソリューションパートナー",
+                "about-greeting-title": "ごあいさつ",
+                "about-greeting-body": "(株)JSスチールをご覧いただきありがとうございます。\n\n当社は2011年の創業以来、建築資材用パイプの供給を皮切りに、大型プラント鋼構造物や精密加工まで事業領域を広げてまいりました。\n\n品質と納期、そして誠実な取引を最優先の価値とし、お客様とともに成長してまいります。",
+                "about-ceo-label": "代表取締役", "about-overview-title": "会社概要",
+                "about-row-name": "会社名", "about-row-ceo": "代表取締役", "about-row-est": "設立", "about-row-biznum": "事業者登録番号",
+                "about-row-type": "業態 / 種目", "about-row-type-val": "卸売・小売 / 鉄鋼", "about-row-addr": "所在地", "about-row-tel": "連絡先",
+                "about-quick-title": "ショートカット",
+                "company-address": "韓国 慶尚南道 金海市 海畔川路130番ギル 39, 206号",
+                "co-name": "(株)JSスチール / JS STEEL", "co-ceo": "パク・スミン", "co-founded": "2011年",
+                "co-biznum": "615-81-82934", "co-type": "卸売・小売 / 鉄鋼",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "history-empty": "沿革を準備中です。",
+                "history-hero-sub": "一歩ずつ積み重ねてきたJS STEELの歩み",
+                "placeholder-notice": "以下の内容はサンプルです。実際の内容に差し替えてください。",
+                "history-2011": "(株)JSスチール設立、建築資材用パイプの流通開始",
+                "history-2015": "加工設備を導入、切断・穴あけ加工サービス開始",
+                "history-2018": "金海本社および資材ヤードを拡張移転",
+                "history-2021": "プラント鋼構造物資材の供給実績を拡大",
+                "history-2024": "輸出チームを新設し海外市場へ本格進出",
+                "history-2026": "多言語オンライン製品カタログを公開",
+                "location-hero-sub": "いつでもお気軽にご来訪・お問い合わせください。",
+                "location-info-title": "アクセス案内", "location-tel": "電話", "location-fax": "FAX",
+                "location-hours": "営業時間", "location-hours-val": "平日 08:30 ~ 18:00 (土日祝休み)",
+                "location-cta": "オンラインで見積もりを依頼する",
+                "resources-hero-sub": "製品規格書と認証資料をご確認いただけます。",
+                "res-1-title": "JS STEEL 製品総合カタログ", "res-2-title": "品質試験成績書(ミルシート)のご案内",
+                "res-3-title": "規格別 重量計算表", "res-4-title": "取引案内および納品プロセス",
+                "res-preparing": "準備中", "res-download": "ダウンロード", "res-empty": "登録された資料がありません。",
+                "res-no-result": "検索結果がありません。", "res-total": "全 ", "res-found": "検索結果 ",
+                "res-count-unit": "件", "ph-res-search": "資料検索...",
+                "res-contact-note": "必要な資料がございましたら +82-55-335-3501 までお問い合わせください。",
+                "footer-desc": "建築からプラントまで、最適な鉄鋼資材と精密加工ソリューションを提供します。",
+                "footer-menu": "ショートカット", "footer-contact": "連絡先", "footer-biznum": "事業者登録番号",
                 "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材をご確認いただき、ご希望の製品の見積もりをご依頼ください。",
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
                 "btn-add-cart": "見積もり追加", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
@@ -434,9 +1077,49 @@
             },
             vi: {
                 "header-sub": "Giải pháp Thép & Gia công Trọn gói",
+                "nav-about": "Giới thiệu", "nav-about-overview": "Giới thiệu công ty", "nav-history": "Lịch sử", "nav-location": "Liên hệ",
+                "nav-products": "Sản phẩm", "nav-resources": "Tài liệu",
                 "intro-title1": "Từ Kiến trúc đến Nhà máy,", "intro-title2": "Đối tác Thép Tối ưu của Bạn",
                 "intro-desc": "JS STEEL cung cấp các giải pháp thép toàn diện từ cung cấp ống thép đến thiết kế kết cấu và gia công chính xác.",
+                "home-cta-products": "Xem danh mục sản phẩm", "home-cta-contact": "Liên hệ",
+                "home-biz-title": "Lĩnh vực kinh doanh", "home-biz-sub": "Từ cung ứng nguyên liệu đến gia công chính xác, tất cả tại một nơi.",
+                "home-biz1-title": "Phân phối thép", "home-biz1-desc": "Cung cấp ổn định ống thép, thép hình, thép tấm, thép thanh theo tiêu chuẩn KS.",
+                "home-biz2-title": "Gia công chính xác", "home-biz2-desc": "Cắt, đục lỗ, uốn theo bản vẽ của khách hàng, giảm khối lượng thi công tại công trường.",
+                "home-biz3-title": "Xuất khẩu & Quốc tế", "home-biz3-desc": "Đáp ứng tiêu chuẩn quốc tế và báo giá đa ngôn ngữ cho các dự án toàn cầu.",
                 "org-title": "Sơ đồ Tổ chức", "org-ceo": "Tổng Giám đốc", "org-domestic": "Kinh doanh Trong nước", "org-management": "Ban Quản lý", "org-qc": "Sản xuất & QC", "org-export": "Đội Xuất khẩu",
+                "about-hero-sub": "Đối tác giải pháp thép toàn diện được tin cậy",
+                "about-greeting-title": "Thư ngỏ",
+                "about-greeting-body": "Cảm ơn quý khách đã ghé thăm JS STEEL.\n\nKể từ khi thành lập năm 2011, chúng tôi đã phát triển từ cung cấp ống thép xây dựng đến kết cấu thép nhà máy quy mô lớn và gia công chính xác.\n\nChất lượng, tiến độ giao hàng và giao dịch trung thực luôn là giá trị hàng đầu để chúng tôi cùng phát triển với khách hàng.",
+                "about-ceo-label": "Tổng Giám đốc", "about-overview-title": "Thông tin công ty",
+                "about-row-name": "Tên công ty", "about-row-ceo": "Tổng Giám đốc", "about-row-est": "Thành lập", "about-row-biznum": "Mã số doanh nghiệp",
+                "about-row-type": "Ngành nghề", "about-row-type-val": "Bán buôn & bán lẻ / Thép", "about-row-addr": "Địa chỉ", "about-row-tel": "Liên hệ",
+                "about-quick-title": "Liên kết nhanh",
+                "company-address": "39, Haebancheon-ro 130beon-gil, Gimhae-si, Gyeongsangnam-do, Hàn Quốc",
+                "co-name": "Công ty TNHH JS STEEL", "co-ceo": "Park Su-min", "co-founded": "2011",
+                "co-biznum": "615-81-82934", "co-type": "Bán buôn & bán lẻ / Thép",
+                "co-tel": "+82-55-335-3501~2", "co-fax": "+82-55-331-4582",
+                "history-empty": "Lịch sử công ty đang được cập nhật.",
+                "history-hero-sub": "Những dấu mốc JS STEEL đã xây dựng từng bước",
+                "placeholder-notice": "Nội dung dưới đây là ví dụ. Vui lòng thay bằng thông tin thực tế.",
+                "history-2011": "Thành lập JS STEEL, bắt đầu phân phối ống thép xây dựng",
+                "history-2015": "Đầu tư thiết bị gia công, bắt đầu dịch vụ cắt và đục lỗ",
+                "history-2018": "Di dời và mở rộng trụ sở Gimhae cùng bãi vật tư",
+                "history-2021": "Mở rộng thành tích cung cấp vật tư kết cấu thép nhà máy",
+                "history-2024": "Thành lập đội xuất khẩu, chính thức tiến ra thị trường quốc tế",
+                "history-2026": "Ra mắt danh mục sản phẩm trực tuyến đa ngôn ngữ",
+                "location-hero-sub": "Quý khách có thể ghé thăm hoặc liên hệ bất cứ lúc nào.",
+                "location-info-title": "Hướng dẫn đường đi", "location-tel": "Điện thoại", "location-fax": "Fax",
+                "location-hours": "Giờ làm việc", "location-hours-val": "Thứ 2 - Thứ 6, 08:30 - 18:00 (nghỉ cuối tuần & ngày lễ)",
+                "location-cta": "Yêu cầu báo giá trực tuyến",
+                "resources-hero-sub": "Quý khách có thể xem quy cách sản phẩm và tài liệu chứng nhận.",
+                "res-1-title": "Danh mục sản phẩm tổng hợp JS STEEL", "res-2-title": "Hướng dẫn chứng chỉ chất lượng (Mill Sheet)",
+                "res-3-title": "Bảng tính trọng lượng theo quy cách", "res-4-title": "Hướng dẫn giao dịch và quy trình giao hàng",
+                "res-preparing": "Sắp có", "res-download": "Tải xuống", "res-empty": "Chưa có tài liệu nào.",
+                "res-no-result": "Không tìm thấy tài liệu phù hợp.", "res-total": "Tổng ", "res-found": "Tìm thấy ",
+                "res-count-unit": " mục", "ph-res-search": "Tìm tài liệu...",
+                "res-contact-note": "Nếu cần tài liệu nào, vui lòng liên hệ +82-55-335-3501.",
+                "footer-desc": "Từ kiến trúc đến nhà máy, chúng tôi cung cấp vật liệu thép tối ưu và giải pháp gia công chính xác.",
+                "footer-menu": "Liên kết", "footer-contact": "Liên hệ", "footer-biznum": "Mã số doanh nghiệp",
                 "cat-title": "Danh mục Sản phẩm", "cat-subtitle": "Kiểm tra các vật liệu thép chất lượng cao và yêu cầu báo giá.",
                 "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
                 "btn-add-cart": "Thêm vào Báo giá", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
@@ -460,36 +1143,355 @@
         var currentLang = 'ko';
         var currentCategory = 'ALL';
         var activeProductForModal = null;
+        var currentPage = 'home';
 
         var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
+
+        var PAGES = ['home', 'about', 'history', 'location', 'products', 'resources'];
 
         // 번역 헬퍼
         function t(key, fallback) {
             return (dict[currentLang] && dict[currentLang][key]) ? dict[currentLang][key] : (fallback || key);
         }
 
+        // ===================== 페이지 전환 =====================
+        function goPage(page, skipScroll) {
+            if (PAGES.indexOf(page) === -1) page = 'home';
+            currentPage = page;
+
+            PAGES.forEach(function (p) {
+                var el = document.getElementById('page-' + p);
+                if (!el) return;
+                if (p === page) {
+                    el.classList.remove('hidden');
+                    el.classList.add('page-enter');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('page-enter');
+                }
+            });
+
+            // 네비게이션 활성 표시
+            var navAbout = document.getElementById('navAbout');
+            var navProducts = document.getElementById('navProducts');
+            var navResources = document.getElementById('navResources');
+            navAbout.classList.toggle('is-active', ['about', 'history', 'location'].indexOf(page) !== -1);
+            navProducts.classList.toggle('is-active', page === 'products');
+            navResources.classList.toggle('is-active', page === 'resources');
+
+            // 견적 버튼은 제품소개에서만
+            document.getElementById('floatingCart').classList.toggle('hidden', page !== 'products');
+
+            // 모바일 메뉴 닫기
+            closeMobileNav();
+
+            if (window.location.hash !== '#' + page) {
+                history.replaceState(null, '', '#' + page);
+            }
+            if (!skipScroll) window.scrollTo(0, 0);
+        }
+
+        function toggleMobileNav() {
+            var nav = document.getElementById('mobileNav');
+            var icon = document.getElementById('mobileNavIcon');
+            var isHidden = nav.classList.contains('hidden');
+            nav.classList.toggle('hidden', !isHidden);
+            icon.className = isHidden ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
+        }
+
+        function closeMobileNav() {
+            document.getElementById('mobileNav').classList.add('hidden');
+            document.getElementById('mobileNavIcon').className = 'fa-solid fa-bars text-lg';
+            document.getElementById('mobileSub').classList.add('hidden');
+            document.getElementById('mobileSubIcon').className = 'fa-solid fa-chevron-down text-xs text-slate-400';
+        }
+
+        function toggleMobileSub() {
+            var sub = document.getElementById('mobileSub');
+            var icon = document.getElementById('mobileSubIcon');
+            var isHidden = sub.classList.contains('hidden');
+            sub.classList.toggle('hidden', !isHidden);
+            icon.className = isHidden
+                ? 'fa-solid fa-chevron-up text-xs text-slate-400'
+                : 'fa-solid fa-chevron-down text-xs text-slate-400';
+        }
+
+        // ===================== 초기화 =====================
         window.onload = function () {
             changeLanguage('ko');
+            var initial = (window.location.hash || '').replace('#', '');
+            goPage(PAGES.indexOf(initial) !== -1 ? initial : 'home', true);
+            renderHistory();
+            renderResources();
+            loadSiteContent();
             loadLiveCatalog(1);
         };
 
-        function handleLogoError(imgEl) {
-            if (!imgEl.dataset.triedFallback) {
-                imgEl.dataset.triedFallback = "true";
-                imgEl.src = "https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8";
-            } else {
-                imgEl.outerHTML = '<div class="h-9 sm:h-11 w-9 sm:w-11 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black text-lg shrink-0">JS</div>';
+        // ===================== 사이트 문구 / 연혁 (구글 시트 연동) =====================
+        var historyData = [];
+        var resourceData = [];
+
+        async function loadSiteContent() {
+            try {
+                var res = await fetch(API_URL + '?type=site&t=' + Date.now());
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                var data = await res.json();
+                if (!data) return;
+
+                // 시트 문구를 사전에 덮어쓰기 (값이 비어 있으면 기존 문구 유지)
+                if (data.texts) {
+                    Object.keys(data.texts).forEach(function (key) {
+                        var row = data.texts[key];
+                        if (row.KO) dict.ko[key] = row.KO;
+                        if (row.EN) dict.en[key] = row.EN;
+                        if (row.JA) dict.ja[key] = row.JA;
+                        if (row.VI) dict.vi[key] = row.VI;
+                    });
+                }
+
+                if (data.history && data.history.length > 0) {
+                    historyData = data.history;
+                }
+                if (data.resources && data.resources.length > 0) {
+                    resourceData = data.resources;
+                }
+
+                changeLanguage(currentLang);
+                renderHistory();
+                renderResources();
+
+            } catch (err) {
+                console.error('사이트 문구 로드 실패:', err);
             }
+        }
+
+        function renderHistory() {
+            var wrap = document.getElementById('historyList');
+            var notice = document.getElementById('historyNotice');
+            if (!wrap) return;
+
+            if (!historyData || historyData.length === 0) {
+                wrap.innerHTML = '<p class="text-sm text-slate-400 font-bold">' + t('history-empty', '연혁 정보를 준비 중입니다.') + '</p>';
+                if (notice) notice.classList.add('hidden');
+                return;
+            }
+            if (notice) notice.classList.add('hidden');
+
+            var L = (currentLang || 'ko').toUpperCase();
+            var html = '';
+
+            historyData.forEach(function (h, idx) {
+                var text = h[L] || h.KO || '';
+                var dotColor = (idx === historyData.length - 1) ? 'bg-cyan-500' : 'bg-blue-800';
+                html +=
+                    '<div class="relative">' +
+                    '<div class="absolute -left-[41px] w-5 h-5 rounded-full ' + dotColor + ' border-4 border-white shadow"></div>' +
+                    '<p class="text-2xl font-black text-blue-900">' + esc(h.year) + '</p>' +
+                    '<p class="text-sm font-bold text-slate-700 mt-2">' + esc(text) + '</p>' +
+                    '</div>';
+            });
+
+            wrap.innerHTML = html;
+        }
+
+        // 확장자별 아이콘/색상
+        var RES_ICONS = {
+            PDF:  { icon: 'fa-file-pdf',   bg: 'bg-red-50',     fg: 'text-red-600' },
+            XLSX: { icon: 'fa-file-excel', bg: 'bg-emerald-50', fg: 'text-emerald-700' },
+            XLS:  { icon: 'fa-file-excel', bg: 'bg-emerald-50', fg: 'text-emerald-700' },
+            DOCX: { icon: 'fa-file-word',  bg: 'bg-blue-50',    fg: 'text-blue-700' },
+            DOC:  { icon: 'fa-file-word',  bg: 'bg-blue-50',    fg: 'text-blue-700' },
+            PPTX: { icon: 'fa-file-powerpoint', bg: 'bg-orange-50', fg: 'text-orange-600' },
+            ZIP:  { icon: 'fa-file-zipper', bg: 'bg-slate-100', fg: 'text-slate-600' },
+            JPG:  { icon: 'fa-file-image', bg: 'bg-violet-50',  fg: 'text-violet-600' },
+            PNG:  { icon: 'fa-file-image', bg: 'bg-violet-50',  fg: 'text-violet-600' },
+            DWG:  { icon: 'fa-compass-drafting', bg: 'bg-cyan-50', fg: 'text-cyan-700' }
+        };
+
+        var RES_PER_PAGE = 10;   // 한 페이지에 보여줄 자료 수
+        var resourcePage = 1;
+        var resourceKeyword = '';
+
+        /** 검색어로 걸러진 자료 목록 (모든 언어 표기로 검색) */
+        function getFilteredResources() {
+            if (!resourceKeyword) return resourceData;
+            var kw = resourceKeyword;
+            return resourceData.filter(function (r) {
+                return ['KO', 'EN', 'JA', 'VI'].some(function (L) {
+                    return String(r[L] || '').toLowerCase().indexOf(kw) !== -1;
+                }) || String(r.ext || '').toLowerCase().indexOf(kw) !== -1;
+            });
+        }
+
+        function onResourceSearch() {
+            var input = document.getElementById('resourceSearch');
+            resourceKeyword = input.value.toLowerCase().trim();
+            document.getElementById('resourceSearchClear')
+                    .classList.toggle('hidden', !resourceKeyword);
+            resourcePage = 1;
+            renderResources(true);
+        }
+
+        function clearResourceSearch() {
+            var input = document.getElementById('resourceSearch');
+            input.value = '';
+            resourceKeyword = '';
+            document.getElementById('resourceSearchClear').classList.add('hidden');
+            resourcePage = 1;
+            renderResources(true);
+            input.focus();
+        }
+
+        function goResourcePage(page) {
+            var total = Math.ceil(getFilteredResources().length / RES_PER_PAGE) || 1;
+            if (page < 1) page = 1;
+            if (page > total) page = total;
+            resourcePage = page;
+            renderResources(true);
+        }
+
+        function renderResourcePager() {
+            var pager = document.getElementById('resourcePager');
+            if (!pager) return;
+
+            var total = Math.ceil(getFilteredResources().length / RES_PER_PAGE);
+            if (total <= 1) {
+                pager.classList.add('hidden');
+                pager.classList.remove('flex');
+                pager.innerHTML = '';
+                return;
+            }
+            pager.classList.remove('hidden');
+            pager.classList.add('flex');
+
+            var html = '';
+            html += '<button class="pg-btn" onclick="goResourcePage(' + (resourcePage - 1) + ')"' +
+                    (resourcePage === 1 ? ' disabled' : '') + '>' +
+                    '<i class="fa-solid fa-chevron-left text-[10px]"></i></button>';
+
+            // 현재 페이지 주변만 표시 (1 ... 4 5 6 ... 12)
+            var nums = [];
+            for (var p = 1; p <= total; p++) {
+                if (p === 1 || p === total || Math.abs(p - resourcePage) <= 1) nums.push(p);
+            }
+
+            var prev = 0;
+            nums.forEach(function (p) {
+                if (prev && p - prev > 1) html += '<span class="pg-dots">...</span>';
+                html += '<button class="pg-btn' + (p === resourcePage ? ' is-current' : '') +
+                        '" onclick="goResourcePage(' + p + ')">' + p + '</button>';
+                prev = p;
+            });
+
+            html += '<button class="pg-btn" onclick="goResourcePage(' + (resourcePage + 1) + ')"' +
+                    (resourcePage === total ? ' disabled' : '') + '>' +
+                    '<i class="fa-solid fa-chevron-right text-[10px]"></i></button>';
+
+            pager.innerHTML = html;
+        }
+
+        function renderResources(keepPage) {
+            var wrap = document.getElementById('resourceList');
+            var notice = document.getElementById('resourceNotice');
+            var pager = document.getElementById('resourcePager');
+            var countEl = document.getElementById('resourceCount');
+            if (!wrap) return;
+
+            // 등록된 자료가 아예 없는 경우
+            if (!resourceData || resourceData.length === 0) {
+                wrap.innerHTML = '<p class="p-8 text-center text-sm text-slate-400 font-bold">' +
+                    t('res-empty', '등록된 자료가 없습니다.') + '</p>';
+                if (notice) notice.classList.add('hidden');
+                if (pager) { pager.classList.add('hidden'); pager.innerHTML = ''; }
+                if (countEl) countEl.textContent = '';
+                return;
+            }
+            if (notice) notice.classList.add('hidden');
+
+            if (!keepPage) resourcePage = 1;
+
+            var list = getFilteredResources();
+
+            // 건수 표시
+            if (countEl) {
+                countEl.textContent = resourceKeyword
+                    ? t('res-found', '검색 결과 ') + list.length + t('res-count-unit', '건')
+                    : t('res-total', '전체 ') + list.length + t('res-count-unit', '건');
+            }
+
+            // 검색 결과가 없는 경우
+            if (list.length === 0) {
+                wrap.innerHTML = '<p class="p-8 text-center text-sm text-slate-400 font-bold">' +
+                    t('res-no-result', '검색 결과가 없습니다.') + '</p>';
+                if (pager) { pager.classList.add('hidden'); pager.innerHTML = ''; }
+                return;
+            }
+
+            var totalPages = Math.ceil(list.length / RES_PER_PAGE);
+            if (resourcePage > totalPages) resourcePage = totalPages;
+
+            var start = (resourcePage - 1) * RES_PER_PAGE;
+            var pageItems = list.slice(start, start + RES_PER_PAGE);
+
+            var L = (currentLang || 'ko').toUpperCase();
+            var html = '';
+
+            pageItems.forEach(function (r) {
+                var title = r[L] || r.KO || '';
+                var ext = (r.ext || '').toUpperCase();
+                var style = RES_ICONS[ext] || { icon: 'fa-file-lines', bg: 'bg-slate-100', fg: 'text-slate-600' };
+
+                var meta = '';
+                if (ext && r.size) meta = ext + ' · ' + r.size;
+                else if (ext) meta = ext;
+                else if (r.size) meta = r.size;
+
+                var action = r.url
+                    ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener" ' +
+                      'class="shrink-0 bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all">' +
+                      '<i class="fa-solid fa-download mr-1.5"></i>' + t('res-download', '다운로드') + '</a>'
+                    : '<span class="text-xs font-bold text-slate-400 shrink-0">' + t('res-preparing', '준비중') + '</span>';
+
+                html +=
+                    '<div class="flex items-center gap-4 p-5 hover:bg-slate-50 transition-all">' +
+                    '<div class="w-11 h-11 rounded-xl ' + style.bg + ' ' + style.fg + ' flex items-center justify-center shrink-0">' +
+                    '<i class="fa-solid ' + style.icon + ' text-lg"></i>' +
+                    '</div>' +
+                    '<div class="min-w-0 flex-grow">' +
+                    '<p class="text-sm font-black text-slate-800 truncate">' + esc(title) + '</p>' +
+                    (meta ? '<p class="text-xs text-slate-400 font-medium mt-0.5">' + esc(meta) + '</p>' : '') +
+                    '</div>' +
+                    action +
+                    '</div>';
+            });
+
+            wrap.innerHTML = html;
+            renderResourcePager();
+        }
+
+        function esc(v) {
+            return String(v == null ? '' : v)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function handleFooterLogoError(imgEl) {
+            imgEl.outerHTML = '<div class="h-10 w-10 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black text-base shrink-0 border border-white/20">JS</div>';
+        }
+
+        function handleLogoError(imgEl) {
+            imgEl.outerHTML = '<div class="h-9 sm:h-11 w-9 sm:w-11 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black text-lg shrink-0">JS</div>';
         }
 
         function formatImageUrl(url) {
             if (!url) return "";
             var strUrl = String(url).trim();
+            if (strUrl.indexOf("http") !== 0) return "";
 
-            if (strUrl.includes("drive.google.com") || strUrl.includes("lh3.google")) {
+            if (strUrl.indexOf("drive.google.com") !== -1 || strUrl.indexOf("lh3.google") !== -1) {
                 var match = strUrl.match(/\/d\/([^\/\?]+)/) || strUrl.match(/id=([^&]+)/);
                 if (match && match[1]) {
-                    return "https://drive.google.com/thumbnail?id=" + match[1] + "&sz=w1000";
+                    return "https://lh3.googleusercontent.com/d/" + match[1];
                 }
             }
             return strUrl;
@@ -499,20 +1501,22 @@
             currentLang = lang;
             document.querySelectorAll('[data-i18n]').forEach(function (el) {
                 var key = el.getAttribute('data-i18n');
-                if (dict[lang] && dict[lang][key]) el.innerHTML = dict[lang][key];
+                if (dict[lang] && dict[lang][key]) el.textContent = dict[lang][key];
             });
 
-            // placeholder 번역
             document.getElementById('searchInput').placeholder = t("ph-search", "제품 검색...");
             document.getElementById('custName').placeholder = t("ph-name", "회사명 / 담당자명");
             document.getElementById('custContact').placeholder = t("ph-contact", "연락처 또는 이메일");
             document.getElementById('custMemo').placeholder = t("ph-memo", "추가 문의사항");
+            document.getElementById('resourceSearch').placeholder = t("ph-res-search", "자료 검색...");
 
             if (rawSheetData.length > 0) {
                 parseProductsForLang();
                 renderCategoryTabs();
                 renderCatalog();
             }
+            renderHistory();
+            renderResources();
             renderCartUI();
         }
 
@@ -523,7 +1527,7 @@
 
             try {
                 if (attempt > 1) {
-                    badge.className = "bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
+                    badge.className = "bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm shrink-0";
                     badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ' + t("db-retrying", "재연결 중...") + ' (' + attempt + '/' + MAX_ATTEMPTS + ')';
                 }
 
@@ -541,7 +1545,7 @@
                 rawSheetData = data;
                 parseProductsForLang();
 
-                badge.className = "bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm";
+                badge.className = "bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm shrink-0";
                 badge.innerHTML = '<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ' + t("db-synced", "동기화 완료: ") + globalProducts.length + t("db-count-unit", "건");
 
                 currentCategory = 'ALL';
@@ -557,7 +1561,7 @@
                     return;
                 }
 
-                badge.className = "bg-red-50 border border-red-200 text-red-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm cursor-pointer";
+                badge.className = "bg-red-50 border border-red-200 text-red-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm cursor-pointer shrink-0";
                 badge.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> ' + t("db-failed", "연동 실패 · 다시 시도");
                 badge.onclick = function () { loadLiveCatalog(1); };
             }
@@ -572,16 +1576,14 @@
                 var productId = row["제품코드"] || row["품번"] || row["ID"] || "";
                 if (!productId) return;
 
-                // 1. 카드의 대표 규격 텍스트 (H열 -> 없으면 P열)
                 var specRawText = String(
-                    row["_COL_H_REPSPEC"] || row["대표규격_" + langUpper] || row["대표규격"] || row["대표규격_KO"] ||
-                    row["_COL_P_SPEC"] || row["규격_" + langUpper] || row["규격"] || row["SPEC"] || ""
+                    row["대표규격_" + langUpper] || row["대표규격"] ||
+                    row["규격_" + langUpper] || row["규격"] || row["SPEC"] || ""
                 ).trim();
 
-                // 2. 팝업창 드롭다운 규격 목록 (P열 우선! -> 없으면 H열)
                 var specListText = String(
-                    row["_COL_P_SPEC"] || row["규격_" + langUpper] || row["규격"] || row["SPEC"] ||
-                    row["_COL_H_REPSPEC"] || row["대표규격_" + langUpper] || row["대표규격"] || ""
+                    row["규격_" + langUpper] || row["규격"] || row["SPEC"] ||
+                    row["대표규격_" + langUpper] || row["대표규격"] || ""
                 ).trim();
 
                 var specList = [];
@@ -597,20 +1599,19 @@
                     specList = [specRawText || defaultSpec];
                 }
 
-                var cat = row["대분류_" + langUpper] || row["대분류"] || row["대분류_KO"] || "기타자재";
-                var name = row["품명_" + langUpper] || row["품명"] || row["품명_KO"] || row["제품명"] || "제품명 미기재";
-                var proc = row["가공옵션_" + langUpper] || row["가공_" + langUpper] ||
-                    row["가공옵션"] || row["가공옵션_KO"] || row["가공"] || "-";
-                var desc = row["설명_" + langUpper] || row["설명"] || row["설명_KO"] || row["제품설명_" + langUpper] || "";
+                var cat = row["대분류_" + langUpper] || row["대분류_KO"] || row["대분류"] || "기타자재";
+                var name = row["품명_" + langUpper] || row["품명_KO"] || row["품명"] || "제품명 미기재";
+                var proc = row["가공옵션_" + langUpper] || row["가공옵션_KO"] || row["가공옵션"] || "-";
+                var desc = row["설명_" + langUpper] || row["설명_KO"] || row["설명_KR"] || "";
                 var rawImg = row["대표이미지_URL"] || row["대표이미지"] || row["이미지URL"] || row["이미지"] || "";
 
                 parsedDB.push({
                     id: String(productId),
-                    cat_ko: cat,
-                    name_ko: name,
+                    cat_ko: String(cat).trim(),
+                    name_ko: String(name).trim(),
                     specRaw: specRawText || defaultSpec,
                     specList: specList,
-                    proc_ko: proc,
+                    proc_ko: String(proc).trim() || "-",
                     rawImgUrl: rawImg,
                     image: formatImageUrl(rawImg),
                     desc_ko: desc
@@ -642,18 +1643,8 @@
             renderCatalog();
         }
 
-        function handleImgError(imgEl, rawImgUrl) {
-            if (!rawImgUrl) {
-                imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
-                return;
-            }
-            var match = rawImgUrl.match(/\/d\/([^\/\?]+)/) || rawImgUrl.match(/id=([^&]+)/);
-            if (match && match[1] && !imgEl.dataset.triedFallback) {
-                imgEl.dataset.triedFallback = "true";
-                imgEl.src = "https://lh3.googleusercontent.com/d/" + match[1];
-            } else {
-                imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
-            }
+        function handleImgError(imgEl) {
+            imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
         }
 
         function renderCatalog() {
@@ -667,7 +1658,9 @@
             }
             if (searchKw) {
                 filtered = filtered.filter(function (p) {
-                    return p.name_ko.toLowerCase().includes(searchKw) || p.cat_ko.toLowerCase().includes(searchKw) || p.specRaw.toLowerCase().includes(searchKw);
+                    return p.name_ko.toLowerCase().indexOf(searchKw) !== -1
+                        || p.cat_ko.toLowerCase().indexOf(searchKw) !== -1
+                        || p.specRaw.toLowerCase().indexOf(searchKw) !== -1;
                 });
             }
 
@@ -685,7 +1678,7 @@
                 card.className = 'bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300';
 
                 var imgTag = p.image
-                    ? '<img src="' + p.image + '" referrerpolicy="no-referrer" onerror="handleImgError(this, \'' + p.rawImgUrl + '\')" class="w-full h-full object-cover">'
+                    ? '<img src="' + p.image + '" referrerpolicy="no-referrer" onerror="handleImgError(this)" class="w-full h-full object-cover">'
                     : '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
 
                 card.innerHTML =
@@ -838,7 +1831,6 @@
             var icon = document.getElementById('btnSubmitIcon');
             var textSpan = document.getElementById('btnSubmitText');
 
-            // 1. 요청 진행 상태 UI 적용
             btn.disabled = true;
             btn.classList.remove('bg-blue-900', 'hover:bg-blue-800');
             btn.classList.add('bg-slate-500', 'cursor-not-allowed');
@@ -865,7 +1857,6 @@
                         quotationCart = [];
                         updateCartBadge();
 
-                        // 입력칸 초기화
                         document.getElementById('custName').value = '';
                         document.getElementById('custContact').value = '';
                         document.getElementById('custMemo').value = '';
@@ -876,7 +1867,6 @@
                 })
                 .catch(function (err) { customAlert(t("alert-network-err", "통신 오류가 발생했습니다.")); })
                 .finally(function () {
-                    // 2. 요청 완료 후 버튼 상태 복구
                     btn.disabled = false;
                     btn.classList.remove('bg-slate-500', 'cursor-not-allowed');
                     btn.classList.add('bg-blue-900', 'hover:bg-blue-800');
