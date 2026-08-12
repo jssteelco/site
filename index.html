@@ -1022,7 +1022,7 @@
     <!-- 규격 선택 모달 -->
     <div id="specModal" class="modal-wrap fixed inset-0 z-[150]">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSpecModal()"></div>
-        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-md p-6 transform transition-all animate-pop-in max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-11/12 max-w-lg p-6 transform transition-all animate-pop-in max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-3">
                 <div>
                     <span id="specModalCat"
@@ -1031,6 +1031,21 @@
                 </div>
                 <button onclick="closeSpecModal()" class="text-slate-400 hover:text-slate-600"><i
                         class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <!-- 제품 설명 -->
+            <div id="specModalDescBox" class="mb-4 hidden">
+                <p class="text-xs font-bold text-slate-500 mb-1.5" data-i18n="desc-label">제품 설명</p>
+                <p id="specModalDesc" class="text-[13px] leading-relaxed text-slate-600"></p>
+            </div>
+
+            <!-- 규격 목록 -->
+            <div id="specModalListBox" class="mb-5 hidden">
+                <p class="text-xs font-bold text-slate-500 mb-2">
+                    <span data-i18n="spec-list-label">규격 목록</span>
+                    <span id="specModalCount" class="ml-1 text-blue-700"></span>
+                </p>
+                <div id="specModalList" class="flex flex-col gap-1 max-h-80 overflow-y-auto custom-scrollbar"></div>
             </div>
 
             <div class="space-y-4 mb-6">
@@ -1188,7 +1203,8 @@
                 "footer-menu": "바로가기", "footer-contact": "연락처", "footer-biznum": "사업자등록번호",
                 "cat-title": "제품 카탈로그", "cat-subtitle": "고품질 철강 자재를 확인하고, 원하시는 제품의 견적을 요청하세요.",
                 "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
-                "btn-add-cart": "견적 담기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
+                "spec-count": "{n}종", "spec-list-label": "규격 목록", "desc-label": "제품 설명",
+                "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
@@ -1256,7 +1272,8 @@
                 "footer-menu": "Menu", "footer-contact": "Contact", "footer-biznum": "Business No.",
                 "cat-title": "Product Catalog", "cat-subtitle": "Check our high-quality steel materials and request a quote.",
                 "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
-                "btn-add-cart": "Add to Quote", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
+                "spec-count": "{n} sizes", "spec-list-label": "Available Sizes", "desc-label": "Description",
+                "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
@@ -1324,7 +1341,8 @@
                 "footer-menu": "ショートカット", "footer-contact": "連絡先", "footer-biznum": "事業者登録番号",
                 "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材をご確認いただき、ご希望の製品の見積もりをご依頼ください。",
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
-                "btn-add-cart": "見積もり追加", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
+                "spec-count": "{n}種", "spec-list-label": "規格一覧", "desc-label": "製品説明",
+                "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
@@ -1392,7 +1410,8 @@
                 "footer-menu": "Liên kết", "footer-contact": "Liên hệ", "footer-biznum": "Mã số doanh nghiệp",
                 "cat-title": "Danh mục Sản phẩm", "cat-subtitle": "Kiểm tra các vật liệu thép chất lượng cao và yêu cầu báo giá.",
                 "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
-                "btn-add-cart": "Thêm vào Báo giá", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
+                "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách", "desc-label": "Mô tả sản phẩm",
+                "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
@@ -1845,6 +1864,13 @@
                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        /** "용도 : 치수" 에서 치수 부분만 꺼냅니다 (콜론이 없으면 원본 그대로) */
+        function specShort(spec) {
+            var v = String(spec == null ? '' : spec);
+            var i = v.indexOf(':');
+            return i > -1 ? v.substring(i + 1).trim() : v.trim();
+        }
+
         /** onclick 등 HTML 속성 안의 JS 문자열로 안전하게 넣기 */
         function jsArg(v) {
             return esc(String(v == null ? '' : v)
@@ -1995,28 +2021,68 @@
                 var productId = row["제품코드"] || row["품번"] || row["ID"] || "";
                 if (!productId) return;
 
-                var specRawText = String(
-                    row["대표규격_" + langUpper] || row["대표규격"] ||
-                    row["규격_" + langUpper] || row["규격"] || row["SPEC"] || ""
-                ).trim();
-
+                // 카드와 선택 목록 모두 '규격' 열을 사용합니다.
+                // ('규격'이 비어 있을 때만 '대표규격'을 대신 씁니다)
                 var specListText = String(
                     row["규격_" + langUpper] || row["규격"] || row["SPEC"] ||
                     row["대표규격_" + langUpper] || row["대표규격"] || ""
                 ).trim();
 
-                var specList = [];
+                // 시트 입력 규칙
+                //  · 줄바꿈(Alt+Enter) -> 화면에서도 줄이 바뀝니다
+                //  · 쉼표 / 세미콜론 / | -> 같은 줄에 나란히 놓입니다
+                var specRows = [];
                 if (specListText && specListText !== "undefined" && specListText !== "null") {
-                    specList = specListText.split(/[,|\n;]/).map(function (s) {
-                        return s.trim();
-                    }).filter(function (s) {
-                        return s.length > 0;
+                    specRows = specListText.split(/\r?\n/).map(function (line) {
+                        return line.split(/[,;|]/).map(function (v) {
+                            return v.trim();
+                        }).filter(function (v) {
+                            return v.length > 0;
+                        });
+                    }).filter(function (arr) {
+                        return arr.length > 0;
                     });
                 }
 
-                if (specList.length === 0) {
-                    specList = [specRawText || defaultSpec];
+                if (specRows.length === 0) {
+                    specRows = [[defaultSpec]];
                 }
+
+                // 선택 목록용으로 전체를 하나로 펼칩니다
+                var specList = [];
+                specRows.forEach(function (arr) {
+                    arr.forEach(function (v) { specList.push(v); });
+                });
+
+                // ── 단중(개당 중량) ──
+                //  · '규격'과 같은 순서로 적으면 하나씩 짝지어집니다
+                //  · 값을 하나만 적으면 모든 규격에 같은 값을 씁니다
+                //  · 비워두면 견적서 중량칸이 빈칸으로 나갑니다 (사이트에는 표시되지 않습니다)
+                var weightText = String(
+                    row["중량(kg)"] || row["중량"] || row["단중"] ||
+                    row["단중_kg"] || row["개당중량"] || ""
+                ).trim();
+
+                var weightFlat = weightText
+                    ? weightText.split(/[\r\n,;|]/).map(function (v) {
+                          return parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
+                      }).filter(function (v) { return isFinite(v) && v > 0; })
+                    : [];
+
+                var weightList = specList.map(function (_, idx) {
+                    if (weightFlat.length === 0) return 0;
+                    if (weightFlat.length === 1) return weightFlat[0];
+                    return weightFlat[idx] !== undefined ? weightFlat[idx] : 0;
+                });
+
+                // 카드에 표시할 문구
+                //  · 규격이 하나면 그대로, 여러 개면 "10종" 처럼 개수만 표시
+                var specRawText = (specList.length > 1)
+                    ? t("spec-count", "{n}종").replace("{n}", specList.length)
+                    : specList[0];
+
+                // 검색은 전체 규격을 대상으로 합니다
+                var specSearchText = specList.join(" ");
 
                 var cat = row["대분류_" + langUpper] || row["대분류_KO"] || row["대분류"] || "기타자재";
                 var name = row["품명_" + langUpper] || row["품명_KO"] || row["품명"] || "제품명 미기재";
@@ -2034,7 +2100,10 @@
                     sub_ko: sub,
                     name_ko: String(name).trim(),
                     specRaw: specRawText || defaultSpec,
+                    specSearch: specSearchText,
                     specList: specList,
+                    specRows: specRows,
+                    weightList: weightList,
                     proc_ko: String(proc).trim() || "-",
                     rawImgUrl: rawImg,
                     image: formatImageUrl(rawImg),
@@ -2161,7 +2230,7 @@
                 filtered = filtered.filter(function (p) {
                     return p.name_ko.toLowerCase().indexOf(searchKw) !== -1
                         || p.cat_ko.toLowerCase().indexOf(searchKw) !== -1
-                        || p.specRaw.toLowerCase().indexOf(searchKw) !== -1;
+                        || (p.specSearch || p.specRaw).toLowerCase().indexOf(searchKw) !== -1;
                 });
             }
             return filtered;
@@ -2239,11 +2308,22 @@
 
             var specLbl = t("spec-label", "규격");
             var procLbl = t("proc-label", "가공");
-            var btnAddCartText = t("btn-add-cart", "견적 담기");
+            var btnDetailText = t("btn-detail", "자세히 보기");
 
             pageItems.forEach(function (p) {
                 var card = document.createElement('div');
-                card.className = 'bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300';
+                card.className = 'bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300 cursor-pointer';
+
+                // 카드 어느 곳을 눌러도 상세 창이 열립니다
+                card.setAttribute('role', 'button');
+                card.setAttribute('tabindex', '0');
+                card.addEventListener('click', function () { openSpecModal(p.id); });
+                card.addEventListener('keydown', function (ev) {
+                    if (ev.key === 'Enter' || ev.key === ' ') {
+                        ev.preventDefault();
+                        openSpecModal(p.id);
+                    }
+                });
 
                 var imgTag = p.image
                     ? '<img src="' + esc(p.image) + '" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="handleImgError(this)" class="w-full h-full object-cover">'
@@ -2253,9 +2333,9 @@
                     '<div class="relative aspect-[4/3] bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100">' +
                     imgTag +
                     '<div class="card-overlay absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-center justify-center z-20">' +
-                    '<button onclick="openSpecModal(\'' + jsArg(p.id) + '\')" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg">' +
-                    '<i class="fa-solid fa-ruler-combined mr-2"></i>' + btnAddCartText +
-                    '</button>' +
+                    '<span class="bg-blue-600 text-white text-sm font-bold py-2 px-6 rounded-full shadow-lg pointer-events-none">' +
+                    '<i class="fa-solid fa-magnifying-glass mr-2"></i>' + btnDetailText +
+                    '</span>' +
                     '</div>' +
                     '</div>' +
                     '<div class="p-5 flex flex-col flex-grow">' +
@@ -2266,8 +2346,8 @@
                     '<div><strong>' + esc(procLbl) + ':</strong> ' + esc(p.proc_ko) + '</div>' +
                     '</div>' +
                     '<p class="text-xs text-slate-500 line-clamp-2 mb-4">' + esc(p.desc_ko) + '</p>' +
-                    '<button onclick="openSpecModal(\'' + jsArg(p.id) + '\')" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md">' +
-                    '<i class="fa-solid fa-ruler-combined mr-2"></i>' + btnAddCartText +
+                    '<button type="button" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md pointer-events-none">' +
+                    '<i class="fa-solid fa-magnifying-glass mr-2"></i>' + btnDetailText +
                     '</button>' +
                     '</div>';
                 grid.appendChild(card);
@@ -2285,17 +2365,65 @@
             document.getElementById('specModalTitle').innerText = product.name_ko;
             document.getElementById('specModalQty').value = 1;
 
-            var select = document.getElementById('specSelect');
-            select.innerHTML = '';
+            // ── 제품 설명 ──
+            var descBox = document.getElementById('specModalDescBox');
+            var descEl = document.getElementById('specModalDesc');
+            if (product.desc_ko) {
+                descEl.innerText = product.desc_ko;
+                descBox.classList.remove('hidden');
+            } else {
+                descEl.innerText = '';
+                descBox.classList.add('hidden');
+            }
 
             var list = (product.specList && product.specList.length > 0)
                 ? product.specList
                 : [product.specRaw || t("default-spec", "기본 규격")];
 
-            list.forEach(function (spec) {
+            // ── 규격 목록 (전체 나열) ──
+            var listBox = document.getElementById('specModalListBox');
+            var listEl = document.getElementById('specModalList');
+            var countEl = document.getElementById('specModalCount');
+
+            if (list.length > 1) {
+                var rows = (product.specRows && product.specRows.length > 0)
+                    ? product.specRows
+                    : [list];
+
+                listEl.innerHTML = rows.map(function (row) {
+                    return '<div class="flex flex-wrap gap-1">' +
+                           row.map(function (spec) {
+                               return '<span class="text-[11px] font-mono font-bold text-slate-700 ' +
+                                      'bg-slate-100 border border-slate-200 px-2 py-1 rounded whitespace-nowrap">' +
+                                      esc(spec) + '</span>';
+                           }).join('') +
+                           '</div>';
+                }).join('');
+                countEl.innerText = t("spec-count", "{n}종").replace("{n}", list.length);
+                listBox.classList.remove('hidden');
+            } else {
+                listEl.innerHTML = '';
+                countEl.innerText = '';
+                listBox.classList.add('hidden');
+            }
+
+            // ── 규격 선택 ──
+            // 목록에는 용도까지 보여주고, 선택칸에는 치수만 짧게 표시합니다.
+            // 단, 치수만 남겼을 때 서로 구분이 안 되면 전체 문구를 그대로 씁니다.
+            var shortList = list.map(specShort);
+            var seenSpec = {};
+            var canShorten = shortList.every(function (v) {
+                if (!v || seenSpec[v]) return false;
+                seenSpec[v] = 1;
+                return true;
+            });
+
+            var select = document.getElementById('specSelect');
+            select.innerHTML = '';
+            list.forEach(function (spec, idx) {
                 var opt = document.createElement('option');
-                opt.value = spec;
-                opt.innerText = spec;
+                opt.value = spec;                                   // 견적서에는 전체 문구가 들어갑니다
+                opt.innerText = canShorten ? shortList[idx] : spec;
                 select.appendChild(opt);
             });
 
@@ -2320,6 +2448,13 @@
             var spec = document.getElementById('specSelect').value || activeProductForModal.specRaw;
             var qty = Math.max(1, Math.min(999999, parseInt(document.getElementById('specModalQty').value) || 1));
 
+            // 선택한 규격에 해당하는 단중(개당 중량)을 찾습니다
+            var specIdx = (activeProductForModal.specList || []).indexOf(spec);
+            var unitWeight = 0;
+            if (specIdx !== -1 && activeProductForModal.weightList) {
+                unitWeight = activeProductForModal.weightList[specIdx] || 0;
+            }
+
             var existing = quotationCart.find(function (item) { return item.id === activeProductForModal.id && item.selectedSpec === spec; });
             if (existing) {
                 existing.qty += qty;
@@ -2328,7 +2463,8 @@
                     id: activeProductForModal.id,
                     name_ko: activeProductForModal.name_ko,
                     selectedSpec: spec,
-                    qty: qty
+                    qty: qty,
+                    unitWeight: unitWeight
                 });
             }
 
@@ -2435,7 +2571,15 @@
                     custName: custName,
                     custContact: custContact,
                     custMemo: document.getElementById('custMemo').value.trim(),
-                    cart: quotationCart.map(function (i) { return { id: i.id, name: i.name_ko, spec: i.selectedSpec, qty: i.qty }; })
+                    cart: quotationCart.map(function (i) {
+                        return {
+                            id: i.id,
+                            name: i.name_ko,
+                            spec: i.selectedSpec,
+                            qty: i.qty,
+                            unitWeight: i.unitWeight || 0
+                        };
+                    })
                 })
             })
                 .then(function (res) { return res.json(); })
