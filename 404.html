@@ -2,101 +2,137 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <meta name="robots" content="noindex">
-    <title>페이지를 찾을 수 없습니다 | JS STEEL</title>
-    <link rel="icon" type="image/png"
-        href="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8">
-    <meta name="theme-color" content="#1e3a8a">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>페이지를 찾을 수 없습니다 | JS STEEL</title>
+<meta name="theme-color" content="#1e3a8a">
 
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            min-height: 100vh;
-            margin: 0;
-        }
+<!--
+  이 페이지는 네트워크가 불안정할 때도 표시되어야 하므로
+  외부 CDN(Tailwind, Font Awesome, Google Fonts)과 외부 이미지를
+  일절 사용하지 않습니다. 모든 스타일은 아래 인라인 CSS 안에 있습니다.
+-->
+<style>
+* { box-sizing: border-box; }
 
-        @keyframes fade-up {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: #0f172a;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #fff;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR",
+               "Hiragino Sans", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.box { width: 100%; max-width: 520px; text-align: center; animation: up .4s ease-out; }
 
-        .enter {
-            animation: fade-up 0.4s ease-out;
-        }
-    </style>
+@keyframes up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 로고 (이미지 없이 CSS로) ── */
+.brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 48px; }
+.mark {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: #fff; color: #1e3a8a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 900; letter-spacing: -.5px;
+  flex-shrink: 0;
+}
+.brand .txt { text-align: left; }
+.brand .nm { font-size: 21px; font-weight: 900; line-height: 1; }
+.brand .sub {
+  margin-top: 5px; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: #94a3b8;
+}
+
+/* ── 404 ── */
+.code {
+  font-size: 84px; font-weight: 900; line-height: 1;
+  color: #60a5fa;
+  margin: 0;
+}
+h1 { font-size: 22px; font-weight: 900; margin: 26px 0 12px; }
+.desc { font-size: 14px; line-height: 1.8; color: #cbd5e1; margin: 0 0 40px; }
+
+/* ── 바로가기 ── */
+.links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 32px; }
+.links a {
+  display: block; padding: 15px 10px; border-radius: 12px;
+  font-size: 14px; font-weight: 700; text-decoration: none;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  transition: background .15s;
+}
+.links a:hover, .links a:active { background: rgba(255,255,255,.2); }
+.links a.main {
+  background: #2563eb; border-color: #2563eb;
+  box-shadow: 0 4px 14px rgba(37,99,235,.4);
+}
+.links a.main:hover, .links a.main:active { background: #3b82f6; }
+
+/* ── 연락처 ── */
+.foot { border-top: 1px solid rgba(255,255,255,.12); padding-top: 26px; }
+.foot .q { font-size: 12px; font-weight: 600; color: #94a3b8; margin: 0 0 12px; }
+.foot a {
+  font-size: 16px; font-weight: 800; color: #fff;
+  text-decoration: none; letter-spacing: .5px;
+}
+.foot a:hover { color: #93c5fd; }
+.cp { font-size: 11px; color: #64748b; margin: 40px 0 0; }
+
+@media (max-width: 400px) {
+  .code { font-size: 66px; }
+  .links { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 
-<body class="flex items-center justify-center px-5 py-16 text-white">
+<body>
 
-    <div class="enter w-full max-w-lg text-center">
+<div class="box">
 
-        <!-- 로고 -->
-        <div class="flex items-center justify-center gap-3 mb-12">
-            <img src="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8"
-                referrerpolicy="no-referrer" alt="JS STEEL" onerror="this.outerHTML='&lt;div class=&quot;h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center font-black&quot;&gt;JS&lt;/div&gt;'"
-                class="h-10 w-auto object-contain bg-white rounded-lg p-1.5">
-            <div class="text-left">
-                <p class="text-xl font-black leading-none">JS STEEL</p>
-                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Premium Steel Solution
-                </p>
-            </div>
-        </div>
-
-        <!-- 404 -->
-        <p class="text-7xl sm:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 leading-none">
-            404</p>
-
-        <h1 class="text-xl sm:text-2xl font-black mt-6 mb-3">페이지를 찾을 수 없습니다</h1>
-        <p class="text-sm text-slate-300 leading-relaxed mb-10">
-            요청하신 주소가 변경되었거나 삭제되었을 수 있습니다.<br class="hidden sm:block">
-            아래 버튼으로 원하시는 곳으로 이동해 주세요.
-        </p>
-
-        <!-- 바로가기 -->
-        <div class="grid grid-cols-2 gap-3 mb-8">
-            <a href="./"
-                class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center">
-                <i class="fa-solid fa-house mr-2"></i>홈으로
-            </a>
-            <a href="./#products"
-                class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center">
-                <i class="fa-solid fa-layer-group mr-2"></i>제품소개
-            </a>
-            <a href="./#resources"
-                class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center">
-                <i class="fa-solid fa-folder-open mr-2"></i>자료실
-            </a>
-            <a href="./#location"
-                class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center">
-                <i class="fa-solid fa-location-dot mr-2"></i>오시는 길
-            </a>
-        </div>
-
-        <!-- 연락처 -->
-        <div class="border-t border-white/10 pt-6">
-            <p class="text-xs text-slate-400 font-semibold mb-3">문의가 필요하신가요?</p>
-            <a href="tel:0553353501"
-                class="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-blue-300 transition-colors">
-                <i class="fa-solid fa-phone text-blue-400"></i>055-335-3501~2
-            </a>
-        </div>
-
-        <p class="text-[11px] text-slate-500 mt-10">&copy; 2026 JS STEEL Co., Ltd.</p>
+  <div class="brand">
+    <div class="mark">JS</div>
+    <div class="txt">
+      <div class="nm">JS STEEL</div>
+      <div class="sub">Premium Steel Solution</div>
     </div>
+  </div>
+
+  <p class="code">404</p>
+
+  <h1>페이지를 찾을 수 없습니다</h1>
+  <p class="desc">
+    요청하신 주소가 변경되었거나 삭제되었을 수 있습니다.<br>
+    아래 버튼으로 원하시는 곳으로 이동해 주세요.
+  </p>
+
+  <div class="links">
+    <a href="./" class="main">홈으로</a>
+    <a href="./#products">제품소개</a>
+    <a href="./#resources">자료실</a>
+    <a href="./#location">오시는 길</a>
+  </div>
+
+  <div class="foot">
+    <p class="q">문의가 필요하신가요?</p>
+    <a href="tel:0553353501">055-335-3501~2</a>
+  </div>
+
+  <p class="cp">&copy; 2026 JS STEEL Co., Ltd.</p>
+
+</div>
 
 </body>
 
