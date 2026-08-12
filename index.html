@@ -1432,8 +1432,21 @@
         }
 
         // ===================== 페이지 전환 =====================
-        function goPage(page, skipScroll) {
+        /**
+         * @param {string} page   이동할 페이지
+         * @param {boolean} skipScroll  스크롤을 맨 위로 올리지 않음
+         * @param {boolean} fromHistory 뒤로/앞으로 가기로 호출된 경우 (기록을 새로 쌓지 않음)
+         */
+        var scrollMemo = {};        // 페이지별 마지막 스크롤 위치
+        var stateAlreadySaved = false;   // saveCurrentState 를 이미 호출했는지
+
+        function goPage(page, skipScroll, fromHistory, restoreY) {
             if (PAGES.indexOf(page) === -1) page = 'home';
+            var isSame = (currentPage === page);
+
+            // 떠나기 전 현재 위치를 기억
+            if (!isSame && currentPage) scrollMemo[currentPage] = window.scrollY || 0;
+
             currentPage = page;
 
             PAGES.forEach(function (p) {
@@ -1462,12 +1475,80 @@
             // 모바일 메뉴 닫기
             closeMobileNav();
 
-            if (window.location.hash !== '#' + page) {
-                history.replaceState(null, '', '#' + page);
+            // 브라우저 뒤로가기가 사이트 안에서 동작하도록 방문 기록을 쌓음
+            if (!fromHistory) {
+                var target = '#' + page;
+                var st = { page: page, y: 0, cart: false };
+
+                if (window.location.hash !== target) {
+                    if (isSame) {
+                        history.replaceState(st, '', target);
+                    } else {
+                        // 떠나는 페이지의 상태를 현재 기록에 먼저 저장
+                        if (!stateAlreadySaved) saveCurrentState();
+                        history.pushState(st, '', target);
+                        stateAlreadySaved = false;
+                    }
+                } else {
+                    history.replaceState(st, '', target);
+                }
             }
-            if (!skipScroll) window.scrollTo(0, 0);
+
+            // 스크롤 위치 결정
+            if (typeof restoreY === 'number') {
+                // 뒤로가기 복원: 화면이 그려진 뒤에 이동
+                var y = restoreY;
+                window.scrollTo(0, y);
+                setTimeout(function () { window.scrollTo(0, y); }, 60);
+                setTimeout(function () { window.scrollTo(0, y); }, 240);
+            } else if (!skipScroll) {
+                window.scrollTo(0, 0);
+            }
+
             updateScrollTopBtn();
         }
+
+        /** 지금 보고 있는 페이지의 스크롤·견적함 상태를 히스토리에 기록 */
+        function saveCurrentState() {
+            try {
+                var cart = document.getElementById('cartModal');
+                var cartOpen = !!(cart && !cart.classList.contains('hidden'));
+                var prev = history.state || {};
+                history.replaceState({
+                    page: prev.page || currentPage,
+                    y: window.scrollY || 0,
+                    cart: cartOpen
+                }, '', window.location.hash || ('#' + currentPage));
+                stateAlreadySaved = true;
+            } catch (e) { }
+        }
+
+        // 뒤로/앞으로 가기 대응
+        window.addEventListener('popstate', function (e) {
+            var st = e.state || {};
+            var page = st.page || (window.location.hash || '').replace('#', '') || 'home';
+            var y = (typeof st.y === 'number') ? st.y : 0;
+
+            // 열려 있던 모달은 일단 정리
+            document.getElementById('specModal').classList.remove('is-open');
+            document.getElementById('customAlertModal').classList.remove('is-open');
+
+            goPage(page, true, true, y);
+
+            // 떠날 때 견적함이 열려 있었다면 다시 열어줌
+            var cart = document.getElementById('cartModal');
+            if (cart) {
+                if (st.cart) {
+                    cart.classList.remove('hidden');
+                    renderCartUI();
+                } else {
+                    cart.classList.add('hidden');
+                }
+            }
+        });
+
+        // 페이지를 벗어나기 직전에도 현재 상태를 기록
+        window.addEventListener('beforeunload', saveCurrentState);
 
         function toggleMobileNav() {
             var nav = document.getElementById('mobileNav');
@@ -1496,9 +1577,14 @@
 
         // ===================== 초기화 =====================
         window.onload = function () {
+            // 스크롤 복원은 직접 처리하므로 브라우저 기본 동작을 끔
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
             changeLanguage('ko');
             var initial = (window.location.hash || '').replace('#', '');
-            goPage(PAGES.indexOf(initial) !== -1 ? initial : 'home', true);
+            var first = PAGES.indexOf(initial) !== -1 ? initial : 'home';
+            history.replaceState({ page: first, y: 0, cart: false }, '', '#' + first);
+            goPage(first, true, true);
             renderHistory();
             renderResources();
             renderHomeCategories();
@@ -2281,10 +2367,14 @@
             container.innerHTML = html;
         }
 
-        /** 견적함에서 개인정보처리방침 전문 열기 */
+        /** 견적함에서 개인정보처리방침 전문 열기 (뒤로가기로 원래 상태 복귀) */
         function openPrivacyFromCart() {
+            // 견적함이 열려 있었다는 사실과 스크롤 위치를 먼저 기록
+            saveCurrentState();
+
             var modal = document.getElementById('cartModal');
-            if (modal && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+            if (modal) modal.classList.add('hidden');
+
             goPage('privacy');
         }
 
