@@ -720,11 +720,6 @@
                                 class="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm transition-all shadow-sm">
                         </div>
 
-                        <div id="statusBadge"
-                            class="bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center animate-pulse shadow-sm shrink-0">
-                            <i class="fa-solid fa-spinner fa-spin mr-2"></i> <span data-i18n="db-connecting">DB 연결
-                                중...</span>
-                        </div>
                     </div>
                 </div>
 
@@ -734,8 +729,8 @@
 
                 <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <div class="col-span-full py-20 text-center text-slate-400">
-                        <i class="fa-solid fa-layer-group text-5xl mb-4 text-slate-300"></i>
-                        <p class="font-bold" data-i18n="db-checking">구글 데이터베이스 연결 확인 중...</p>
+                        <i class="fa-solid fa-spinner fa-spin text-4xl mb-4 text-slate-300"></i>
+                        <p class="font-bold" data-i18n="db-checking">제품 연결중</p>
                     </div>
                 </div>
 
@@ -937,7 +932,7 @@
                     <div class="flex items-center gap-3 mb-4">
                         <img src="https://lh3.googleusercontent.com/d/10xg8SR_DVUaiOw8TTyEUqNG0frreeAJ8"
                             referrerpolicy="no-referrer" alt="JS STEEL" onerror="handleFooterLogoError(this)"
-                            class="h-10 w-auto object-contain bg-white rounded-lg p-1.5">
+                            class="h-10 w-auto object-contain" style="filter:brightness(0) invert(1)">
                         <div>
                             <p class="text-lg font-black text-white leading-none">JS STEEL</p>
                             <p class="text-[10px] font-bold uppercase tracking-widest mt-1"
@@ -1203,7 +1198,7 @@
                 "footer-menu": "바로가기", "footer-contact": "연락처", "footer-biznum": "사업자등록번호",
                 "cat-title": "제품 카탈로그", "cat-subtitle": "고품질 철강 자재를 확인하고, 원하시는 제품의 견적을 요청하세요.",
                 "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
-                "spec-count": "{n}종", "spec-list-label": "규격 목록", "desc-label": "제품 설명",
+                "spec-count": "{n}종", "spec-list-label": "규격 목록", "desc-label": "제품 설명", "no-image": "이미지 준비중",
                 "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기",
@@ -1220,9 +1215,9 @@
                 "privacy-lang-note": "본 개인정보처리방침은 한국어를 정본으로 합니다.",
                 "ph-search": "제품 검색...", "ph-name": "회사명 / 담당자명",
                 "ph-contact": "연락처 또는 이메일", "ph-memo": "추가 문의사항",
-                "db-connecting": "DB 연결 중...", "db-checking": "구글 데이터베이스 연결 확인 중...",
-                "db-retrying": "재연결 중...", "db-synced": "동기화 완료: ", "db-count-unit": "건",
-                "db-failed": "연동 실패 · 다시 시도", "default-spec": "기본 규격"
+                "db-connecting": "제품 연결중", "db-checking": "제품 연결중",
+                "db-retrying": "제품 연결중", "db-synced": "동기화 완료: ", "db-count-unit": "건",
+                "db-failed": "연결 실패 · 다시 시도", "default-spec": "기본 규격"
             },
             en: {
                 "header-sub": "One-Stop Steel & Fabrication",
@@ -1272,7 +1267,7 @@
                 "footer-menu": "Menu", "footer-contact": "Contact", "footer-biznum": "Business No.",
                 "cat-title": "Product Catalog", "cat-subtitle": "Check our high-quality steel materials and request a quote.",
                 "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
-                "spec-count": "{n} sizes", "spec-list-label": "Available Sizes", "desc-label": "Description",
+                "spec-count": "{n} sizes", "spec-list-label": "Available Sizes", "desc-label": "Description", "no-image": "Image coming soon",
                 "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart",
@@ -1289,8 +1284,8 @@
                 "privacy-lang-note": "This Privacy Policy is provided in Korean, which is the authoritative version.",
                 "ph-search": "Search products...", "ph-name": "Company / Contact person",
                 "ph-contact": "Phone or email", "ph-memo": "Additional inquiries",
-                "db-connecting": "Connecting to database...", "db-checking": "Checking database connection...",
-                "db-retrying": "Reconnecting...", "db-synced": "Synced: ", "db-count-unit": " items",
+                "db-connecting": "Loading products", "db-checking": "Loading products",
+                "db-retrying": "Loading products", "db-synced": "Synced: ", "db-count-unit": " items",
                 "db-failed": "Connection failed · Retry", "default-spec": "Standard"
             },
             ja: {
@@ -1341,7 +1336,7 @@
                 "footer-menu": "ショートカット", "footer-contact": "連絡先", "footer-biznum": "事業者登録番号",
                 "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材をご確認いただき、ご希望の製品の見積もりをご依頼ください。",
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
-                "spec-count": "{n}種", "spec-list-label": "規格一覧", "desc-label": "製品説明",
+                "spec-count": "{n}種", "spec-list-label": "規格一覧", "desc-label": "製品説明", "no-image": "画像準備中",
                 "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加",
@@ -1358,9 +1353,9 @@
                 "privacy-lang-note": "本個人情報取扱方針は韓国語を正本とします。",
                 "ph-search": "製品検索...", "ph-name": "会社名 / ご担当者名",
                 "ph-contact": "電話番号またはメール", "ph-memo": "追加のお問い合わせ",
-                "db-connecting": "データベース接続中...", "db-checking": "データベース接続を確認中...",
-                "db-retrying": "再接続中...", "db-synced": "同期完了: ", "db-count-unit": "件",
-                "db-failed": "連携失敗 · 再試行", "default-spec": "標準規格"
+                "db-connecting": "製品を読み込み中", "db-checking": "製品を読み込み中",
+                "db-retrying": "製品を読み込み中", "db-synced": "同期完了: ", "db-count-unit": "件",
+                "db-failed": "接続失敗 · 再試行", "default-spec": "標準規格"
             },
             vi: {
                 "header-sub": "Giải pháp Thép & Gia công Trọn gói",
@@ -1410,7 +1405,7 @@
                 "footer-menu": "Liên kết", "footer-contact": "Liên hệ", "footer-biznum": "Mã số doanh nghiệp",
                 "cat-title": "Danh mục Sản phẩm", "cat-subtitle": "Kiểm tra các vật liệu thép chất lượng cao và yêu cầu báo giá.",
                 "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
-                "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách", "desc-label": "Mô tả sản phẩm",
+                "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách", "desc-label": "Mô tả sản phẩm", "no-image": "Đang cập nhật ảnh",
                 "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng",
@@ -1427,8 +1422,8 @@
                 "privacy-lang-note": "Chính sách bảo mật này được cung cấp bằng tiếng Hàn, là bản có hiệu lực pháp lý.",
                 "ph-search": "Tìm sản phẩm...", "ph-name": "Công ty / Người liên hệ",
                 "ph-contact": "Số điện thoại hoặc email", "ph-memo": "Yêu cầu bổ sung",
-                "db-connecting": "Đang kết nối cơ sở dữ liệu...", "db-checking": "Đang kiểm tra kết nối...",
-                "db-retrying": "Đang kết nối lại...", "db-synced": "Đồng bộ xong: ", "db-count-unit": " mục",
+                "db-connecting": "Đang tải sản phẩm", "db-checking": "Đang tải sản phẩm",
+                "db-retrying": "Đang tải sản phẩm", "db-synced": "Đồng bộ xong: ", "db-count-unit": " mục",
                 "db-failed": "Kết nối thất bại · Thử lại", "default-spec": "Quy cách tiêu chuẩn"
             }
         };
@@ -1958,16 +1953,31 @@
             });
         }
 
+        /** 제품 목록 자리에 진행 상태를 표시합니다 */
+        function showCatalogStatus(text, opt) {
+            var grid = document.getElementById('productGrid');
+            if (!grid) return;
+            opt = opt || {};
+
+            var icon = opt.retry
+                ? '<i class="fa-solid fa-rotate-right text-4xl mb-4 text-red-300"></i>'
+                : '<i class="fa-solid fa-spinner fa-spin text-4xl mb-4 text-slate-300"></i>';
+
+            grid.innerHTML =
+                '<div class="col-span-full py-20 text-center ' +
+                (opt.retry ? 'text-red-500 cursor-pointer" onclick="loadLiveCatalog(1)"' : 'text-slate-400"') + '>' +
+                icon + '<p class="font-bold">' + esc(text) + '</p></div>';
+        }
+
         async function loadLiveCatalog(attempt) {
             attempt = attempt || 1;
             var MAX_ATTEMPTS = 3;
-            var badge = document.getElementById('statusBadge');
 
             try {
-                if (attempt > 1) {
-                    badge.className = "bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm shrink-0";
-                    badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ' + t("db-retrying", "재연결 중...") + ' (' + attempt + '/' + MAX_ATTEMPTS + ')';
-                }
+                showCatalogStatus(
+                    t("db-checking", "제품 연결중") +
+                    (attempt > 1 ? ' (' + attempt + '/' + MAX_ATTEMPTS + ')' : '')
+                );
 
                 var controller = new AbortController();
                 var timeoutId = setTimeout(function () { controller.abort(); }, 20000);
@@ -1989,9 +1999,6 @@
                 rawSheetData = data;
                 parseProductsForLang();
 
-                badge.className = "bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm shrink-0";
-                badge.innerHTML = '<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ' + t("db-synced", "동기화 완료: ") + globalProducts.length + t("db-count-unit", "건");
-
                 currentCategory = 'ALL';
                 renderCategoryTabs();
                 renderCatalog();
@@ -2006,9 +2013,7 @@
                     return;
                 }
 
-                badge.className = "bg-red-50 border border-red-200 text-red-700 text-xs font-bold px-4 py-2 rounded-lg flex items-center shadow-sm cursor-pointer shrink-0";
-                badge.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> ' + t("db-failed", "연동 실패 · 다시 시도");
-                badge.onclick = function () { loadLiveCatalog(1); };
+                showCatalogStatus(t("db-failed", "연결 실패 · 다시 시도"), { retry: true });
             }
         }
 
@@ -2022,10 +2027,8 @@
                 if (!productId) return;
 
                 // 카드와 선택 목록 모두 '규격' 열을 사용합니다.
-                // ('규격'이 비어 있을 때만 '대표규격'을 대신 씁니다)
                 var specListText = String(
-                    row["규격_" + langUpper] || row["규격"] || row["SPEC"] ||
-                    row["대표규격_" + langUpper] || row["대표규격"] || ""
+                    row["규격_" + langUpper] || row["규격"] || row["SPEC"] || ""
                 ).trim();
 
                 // 시트 입력 규칙
@@ -2063,16 +2066,20 @@
                     row["단중_kg"] || row["개당중량"] || ""
                 ).trim();
 
+                // 빈칸도 자리를 지킵니다. "8.2, , 14.8" 이면 두 번째 규격은 비어 있는 것으로 봅니다.
                 var weightFlat = weightText
                     ? weightText.split(/[\r\n,;|]/).map(function (v) {
-                          return parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
-                      }).filter(function (v) { return isFinite(v) && v > 0; })
+                          var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
+                          return (isFinite(n) && n > 0) ? n : 0;
+                      })
                     : [];
 
+                var hasAnyWeight = weightFlat.some(function (v) { return v > 0; });
+
                 var weightList = specList.map(function (_, idx) {
-                    if (weightFlat.length === 0) return 0;
-                    if (weightFlat.length === 1) return weightFlat[0];
-                    return weightFlat[idx] !== undefined ? weightFlat[idx] : 0;
+                    if (!hasAnyWeight) return 0;
+                    if (weightFlat.length === 1) return weightFlat[0];   // 하나만 적으면 전체 공통
+                    return weightFlat[idx] || 0;
                 });
 
                 // 카드에 표시할 문구
@@ -2133,7 +2140,7 @@
 
             if (!globalProducts || globalProducts.length === 0) {
                 wrap.innerHTML = '<div class="col-span-2 py-6 text-center text-slate-400 text-xs font-bold">' +
-                    t('db-connecting', 'DB 연결 중...') + '</div>';
+                    t('db-connecting', '제품 연결중') + '</div>';
                 return;
             }
 
@@ -2211,8 +2218,16 @@
             renderCatalog();
         }
 
+        /** 사진이 없거나 불러오지 못했을 때 보여줄 자리표시 */
+        function noImageHtml() {
+            return '<div class="flex flex-col items-center justify-center gap-2 text-slate-300">' +
+                   '<i class="fa-solid fa-camera text-3xl"></i>' +
+                   '<span class="text-[11px] font-bold text-slate-400">' +
+                   esc(t("no-image", "이미지 준비중")) + '</span></div>';
+        }
+
         function handleImgError(imgEl) {
-            imgEl.outerHTML = '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
+            imgEl.outerHTML = noImageHtml();
         }
 
         var PROD_PER_PAGE = 24;   // 한 페이지에 보여줄 제품 수
@@ -2327,7 +2342,7 @@
 
                 var imgTag = p.image
                     ? '<img src="' + esc(p.image) + '" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="handleImgError(this)" class="w-full h-full object-cover">'
-                    : '<i class="fa-solid fa-box text-4xl text-slate-300"></i>';
+                    : noImageHtml();
 
                 card.innerHTML =
                     '<div class="relative aspect-[4/3] bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100">' +
@@ -2393,8 +2408,8 @@
                 listEl.innerHTML = rows.map(function (row) {
                     return '<div class="flex flex-wrap gap-1">' +
                            row.map(function (spec) {
-                               return '<span class="text-[11px] font-mono font-bold text-slate-700 ' +
-                                      'bg-slate-100 border border-slate-200 px-2 py-1 rounded whitespace-nowrap">' +
+                               return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
+                                      'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
                                       esc(spec) + '</span>';
                            }).join('') +
                            '</div>';
