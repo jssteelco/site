@@ -77,6 +77,9 @@
             background-color: #f4f7f9;
             color: #1e293b;
             scroll-behavior: smooth;
+            /* 한글이 낱글자로 쪼개지지 않고 어절 단위로 줄바꿈되도록 */
+            word-break: keep-all;
+            overflow-wrap: break-word;
         }
 
         .premium-gradient {
@@ -1047,8 +1050,16 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-size-label">규격 / 사이즈
                         선택</label>
-                    <select id="specSelect"
+                    <select id="specSelect" onchange="onSpecChange()"
                         class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
+                </div>
+
+                <div id="lengthBox" class="hidden">
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-length-label">길이 (M)</label>
+                    <select id="lengthSelect" onchange="onLengthChange()"
+                        class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
+                    <input type="number" id="lengthCustom" min="0.1" step="0.1" placeholder="예: 4.5"
+                        class="hidden w-full mt-2 bg-white border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none">
                 </div>
 
                 <div>
@@ -1101,6 +1112,11 @@
                     <textarea id="custMemo" rows="2"
                         class="w-full text-sm border border-slate-300 rounded px-3 py-2 outline-none custom-scrollbar"
                         placeholder="추가 문의사항"></textarea>
+
+                    <!-- 자동 프로그램(봇) 걸러내기용. 화면에 보이지 않으며 비워두는 것이 정상입니다. -->
+                    <input type="text" id="custRef2" name="custRef2" autocomplete="off"
+                        tabindex="-1" aria-hidden="true"
+                        style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0">
                 </div>
 
                 <label class="flex items-start gap-2 mb-4 cursor-pointer">
@@ -1141,7 +1157,7 @@
 
     <!-- Toast Notification -->
     <div id="toast"
-        class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-50 transition-all duration-300 opacity-0 pointer-events-none flex items-center">
+        class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-[300] transition-all duration-300 opacity-0 pointer-events-none flex items-center">
         <i class="fa-solid fa-circle-info text-blue-400 mr-2 text-lg"></i>
         <span id="toastMsg">알림 메시지</span>
     </div>
@@ -1201,7 +1217,8 @@
                 "spec-count": "{n}종", "spec-list-label": "규격 목록", "desc-label": "제품 설명", "no-image": "이미지 준비중",
                 "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
-                "select-size-label": "규격 / 사이즈 선택", "select-qty-label": "수량", "btn-cancel": "취소", "btn-add-confirm": "장바구니 담기",
+                "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
+                "length-custom": "직접 입력", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
                 "alert-empty-cart": "견적함이 비어있습니다.",
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
@@ -1270,7 +1287,8 @@
                 "spec-count": "{n} sizes", "spec-list-label": "Available Sizes", "desc-label": "Description", "no-image": "Image coming soon",
                 "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
-                "select-size-label": "Select Specification / Size", "select-qty-label": "Quantity", "btn-cancel": "Cancel", "btn-add-confirm": "Add to Cart",
+                "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
+                "length-custom": "Enter manually", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
                 "alert-empty-cart": "Your quotation cart is empty.",
                 "alert-need-info": "Please enter your company name and contact information.",
@@ -1339,7 +1357,8 @@
                 "spec-count": "{n}種", "spec-list-label": "規格一覧", "desc-label": "製品説明", "no-image": "画像準備中",
                 "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
-                "select-size-label": "規格 / サイズ選択", "select-qty-label": "数量", "btn-cancel": "キャンセル", "btn-add-confirm": "カートに追加",
+                "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
+                "length-custom": "直接入力", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
                 "alert-empty-cart": "見積もりカートが空です。",
                 "alert-need-info": "会社名とご連絡先を入力してください。",
@@ -1408,7 +1427,8 @@
                 "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách", "desc-label": "Mô tả sản phẩm", "no-image": "Đang cập nhật ảnh",
                 "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
-                "select-size-label": "Chọn Quy cách / Kích thước", "select-qty-label": "Số lượng", "btn-cancel": "Hủy", "btn-add-confirm": "Thêm vào Giỏ hàng",
+                "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
+                "length-custom": "Nhập trực tiếp", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
@@ -2082,6 +2102,36 @@
                     return weightFlat[idx] || 0;
                 });
 
+                // ── 길이 (M) ──
+                //  · 값이 있으면 고객이 길이를 고르고, 중량은 미터당중량 × 길이 로 계산됩니다
+                //  · 비워두면 길이 선택 없이 지금처럼 동작합니다
+                var lengthText = String(row["길이"] || row["길이(M)"] || row["길이_M"] || "").trim();
+                var lengthList = lengthText
+                    ? lengthText.split(/[\r\n,;|]/).map(function (v) {
+                          return parseFloat(String(v).replace(/[^0-9.]/g, ""));
+                      }).filter(function (v) { return isFinite(v) && v > 0; })
+                    : [];
+
+                // ── 미터당 중량 (kg/m) ── 규격과 같은 순서로 짝지어집니다
+                var wpmText = String(
+                    row["중량(kg/m)"] || row["미터당중량"] || row["kg/m"] || ""
+                ).trim();
+
+                var wpmFlat = wpmText
+                    ? wpmText.split(/[\r\n,;|]/).map(function (v) {
+                          var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
+                          return (isFinite(n) && n > 0) ? n : 0;
+                      })
+                    : [];
+
+                var hasAnyWpm = wpmFlat.some(function (v) { return v > 0; });
+
+                var wpmList = specList.map(function (_, idx) {
+                    if (!hasAnyWpm) return 0;
+                    if (wpmFlat.length === 1) return wpmFlat[0];
+                    return wpmFlat[idx] || 0;
+                });
+
                 // 카드에 표시할 문구
                 //  · 규격이 하나면 그대로, 여러 개면 "10종" 처럼 개수만 표시
                 var specRawText = (specList.length > 1)
@@ -2111,6 +2161,8 @@
                     specList: specList,
                     specRows: specRows,
                     weightList: weightList,
+                    lengthList: lengthList,
+                    wpmList: wpmList,
                     proc_ko: String(proc).trim() || "-",
                     rawImgUrl: rawImg,
                     image: formatImageUrl(rawImg),
@@ -2442,7 +2494,60 @@
                 select.appendChild(opt);
             });
 
+            // ── 길이 선택 ──
+            var lenBox = document.getElementById('lengthBox');
+            var lenSel = document.getElementById('lengthSelect');
+            var lenCustom = document.getElementById('lengthCustom');
+            var lens = product.lengthList || [];
+
+            if (lens.length > 0) {
+                lenSel.innerHTML = lens.map(function (v) {
+                    return '<option value="' + v + '">' + numText(v) + ' M</option>';
+                }).join('') +
+                '<option value="__custom__">' + esc(t("length-custom", "직접 입력")) + '</option>';
+                lenCustom.value = '';
+                lenCustom.classList.add('hidden');
+                lenBox.classList.remove('hidden');
+            } else {
+                lenBox.classList.add('hidden');
+            }
+
             document.getElementById('specModal').classList.add('is-open');
+        }
+
+        /** 소수점 뒤 0 을 정리 (6.0 -> 6, 4.50 -> 4.5) */
+        function numText(v) {
+            var n = Number(v);
+            if (!isFinite(n)) return '';
+            return String(parseFloat(n.toFixed(3)));
+        }
+
+        /** 길이 선택칸에서 '직접 입력' 을 고르면 입력창을 엽니다 */
+        function onLengthChange() {
+            var sel = document.getElementById('lengthSelect');
+            var box = document.getElementById('lengthCustom');
+            if (sel.value === '__custom__') {
+                box.classList.remove('hidden');
+                box.focus();
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+
+        /** 규격을 바꿔도 길이 선택은 그대로 유지합니다 */
+        function onSpecChange() { }
+
+        /** 지금 고른 길이 (길이 개념이 없는 제품이면 0) */
+        function currentLength() {
+            var p = activeProductForModal;
+            if (!p || !p.lengthList || p.lengthList.length === 0) return 0;
+
+            var sel = document.getElementById('lengthSelect').value;
+            var v = (sel === '__custom__')
+                ? parseFloat(document.getElementById('lengthCustom').value)
+                : parseFloat(sel);
+
+            return (isFinite(v) && v > 0) ? v : -1;   // -1 = 잘못된 입력
         }
 
         function closeSpecModal() {
@@ -2463,12 +2568,26 @@
             var spec = document.getElementById('specSelect').value || activeProductForModal.specRaw;
             var qty = Math.max(1, Math.min(999999, parseInt(document.getElementById('specModalQty').value) || 1));
 
-            // 선택한 규격에 해당하는 단중(개당 중량)을 찾습니다
-            var specIdx = (activeProductForModal.specList || []).indexOf(spec);
+            var p = activeProductForModal;
+            var specIdx = (p.specList || []).indexOf(spec);
+
+            // ── 길이 확인 ──
+            var len = currentLength();
+            if (len === -1) return customAlert(t("alert-need-length", "길이를 입력해 주세요."));
+
+            // ── 본당 중량 계산 ──
+            //  · 길이가 있으면  미터당중량 × 길이
+            //  · 길이가 없으면  시트의 중량(kg) 값
             var unitWeight = 0;
-            if (specIdx !== -1 && activeProductForModal.weightList) {
-                unitWeight = activeProductForModal.weightList[specIdx] || 0;
+            if (len > 0) {
+                var wpm = (specIdx !== -1 && p.wpmList) ? (p.wpmList[specIdx] || 0) : 0;
+                if (wpm > 0) unitWeight = Math.round(wpm * len * 1000) / 1000;
+            } else if (specIdx !== -1 && p.weightList) {
+                unitWeight = p.weightList[specIdx] || 0;
             }
+
+            // 견적서 규격칸에는 길이를 숫자로 덧붙입니다 (예: 100R × 2T × 6)
+            if (len > 0) spec = spec + ' × ' + numText(len);
 
             var existing = quotationCart.find(function (item) { return item.id === activeProductForModal.id && item.selectedSpec === spec; });
             if (existing) {
@@ -2485,7 +2604,9 @@
 
             updateCartBadge();
             renderCartUI();
-            closeSpecModal();
+
+            // 창을 닫지 않습니다. 같은 제품의 다른 규격·길이를 이어서 담을 수 있습니다.
+            document.getElementById('specModalQty').value = 1;
             showToast(t("toast-added", "견적함에 추가되었습니다."));
         }
 
@@ -2586,6 +2707,7 @@
                     custName: custName,
                     custContact: custContact,
                     custMemo: document.getElementById('custMemo').value.trim(),
+                    custRef2: document.getElementById('custRef2').value,
                     cart: quotationCart.map(function (i) {
                         return {
                             id: i.id,
