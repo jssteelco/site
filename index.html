@@ -2068,27 +2068,42 @@
                 // 시트 입력 규칙
                 //  · 줄바꿈(Alt+Enter) -> 화면에서도 줄이 바뀝니다
                 //  · 쉼표 / 세미콜론 / | -> 같은 줄에 나란히 놓입니다
+                //  · 줄 맨 앞에 "KS :" 처럼 적으면 그 줄 전체의 묶음 이름이 됩니다
                 var specRows = [];
                 if (specListText && specListText !== "undefined" && specListText !== "null") {
-                    specRows = specListText.split(/\r?\n/).map(function (line) {
-                        return line.split(/[,;|]/).map(function (v) {
+                    specListText.split(/\r?\n/).forEach(function (line) {
+                        line = line.trim();
+                        if (!line) return;
+
+                        var group = "";
+                        var body = line;
+                        var m = line.match(/^([^,;|:]{1,24})\s*:\s*(.+)$/);
+                        if (m) { group = m[1].trim(); body = m[2]; }
+
+                        var items = body.split(/[,;|]/).map(function (v) {
                             return v.trim();
-                        }).filter(function (v) {
-                            return v.length > 0;
-                        });
-                    }).filter(function (arr) {
-                        return arr.length > 0;
+                        }).filter(function (v) { return v.length > 0; });
+
+                        if (items.length) specRows.push({ group: group, items: items });
                     });
                 }
 
                 if (specRows.length === 0) {
-                    specRows = [[defaultSpec]];
+                    specRows = [{ group: "", items: [defaultSpec] }];
                 }
 
-                // 선택 목록용으로 전체를 하나로 펼칩니다
+                // 선택 목록용으로 펼칩니다.
+                //  · specList      : 견적서에 들어갈 전체 이름 (묶음 이름 포함)
+                //  · specShortList : 선택칸에 짧게 보일 이름
                 var specList = [];
-                specRows.forEach(function (arr) {
-                    arr.forEach(function (v) { specList.push(v); });
+                var specShortList = [];
+                var specGroupList = [];       // 견적서 비고란에 넣을 묶음 이름
+                specRows.forEach(function (row) {
+                    row.items.forEach(function (v) {
+                        specList.push(row.group ? row.group + " " + v : v);
+                        specShortList.push(v);
+                        specGroupList.push(row.group || "");
+                    });
                 });
 
                 // ── 단중(개당 중량) ──
@@ -2180,6 +2195,8 @@
                     specSearch: specSearchText,
                     specList: specList,
                     specRows: specRows,
+                    specShortList: specShortList,
+                    specGroupList: specGroupList,
                     weightList: weightList,
                     lengthList: lengthList,
                     wpmList: wpmList,
@@ -2476,19 +2493,26 @@
             var listEl = document.getElementById('specModalList');
             var countEl = document.getElementById('specModalCount');
 
-            if (list.length > 1) {
-                var rows = (product.specRows && product.specRows.length > 0)
-                    ? product.specRows
-                    : [list];
+            // 묶음 구조 (규격 개수와 상관없이 항상 준비해 둡니다)
+            var rows = (product.specRows && product.specRows.length > 0)
+                ? product.specRows
+                : [{ group: '', items: list }];
 
+            if (list.length > 1) {
                 listEl.innerHTML = rows.map(function (row) {
-                    return '<div class="flex flex-wrap gap-1">' +
-                           row.map(function (spec) {
-                               return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
-                                      'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
-                                      esc(spec) + '</span>';
-                           }).join('') +
-                           '</div>';
+                    var chips = row.items.map(function (spec) {
+                        return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
+                               'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
+                               esc(spec) + '</span>';
+                    }).join('');
+
+                    // 묶음 이름(KS, BS 등)이 있으면 작은 제목으로 보여줍니다
+                    return (row.group
+                            ? '<div class="text-[11px] font-black text-blue-800 bg-blue-50 ' +
+                              'border border-blue-200 px-2 py-0.5 rounded w-fit mb-1 mt-1">' +
+                              esc(row.group) + '</div>'
+                            : '') +
+                           '<div class="flex flex-wrap gap-1">' + chips + '</div>';
                 }).join('');
                 countEl.innerText = t("spec-count", "{n}종").replace("{n}", list.length);
                 listBox.classList.remove('hidden');
@@ -2499,23 +2523,29 @@
             }
 
             // ── 규격 선택 ──
-            // 목록에는 용도까지 보여주고, 선택칸에는 치수만 짧게 표시합니다.
-            // 단, 치수만 남겼을 때 서로 구분이 안 되면 전체 문구를 그대로 씁니다.
-            var shortList = list.map(specShort);
-            var seenSpec = {};
-            var canShorten = shortList.every(function (v) {
-                if (!v || seenSpec[v]) return false;
-                seenSpec[v] = 1;
-                return true;
-            });
-
+            // KS / BS 같은 묶음 이름이 있으면 선택칸에서도 구분되도록 함께 보여주고,
+            // 같은 묶음끼리는 소제목으로 묶어 줍니다.
             var select = document.getElementById('specSelect');
             select.innerHTML = '';
-            list.forEach(function (spec, idx) {
-                var opt = document.createElement('option');
-                opt.value = spec;                                   // 견적서에는 전체 문구가 들어갑니다
-                opt.innerText = canShorten ? shortList[idx] : spec;
-                select.appendChild(opt);
+
+            var flatIdx = 0;
+            rows.forEach(function (row) {
+                var target = select;
+
+                if (row.group) {
+                    var grp = document.createElement('optgroup');
+                    grp.label = row.group;
+                    select.appendChild(grp);
+                    target = grp;
+                }
+
+                row.items.forEach(function (item) {
+                    var opt = document.createElement('option');
+                    opt.value = list[flatIdx];   // 견적서에는 묶음 이름까지 들어갑니다
+                    opt.innerText = item;        // 화면에는 규격만 (묶음은 소제목으로)
+                    target.appendChild(opt);
+                    flatIdx++;
+                });
             });
 
             // ── 가공 요청 (여러 개 선택 가능) ──
@@ -2629,7 +2659,7 @@
             }
 
             // 견적서 규격칸에는 길이를 숫자로 덧붙입니다 (예: 100R × 2T × 6)
-            if (len > 0) spec = spec + '*' + numText(len);
+            if (len > 0) spec = spec + ' * ' + numText(len);
 
             // 선택한 가공마다 항목을 따로 만듭니다.
             //  · 안 고르면        -> 아연각관
@@ -2638,6 +2668,8 @@
             document.querySelectorAll('#procList .proc-chk:checked').forEach(function (el) {
                 checked.push(el.value);
             });
+            var noteText = (p.specGroupList || [])[specIdx] || '';
+
             var nameVariants = checked.length
                 ? checked.map(function (v) { return p.name_ko + ' (' + v + ')'; })
                 : [p.name_ko];
@@ -2656,7 +2688,8 @@
                         name_ko: itemName,
                         selectedSpec: spec,
                         qty: qty,
-                        unitWeight: unitWeight
+                        unitWeight: unitWeight,
+                        note: noteText
                     });
                 }
             });
@@ -2773,7 +2806,8 @@
                             name: i.name_ko,
                             spec: i.selectedSpec,
                             qty: i.qty,
-                            unitWeight: i.unitWeight || 0
+                            unitWeight: i.unitWeight || 0,
+                            note: i.note || ''
                         };
                     })
                 })
