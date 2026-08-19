@@ -1053,6 +1053,11 @@
                         class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
                 </div>
 
+                <div id="procBox" class="hidden">
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-proc-label">가공 요청 (선택)</label>
+                    <div id="procList" class="flex flex-wrap gap-2"></div>
+                </div>
+
                 <div id="lengthBox" class="hidden">
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-length-label">길이 (M)</label>
                     <select id="lengthSelect" onchange="onLengthChange()"
@@ -1217,6 +1222,7 @@
                 "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
+                "select-proc-label": "가공 요청 (선택)",
                 "length-custom": "직접 입력", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
                 "alert-empty-cart": "견적함이 비어있습니다.",
@@ -1287,6 +1293,7 @@
                 "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
+                "select-proc-label": "Processing (optional)",
                 "length-custom": "Enter manually", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
                 "alert-empty-cart": "Your quotation cart is empty.",
@@ -1357,6 +1364,7 @@
                 "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
+                "select-proc-label": "加工のご依頼 (任意)",
                 "length-custom": "直接入力", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
                 "alert-empty-cart": "見積もりカートが空です。",
@@ -1427,6 +1435,7 @@
                 "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
+                "select-proc-label": "Gia công (tùy chọn)",
                 "length-custom": "Nhập trực tiếp", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
@@ -1878,6 +1887,12 @@
                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
+        /** 가공옵션이 실제로 적혀 있는지 (빈칸이나 '-' 는 없는 것으로 봅니다) */
+        function hasProc(v) {
+            var s = String(v == null ? '' : v).trim();
+            return s !== '' && s !== '-' && s !== '없음';
+        }
+
         /** "용도 : 치수" 에서 치수 부분만 꺼냅니다 (콜론이 없으면 원본 그대로) */
         function specShort(spec) {
             var v = String(spec == null ? '' : spec);
@@ -2149,6 +2164,12 @@
                 var catKey = String(row["대분류_KO"] || row["대분류"] || cat).trim();
                 var sub = String(row["중분류_" + langUpper] || row["중분류_KO"] || row["중분류"] || "").trim();
 
+                // ── 가공 옵션 (상세 창의 체크박스 목록) ──
+                var procList = hasProc(proc)
+                    ? String(proc).split(/[\r\n,;|]/).map(function (v) { return v.trim(); })
+                          .filter(function (v) { return v.length > 0 && v !== "-"; })
+                    : [];
+
                 parsedDB.push({
                     id: String(productId),
                     catKey: catKey,
@@ -2162,6 +2183,7 @@
                     weightList: weightList,
                     lengthList: lengthList,
                     wpmList: wpmList,
+                    procList: procList,
                     proc_ko: String(proc).trim() || "-",
                     rawImgUrl: rawImg,
                     image: formatImageUrl(rawImg),
@@ -2409,7 +2431,10 @@
                     '<h4 class="text-lg font-black text-slate-800 mb-3">' + esc(p.name_ko) + '</h4>' +
                     '<div class="space-y-1 text-xs text-slate-600 font-mono bg-slate-50 p-2 rounded mb-3">' +
                     '<div><strong>' + esc(specLbl) + ':</strong> ' + esc(p.specRaw) + '</div>' +
-                    '<div><strong>' + esc(procLbl) + ':</strong> ' + esc(p.proc_ko) + '</div>' +
+                    // 가공옵션이 없으면 줄 자체를 표시하지 않습니다
+                    (hasProc(p.proc_ko)
+                        ? '<div><strong>' + esc(procLbl) + ':</strong> ' + esc(p.proc_ko) + '</div>'
+                        : '') +
                     '</div>' +
                     '<p class="text-xs text-slate-500 line-clamp-2 mb-4">' + esc(p.desc_ko) + '</p>' +
                     '<button type="button" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md pointer-events-none">' +
@@ -2492,6 +2517,24 @@
                 opt.innerText = canShorten ? shortList[idx] : spec;
                 select.appendChild(opt);
             });
+
+            // ── 가공 요청 (여러 개 선택 가능) ──
+            var procBox = document.getElementById('procBox');
+            var procs = product.procList || [];
+
+            if (procs.length > 0) {
+                document.getElementById('procList').innerHTML = procs.map(function (v, i) {
+                    return '<label class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 border ' +
+                           'border-slate-300 rounded-lg cursor-pointer text-sm font-bold text-slate-700 ' +
+                           'hover:bg-blue-50 hover:border-blue-400">' +
+                           '<input type="checkbox" class="proc-chk accent-blue-700 w-4 h-4" value="' +
+                           esc(v) + '">' + esc(v) + '</label>';
+                }).join('');
+                procBox.classList.remove('hidden');
+            } else {
+                document.getElementById('procList').innerHTML = '';
+                procBox.classList.add('hidden');
+            }
 
             // ── 길이 선택 ──
             var lenBox = document.getElementById('lengthBox');
@@ -2586,20 +2629,37 @@
             }
 
             // 견적서 규격칸에는 길이를 숫자로 덧붙입니다 (예: 100R × 2T × 6)
-            if (len > 0) spec = spec + ' × ' + numText(len);
+            if (len > 0) spec = spec + '*' + numText(len);
 
-            var existing = quotationCart.find(function (item) { return item.id === activeProductForModal.id && item.selectedSpec === spec; });
-            if (existing) {
-                existing.qty += qty;
-            } else {
-                quotationCart.push({
-                    id: activeProductForModal.id,
-                    name_ko: activeProductForModal.name_ko,
-                    selectedSpec: spec,
-                    qty: qty,
-                    unitWeight: unitWeight
+            // 선택한 가공마다 항목을 따로 만듭니다.
+            //  · 안 고르면        -> 아연각관
+            //  · 절단, 타공 선택  -> 아연각관 (절단) / 아연각관 (타공) 두 줄
+            var checked = [];
+            document.querySelectorAll('#procList .proc-chk:checked').forEach(function (el) {
+                checked.push(el.value);
+            });
+            var nameVariants = checked.length
+                ? checked.map(function (v) { return p.name_ko + ' (' + v + ')'; })
+                : [p.name_ko];
+
+            nameVariants.forEach(function (itemName) {
+                var existing = quotationCart.find(function (item) {
+                    return item.id === activeProductForModal.id &&
+                           item.selectedSpec === spec &&
+                           item.name_ko === itemName;
                 });
-            }
+                if (existing) {
+                    existing.qty += qty;
+                } else {
+                    quotationCart.push({
+                        id: activeProductForModal.id,
+                        name_ko: itemName,
+                        selectedSpec: spec,
+                        qty: qty,
+                        unitWeight: unitWeight
+                    });
+                }
+            });
 
             updateCartBadge();
             renderCartUI();
