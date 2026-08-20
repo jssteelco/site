@@ -2118,12 +2118,29 @@
                 //  · 줄바꿈(Alt+Enter) -> 화면에서도 줄이 바뀝니다
                 //  · 쉼표 / 세미콜론 / | -> 같은 줄에 나란히 놓입니다
                 //  · 줄 맨 앞에 "KS :" 처럼 적으면 그 줄 전체의 묶음 이름이 됩니다
-                var specRows = [];
+                //  · 줄 맨 앞에 [KO] [EN] [JA] [VI] 를 적으면 그 언어에서만 보입니다
+                //    예) [JA] JIS : 15A, 20A     여러 언어는 [KO,JA] 처럼 쉼표로
+                //    태그가 없는 줄은 모든 언어에 나옵니다
+                var LANG_ALIAS = { KO: "KO", KR: "KO", EN: "EN", US: "EN", JA: "JA", JP: "JA", VI: "VI", VN: "VI" };
+
+                var allRows = [];
                 if (specListText && specListText !== "undefined" && specListText !== "null") {
                     specListText.split(/\r?\n/).forEach(function (line) {
                         line = line.trim();
                         if (!line) return;
 
+                        // 언어 태그
+                        var langs = null;
+                        var tag = line.match(/^\[([A-Za-z ,]+)\]\s*(.*)$/);
+                        if (tag) {
+                            var picked = tag[1].split(",").map(function (v) {
+                                return LANG_ALIAS[v.trim().toUpperCase()];
+                            }).filter(Boolean);
+                            if (picked.length) { langs = picked; line = tag[2].trim(); }
+                        }
+                        if (!line) return;
+
+                        // 묶음 이름
                         var group = "";
                         var body = line;
                         var m = line.match(/^([^,;|:]{1,24})\s*:\s*(.+)$/);
@@ -2133,25 +2150,41 @@
                             return v.trim();
                         }).filter(function (v) { return v.length > 0; });
 
-                        if (items.length) specRows.push({ group: group, items: items });
+                        if (items.length) allRows.push({ group: group, items: items, langs: langs });
                     });
                 }
 
-                if (specRows.length === 0) {
-                    specRows = [{ group: "", items: [defaultSpec] }];
+                if (allRows.length === 0) {
+                    allRows = [{ group: "", items: [defaultSpec], langs: null }];
                 }
+
+                // 중량은 시트에 적힌 원래 순서와 짝지어야 하므로 전체 목록을 먼저 만듭니다
+                var allSpecList = [];
+                allRows.forEach(function (r) {
+                    r.startIdx = allSpecList.length;
+                    r.items.forEach(function (v) { allSpecList.push(r.group ? r.group + " " + v : v); });
+                });
+
+                // 지금 언어에서 보일 줄만 고릅니다. 하나도 없으면 전부 보여줍니다.
+                var specRows = allRows.filter(function (r) {
+                    return !r.langs || r.langs.indexOf(langUpper) !== -1;
+                });
+                if (specRows.length === 0) specRows = allRows;
 
                 // 선택 목록용으로 펼칩니다.
                 //  · specList      : 견적서에 들어갈 전체 이름 (묶음 이름 포함)
                 //  · specShortList : 선택칸에 짧게 보일 이름
+                //  · origIdxList   : 시트에 적힌 원래 순서 (중량 짝맞춤용)
                 var specList = [];
                 var specShortList = [];
                 var specGroupList = [];       // 견적서 비고란에 넣을 묶음 이름
+                var origIdxList = [];
                 specRows.forEach(function (row) {
-                    row.items.forEach(function (v) {
+                    row.items.forEach(function (v, i) {
                         specList.push(row.group ? row.group + " " + v : v);
                         specShortList.push(v);
                         specGroupList.push(row.group || "");
+                        origIdxList.push(row.startIdx + i);
                     });
                 });
 
@@ -2174,10 +2207,10 @@
 
                 var hasAnyWeight = weightFlat.some(function (v) { return v > 0; });
 
-                var weightList = specList.map(function (_, idx) {
+                var weightList = origIdxList.map(function (oi) {
                     if (!hasAnyWeight) return 0;
                     if (weightFlat.length === 1) return weightFlat[0];   // 하나만 적으면 전체 공통
-                    return weightFlat[idx] || 0;
+                    return weightFlat[oi] || 0;
                 });
 
                 // ── 길이 (M) ──
@@ -2204,10 +2237,10 @@
 
                 var hasAnyWpm = wpmFlat.some(function (v) { return v > 0; });
 
-                var wpmList = specList.map(function (_, idx) {
+                var wpmList = origIdxList.map(function (oi) {
                     if (!hasAnyWpm) return 0;
                     if (wpmFlat.length === 1) return wpmFlat[0];
-                    return wpmFlat[idx] || 0;
+                    return wpmFlat[oi] || 0;
                 });
 
                 // 카드에 표시할 문구
@@ -2217,7 +2250,7 @@
                     : specList[0];
 
                 // 검색은 전체 규격을 대상으로 합니다
-                var specSearchText = specList.join(" ");
+                var specSearchText = allSpecList.join(" ");
 
                 var cat = row["대분류_" + langUpper] || row["대분류_KO"] || row["대분류"] || "기타자재";
                 var name = row["품명_" + langUpper] || row["품명_KO"] || row["품명"] || "제품명 미기재";
@@ -2319,7 +2352,7 @@
                 if (c.subs.length > MAX_SUB) subText += ' ' + t('cat-more', '외');
 
                 html +=
-                    '<button onclick="goCategory(\'' + jsArg(c.label) + '\')" ' +
+                    '<button onclick="goCategory(\'' + jsArg(c.key) + '\')" ' +
                     'class="bg-slate-800/70 hover:bg-blue-600/40 border border-slate-600/50 hover:border-blue-400/50 ' +
                     'p-3 rounded-lg text-left transition-all">' +
                     '<div class="flex items-center gap-2">' +
@@ -2346,15 +2379,22 @@
 
         function renderCategoryTabs() {
             var tabsContainer = document.getElementById('categoryTabs');
-            var categories = Array.from(new Set(globalProducts.map(function (p) { return p.cat_ko; })));
+
+            // 값은 catKey(한국어 고정), 화면 글자는 cat_ko(현재 언어)
+            var seen = {};
+            var categories = [];
+            globalProducts.forEach(function (p) {
+                if (!p.catKey || seen[p.catKey]) return;
+                seen[p.catKey] = true;
+                categories.push({ key: p.catKey, label: p.cat_ko || p.catKey });
+            });
 
             var allText = t("tab-all", "전체보기");
             var html = '<button onclick="setCategory(\'ALL\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === 'ALL' ? 'tab-active' : 'tab-inactive') + '">' + allText + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + globalProducts.length + '</span></button>';
 
-            categories.forEach(function (cat) {
-                if (!cat) return;
-                var count = globalProducts.filter(function (p) { return p.cat_ko === cat; }).length;
-                html += '<button onclick="setCategory(\'' + jsArg(cat) + '\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === cat ? 'tab-active' : 'tab-inactive') + '">' + esc(cat) + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + count + '</span></button>';
+            categories.forEach(function (c) {
+                var count = globalProducts.filter(function (p) { return p.catKey === c.key; }).length;
+                html += '<button onclick="setCategory(\'' + jsArg(c.key) + '\')" class="px-5 py-3 rounded-t-xl text-sm ' + (currentCategory === c.key ? 'tab-active' : 'tab-inactive') + '">' + esc(c.label) + ' <span class="ml-1 bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">' + count + '</span></button>';
             });
 
             tabsContainer.innerHTML = html;
@@ -2403,7 +2443,7 @@
             var filtered = globalProducts;
 
             if (currentCategory !== 'ALL') {
-                filtered = filtered.filter(function (p) { return p.cat_ko === currentCategory; });
+                filtered = filtered.filter(function (p) { return p.catKey === currentCategory; });
             }
             if (searchKw) {
                 filtered = filtered.filter(function (p) {
