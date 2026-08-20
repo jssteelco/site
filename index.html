@@ -1270,7 +1270,7 @@
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
                 "select-proc-label": "가공 요청 (선택)",
-                "length-custom": "직접 입력", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
+                "length-custom": "직접 입력", "ph-length": "예: 4.5", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
                 "alert-empty-cart": "견적함이 비어있습니다.",
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
@@ -1341,7 +1341,7 @@
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
                 "select-proc-label": "Processing (optional)",
-                "length-custom": "Enter manually", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
+                "length-custom": "Enter manually", "ph-length": "EX: 4.5", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
                 "alert-empty-cart": "Your quotation cart is empty.",
                 "alert-need-info": "Please enter your company name and contact information.",
@@ -1412,7 +1412,7 @@
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
                 "select-proc-label": "加工のご依頼 (任意)",
-                "length-custom": "直接入力", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
+                "length-custom": "直接入力", "ph-length": "例: 4.5", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
                 "alert-empty-cart": "見積もりカートが空です。",
                 "alert-need-info": "会社名とご連絡先を入力してください。",
@@ -1483,7 +1483,7 @@
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
                 "select-proc-label": "Gia công (tùy chọn)",
-                "length-custom": "Nhập trực tiếp", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
+                "length-custom": "Nhập trực tiếp", "ph-length": "VD: 4.5", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
@@ -1995,7 +1995,7 @@
             document.getElementById('custContact').placeholder = t("ph-contact", "연락처 또는 이메일");
             document.getElementById('custMemo').placeholder = t("ph-memo", "추가 문의사항");
             document.getElementById('resourceSearch').placeholder = t("ph-res-search", "자료 검색...");
-
+            document.getElementById('lengthCustom').placeholder = t("ph-length", "4.5");
             if (rawSheetData.length > 0) {
                 parseProductsForLang();
                 renderCategoryTabs();
