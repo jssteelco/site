@@ -2527,7 +2527,10 @@
                         ? '<div><strong>' + esc(procLbl) + ':</strong> ' + esc(p.proc_ko) + '</div>'
                         : '') +
                     '</div>' +
-                    '<p class="text-xs text-slate-500 line-clamp-2 mb-4">' + esc(p.desc_ko) + '</p>' +
+                    // 설명이 없으면 줄 자체를 표시하지 않습니다
+                    (p.desc_ko
+                        ? '<p class="text-xs text-slate-500 line-clamp-2 mb-4">' + esc(p.desc_ko) + '</p>'
+                        : '') +
                     '<button type="button" class="card-mobile-btn mt-auto w-full bg-blue-900 active:bg-blue-800 text-white text-sm font-bold py-3 rounded-lg shadow-md pointer-events-none">' +
                     '<i class="fa-solid fa-magnifying-glass mr-2"></i>' + btnDetailText +
                     '</button>' +
