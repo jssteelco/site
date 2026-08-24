@@ -2650,7 +2650,7 @@
                 ? product.specRows
                 : [{ group: '', items: list }];
 
-            if (list.length > 1) {
+            if (list.length > 0) {
                 listEl.innerHTML = rows.map(function (row) {
                     var chips = row.items.map(function (spec) {
                         return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
