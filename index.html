@@ -1090,7 +1090,7 @@
                 <div id="specModalList" class="flex flex-col gap-1 max-h-80 overflow-y-auto custom-scrollbar"></div>
             </div>
 
-            <div class="space-y-4 mb-6">
+            <div id="specModalInputs" class="space-y-4 mb-6">
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-size-label">규격 / 사이즈
                         선택</label>
@@ -1127,10 +1127,10 @@
             </div>
 
             <div class="flex space-x-2">
-                <button onclick="closeSpecModal()"
+                <button id="btnSpecCancel" onclick="closeSpecModal()"
                     class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-lg"
                     data-i18n="btn-cancel">취소</button>
-                <button onclick="confirmAddToCart()"
+                <button id="btnAddToCart" onclick="confirmAddToCart()"
                     class="w-2/3 bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow-md flex items-center justify-center">
                     <i class="fa-solid fa-cart-plus mr-2"></i> <span data-i18n="btn-add-confirm">장바구니 담기</span>
                 </button>
@@ -1520,6 +1520,40 @@
             return (dict[currentLang] && dict[currentLang][key]) ? dict[currentLang][key] : (fallback || key);
         }
 
+        /** 견적 기능을 쓸 수 있는지 (SITE_TEXT 의 quote-enabled 가 N 이면 끕니다) */
+        function quoteEnabled() {
+            var v = (dict.ko && dict.ko['quote-enabled']) || '';
+            v = String(v).trim().toUpperCase();
+            return !(v === 'N' || v === 'NO' || v === 'FALSE');
+        }
+
+        /** 견적 관련 요소를 한꺼번에 켜고 끕니다 */
+        function applyQuoteMode() {
+            var on = quoteEnabled();
+
+            var addBtn = document.getElementById('btnAddToCart');
+            var cancelBtn = document.getElementById('btnSpecCancel');
+            if (addBtn) addBtn.classList.toggle('hidden', !on);
+
+            // 규격 선택 · 가공 · 길이 · 수량은 견적용이므로 함께 숨깁니다
+            var inputs = document.getElementById('specModalInputs');
+            if (inputs) inputs.classList.toggle('hidden', !on);
+            if (cancelBtn) {
+                cancelBtn.classList.toggle('w-1/3', on);
+                cancelBtn.classList.toggle('w-full', !on);
+            }
+
+            if (!on) {
+                quotationCart = [];
+                saveCart();
+                document.getElementById('floatingCart').classList.add('hidden');
+                var cm = document.getElementById('cartModal');
+                if (cm) cm.classList.add('hidden');
+            }
+        }
+
+        // ===================== 페이지 전환 =====================
+
         // ===================== 페이지 전환 =====================
         /**
          * @param {string} page   이동할 페이지
@@ -1559,7 +1593,7 @@
             navResources.classList.toggle('is-active', page === 'resources');
 
             // 견적 버튼은 제품소개에서만
-            document.getElementById('floatingCart').classList.toggle('hidden', page !== 'products');
+            document.getElementById('floatingCart').classList.toggle('hidden', page !== 'products' || !quoteEnabled());
 
             // 모바일 메뉴 닫기
             closeMobileNav();
@@ -1713,6 +1747,7 @@
                 }
 
                 changeLanguage(currentLang);
+                applyQuoteMode();
                 renderHistory();
                 renderResources();
 
