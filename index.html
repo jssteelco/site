@@ -2021,7 +2021,17 @@
 
             document.querySelectorAll('[data-i18n]').forEach(function (el) {
                 var key = el.getAttribute('data-i18n');
-                if (dict[lang] && dict[lang][key]) el.textContent = dict[lang][key];
+                if (!dict[lang] || !dict[lang][key]) return;
+
+                var val = String(dict[lang][key]);
+                if (val.indexOf('\n') !== -1) {
+                    // 시트에서 Alt+Enter 로 줄을 나눈 경우 화면에서도 줄을 바꿉니다
+                    el.innerHTML = val.split(/\r?\n/).map(function (line) {
+                        return line.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    }).join('<br>');
+                } else {
+                    el.textContent = val;
+                }
             });
 
             document.getElementById('searchInput').placeholder = t("ph-search", "제품 검색...");
