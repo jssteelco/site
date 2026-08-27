@@ -1618,7 +1618,7 @@
         }
 
         // ===================== 초기화 =====================
-        window.addEventListener('load', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             // 스크롤 복원은 직접 처리하므로 브라우저 기본 동작을 끔
             if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
