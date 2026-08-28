@@ -2864,11 +2864,17 @@
             hintEl.classList.add('hidden');
             if (selectBox) selectBox.classList.remove('hidden');
 
-            if (list.length > 1) {
+            // 규격이 1종인 제품도 목록에 보여줍니다.
+            // 시트에 규격이 아예 없어 대체 문구만 들어간 경우(startIdx < 0)에만 감춥니다.
+            var isPlaceholderOnly = (list.length === 1 && rows.length === 1 && rows[0].startIdx < 0);
+
+            if (list.length > 0 && !isPlaceholderOnly) {
                 listEl.innerHTML = useGroups
                     ? renderSpecGroupRows(grouping.rows)
                     : renderSpecPlainRows(rows);
-                countEl.innerText = t("spec-count", "{n}종").replace("{n}", list.length);
+                countEl.innerText = (list.length > 1)
+                    ? t("spec-count", "{n}종").replace("{n}", list.length)
+                    : '';
                 listBox.classList.remove('hidden');
 
                 // 고를 수 있을 때만 안내 문구를 보여줍니다 (열람 전용에서는 감춥니다)
