@@ -1083,11 +1083,17 @@
                     <span data-i18n="spec-list-label">규격 목록</span>
                     <span id="specModalCount" class="ml-1 text-blue-700"></span>
                 </p>
+                <p id="specModalHint" class="text-[11px] font-semibold text-slate-400 mb-2 hidden"></p>
                 <div id="specModalList" class="flex flex-col gap-1 max-h-80 overflow-y-auto custom-scrollbar"></div>
+                <div id="specPickedBox"
+                    class="hidden mt-3 text-[13px] font-bold text-blue-900 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                    <span id="specPickedLabel" class="text-[11px] font-black text-blue-700 mr-1">선택 규격</span>
+                    <span id="specPickedText" class="font-mono"></span>
+                </div>
             </div>
 
             <div id="specModalInputs" class="space-y-4 mb-6 hidden">
-                <div>
+                <div id="specSelectBox">
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-size-label">규격 / 사이즈
                         선택</label>
                     <select id="specSelect" onchange="onSpecChange()"
@@ -1261,7 +1267,8 @@
                 "footer-menu": "바로가기", "footer-contact": "연락처", "footer-biznum": "사업자등록번호",
                 "cat-title": "제품 카탈로그", "cat-subtitle": "고품질 철강 자재를 확인하고, 원하시는 제품의 견적을 요청하세요.",
                 "tab-all": "전체보기", "no-result": "검색 결과가 없습니다.", "spec-label": "규격", "proc-label": "가공",
-                "spec-count": "{n}종", "spec-list-label": "규격 목록", "desc-label": "제품 설명", "no-image": "이미지 준비중",
+                "spec-count": "{n}종", "spec-list-label": "규격 목록",
+                "spec-pick-hint": "기준 규격(mm)과 두께(T)를 선택하세요", "spec-pick-hint-dim": "기준 규격(mm)과 치수(mm)를 선택하세요", "spec-picked-label": "선택 규격", "desc-label": "제품 설명", "no-image": "이미지 준비중",
                 "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
@@ -1332,7 +1339,8 @@
                 "footer-menu": "Menu", "footer-contact": "Contact", "footer-biznum": "Business No.",
                 "cat-title": "Product Catalog", "cat-subtitle": "Check our high-quality steel materials and request a quote.",
                 "tab-all": "All Products", "no-result": "No matching products found.", "spec-label": "Spec", "proc-label": "Proc",
-                "spec-count": "{n} sizes", "spec-list-label": "Available Sizes", "desc-label": "Description", "no-image": "Image coming soon",
+                "spec-count": "{n} sizes", "spec-list-label": "Available Sizes",
+                "spec-pick-hint": "Pick a base size (mm) and thickness (T)", "spec-pick-hint-dim": "Pick a base size (mm) and dimension (mm)", "spec-picked-label": "Selected size", "desc-label": "Description", "no-image": "Image coming soon",
                 "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
@@ -1403,7 +1411,8 @@
                 "footer-menu": "ショートカット", "footer-contact": "連絡先", "footer-biznum": "事業者登録番号",
                 "cat-title": "製品カタログ", "cat-subtitle": "高品質な鉄鋼資材をご確認いただき、ご希望の製品の見積もりをご依頼ください。",
                 "tab-all": "すべて見る", "no-result": "検索結果がありません。", "spec-label": "規格", "proc-label": "加工",
-                "spec-count": "{n}種", "spec-list-label": "規格一覧", "desc-label": "製品説明", "no-image": "画像準備中",
+                "spec-count": "{n}種", "spec-list-label": "規格一覧",
+                "spec-pick-hint": "基準規格(mm)と厚さ(T)を選んでください", "spec-pick-hint-dim": "基準規格(mm)と寸法(mm)を選んでください", "spec-picked-label": "選択規格", "desc-label": "製品説明", "no-image": "画像準備中",
                 "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
@@ -1474,7 +1483,8 @@
                 "footer-menu": "Liên kết", "footer-contact": "Liên hệ", "footer-biznum": "Mã số doanh nghiệp",
                 "cat-title": "Danh mục Sản phẩm", "cat-subtitle": "Kiểm tra các vật liệu thép chất lượng cao và yêu cầu báo giá.",
                 "tab-all": "Tất cả Sản phẩm", "no-result": "Không tìm thấy sản phẩm phù hợp.", "spec-label": "Quy cách", "proc-label": "Gia công",
-                "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách", "desc-label": "Mô tả sản phẩm", "no-image": "Đang cập nhật ảnh",
+                "spec-count": "{n} loại", "spec-list-label": "Danh sách quy cách",
+                "spec-pick-hint": "Chọn quy cách cơ bản (mm) và độ dày (T)", "spec-pick-hint-dim": "Chọn quy cách cơ bản (mm) và kích thước (mm)", "spec-picked-label": "Quy cách đã chọn", "desc-label": "Mô tả sản phẩm", "no-image": "Đang cập nhật ảnh",
                 "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
@@ -1509,6 +1519,7 @@
         var currentLang = 'ko';
         var currentCategory = 'ALL';
         var activeProductForModal = null;
+        var specPickIdx = -1;            // 지금 고른 규격의 원본 순서 (-1 = 아직 안 고름)
         var currentPage = 'home';
 
         var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
@@ -2608,6 +2619,202 @@
             renderProductPager();
         }
 
+        // ===================== 규격 그룹화 (기준 규격 + 두께) =====================
+        //  화면 표시만 묶습니다. 원본 규격 문자열·순서·중량 인덱스는 그대로 둡니다.
+
+        var SPEC_BARE_THICK_MAX = 30;   // 'T' 가 없는 마지막 값은 이 값 이하일 때만 두께로 봅니다
+
+        var SPEC_BTN_BASE = 'text-[13px] font-mono font-bold px-3 py-1.5 rounded border min-h-[36px] ';
+        var SPEC_BTN_OFF = 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-blue-50 hover:border-blue-400';
+        var SPEC_BTN_ON = 'bg-blue-900 border-blue-900 text-white shadow-sm';
+
+        /**
+         * 규격 하나를 '기준 규격 + 두께' 로 나눕니다.
+         * 마지막 '*' 뒤가 숫자(또는 숫자+T) 일 때만 나누고, 조금이라도 애매하면 null 을 돌려
+         * 기존 규격 버튼 표시로 되돌아가게 합니다.
+         */
+        function parseSpecPart(spec) {
+            var v = String(spec == null ? '' : spec).trim();
+            if (!v) return null;
+            if (v.indexOf('(') !== -1 || v.indexOf(')') !== -1) return null;   // 25A(34*3.25) 같은 명칭형
+
+            // '*' 가 없는 규격은 x / X / × 도 구분자로 봅니다 (250 x 610 같은 표기)
+            if (v.indexOf('*') === -1) v = v.replace(/\s*[xX×]\s*/g, '*');
+
+            var pos = v.lastIndexOf('*');
+            if (pos <= 0 || pos === v.length - 1) return null;
+
+            var base = v.substring(0, pos).trim();
+            var last = v.substring(pos + 1).trim();
+            if (!base) return null;
+
+            var m = last.match(/^([0-9]+(?:\.[0-9]+)?)\s*[Tt]?$/);
+            if (!m) return null;
+
+            var n = parseFloat(m[1]);
+            if (!isFinite(n) || n <= 0) return null;
+
+            // 'T' 가 붙어 있거나 충분히 작은 값이면 두께,
+            // 그 외(610, 1829 처럼 큰 값)는 길이·폭 같은 치수로 봅니다.
+            //  · 두께  -> 화면에 T 를 붙여 표시
+            //  · 치수  -> 숫자 그대로 표시 (임의로 T 를 붙이지 않습니다)
+            var isThick = /[Tt]$/.test(last) || n <= SPEC_BARE_THICK_MAX;
+
+            return {
+                base: base,
+                baseView: base.replace(/\s*\*\s*/g, '×'),
+                thickView: isThick ? (m[1] + 'T') : m[1],
+                kind: isThick ? 'T' : 'dim'
+            };
+        }
+
+        /**
+         * 규격 줄 구조를 기준 규격별로 묶습니다.
+         *  · 한 줄의 규격이 모두 나뉘어야 그 줄을 묶습니다 (하나라도 실패하면 그 줄은 기존 표시)
+         *  · merged 는 실제로 묶인 기준 규격(두께 2개 이상)이 있는지
+         *  · idx 는 specList 안의 원래 자리 (중량과 짝지을 때 씁니다)
+         */
+        function buildSpecGroups(rows) {
+            var out = [];
+            var flat = 0;
+            var merged = false;
+            var hasDim = false;
+
+            rows.forEach(function (row) {
+                var items = row.items || [];
+                var entry = { group: row.group || '', grouped: false, bases: [], plain: [] };
+
+                items.forEach(function (v, k) {
+                    entry.plain.push({ label: v, idx: flat + k });
+                });
+
+                var parsed = items.map(function (v) { return parseSpecPart(v); });
+                var ok = items.length > 0 && parsed.every(function (x) { return !!x; });
+
+                // 한 줄 안에서 두께형과 치수형이 섞이면 묶지 않습니다
+                if (ok) {
+                    var kind0 = parsed[0].kind;
+                    ok = parsed.every(function (x) { return x.kind === kind0; });
+                    if (ok && kind0 === 'dim') hasDim = true;
+                }
+
+                if (ok) {
+                    var map = {};
+                    items.forEach(function (v, k) {
+                        var pr = parsed[k];
+                        if (!map[pr.base]) {
+                            map[pr.base] = { base: pr.baseView, thicks: [] };
+                            entry.bases.push(map[pr.base]);
+                        }
+                        map[pr.base].thicks.push({ label: pr.thickView, idx: flat + k });
+                        if (map[pr.base].thicks.length > 1) merged = true;
+                    });
+                    entry.grouped = true;
+                }
+
+                out.push(entry);
+                flat += items.length;
+            });
+
+            return { rows: out, merged: merged, hasDim: hasDim };
+        }
+
+        /** 두께(또는 기존 규격) 버튼 하나 */
+        function specBtnHtml(label, idx, pickable) {
+            if (!pickable) {
+                return '<span class="' + SPEC_BTN_BASE + SPEC_BTN_OFF +
+                    ' inline-flex items-center">' + esc(label) + '</span>';
+            }
+            return '<button type="button" data-spec-idx="' + idx + '" aria-pressed="false" ' +
+                'onclick="pickSpec(' + idx + ')" class="' + SPEC_BTN_BASE + SPEC_BTN_OFF + '">' +
+                esc(label) + '</button>';
+        }
+
+        /** 묶음 이름(KS, BS 등) 작은 제목 */
+        function specGroupTagHtml(group) {
+            return group
+                ? '<div class="text-[11px] font-black text-blue-800 bg-blue-50 ' +
+                'border border-blue-200 px-2 py-0.5 rounded w-fit mb-1 mt-1">' + esc(group) + '</div>'
+                : '';
+        }
+
+        /** 기준 규격 + 두께 화면 */
+        function renderSpecGroupRows(gRows) {
+            var pickable = !!quoteEnabled;
+            var line = 0;
+
+            return gRows.map(function (row) {
+                var body;
+
+                if (row.grouped) {
+                    body = row.bases.map(function (b) {
+                        var btns = b.thicks.map(function (th) {
+                            return specBtnHtml(th.label, th.idx, pickable);
+                        }).join('');
+
+                        var sep = (line++ === 0) ? '' : ' border-t border-slate-100';
+                        return '<div class="flex flex-wrap items-start gap-x-3 gap-y-1 py-1' + sep + '">' +
+                            '<div class="w-full sm:w-24 shrink-0 text-[13px] font-mono font-black ' +
+                            'text-slate-800 sm:pt-2">' + esc(b.base) + '</div>' +
+                            '<div class="flex flex-wrap gap-1.5 flex-1 min-w-0">' + btns + '</div>' +
+                            '</div>';
+                    }).join('');
+                } else {
+                    // 나눌 수 없는 줄은 기존처럼 규격 전체를 하나씩 보여줍니다
+                    var sep2 = (line++ === 0) ? '' : ' border-t border-slate-100';
+                    body = '<div class="flex flex-wrap gap-1.5 py-1' + sep2 + '">' +
+                        row.plain.map(function (it) {
+                            return specBtnHtml(it.label, it.idx, pickable);
+                        }).join('') + '</div>';
+                }
+
+                return specGroupTagHtml(row.group) + body;
+            }).join('');
+        }
+
+        /** 기존 규격 목록 (그룹화하지 않는 경우) */
+        function renderSpecPlainRows(rows) {
+            return rows.map(function (row) {
+                var chips = row.items.map(function (spec) {
+                    return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
+                        'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
+                        esc(spec) + '</span>';
+                }).join('');
+
+                return specGroupTagHtml(row.group) +
+                    '<div class="flex flex-wrap gap-1">' + chips + '</div>';
+            }).join('');
+        }
+
+        /** 선택한 규격을 사람이 읽는 형태로 (견적함에는 원본값이 들어갑니다) */
+        function specPickedView(p, idx) {
+            var short = (p.specShortList || [])[idx] || '';
+            var group = (p.specGroupList || [])[idx] || '';
+            var pr = parseSpecPart(short);
+            var view = pr ? (pr.baseView + ' × ' + pr.thickView) : short;   // dim 이면 T 없이 그대로
+            return (group ? group + ' ' : '') + view;
+        }
+
+        /** 두께 버튼을 눌렀을 때 (원본 순서 그대로 기억합니다) */
+        function pickSpec(idx) {
+            var p = activeProductForModal;
+            if (!p || !p.specList || p.specList[idx] == null) return;
+
+            specPickIdx = idx;
+
+            var select = document.getElementById('specSelect');
+            if (select && select.options.length > idx) select.selectedIndex = idx;
+
+            document.querySelectorAll('#specModalList [data-spec-idx]').forEach(function (el) {
+                var on = Number(el.getAttribute('data-spec-idx')) === idx;
+                el.className = SPEC_BTN_BASE + (on ? SPEC_BTN_ON : SPEC_BTN_OFF);
+                el.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+
+            document.getElementById('specPickedText').innerText = specPickedView(p, idx);
+            document.getElementById('specPickedBox').classList.remove('hidden');
+        }
+
         function openSpecModal(productId) {
             var product = globalProducts.find(function (p) { return p.id === productId; });
             if (!product) return;
@@ -2642,24 +2849,37 @@
                 ? product.specRows
                 : [{ group: '', items: list }];
 
-            if (list.length > 1) {
-                listEl.innerHTML = rows.map(function (row) {
-                    var chips = row.items.map(function (spec) {
-                        return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
-                            'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
-                            esc(spec) + '</span>';
-                    }).join('');
+            // 기준 규격 + 두께로 묶을 수 있는지 확인합니다 (애매하면 기존 표시로 되돌아갑니다)
+            var grouping = buildSpecGroups(rows);
+            var useGroups = grouping.merged && list.length > 1;
 
-                    // 묶음 이름(KS, BS 등)이 있으면 작은 제목으로 보여줍니다
-                    return (row.group
-                        ? '<div class="text-[11px] font-black text-blue-800 bg-blue-50 ' +
-                        'border border-blue-200 px-2 py-0.5 rounded w-fit mb-1 mt-1">' +
-                        esc(row.group) + '</div>'
-                        : '') +
-                        '<div class="flex flex-wrap gap-1">' + chips + '</div>';
-                }).join('');
+            var hintEl = document.getElementById('specModalHint');
+            var pickedBox = document.getElementById('specPickedBox');
+            var selectBox = document.getElementById('specSelectBox');
+
+            specPickIdx = -1;
+            pickedBox.classList.add('hidden');
+            document.getElementById('specPickedText').innerText = '';
+            document.getElementById('specPickedLabel').innerText = t("spec-picked-label", "선택 규격");
+            hintEl.classList.add('hidden');
+            if (selectBox) selectBox.classList.remove('hidden');
+
+            if (list.length > 1) {
+                listEl.innerHTML = useGroups
+                    ? renderSpecGroupRows(grouping.rows)
+                    : renderSpecPlainRows(rows);
                 countEl.innerText = t("spec-count", "{n}종").replace("{n}", list.length);
                 listBox.classList.remove('hidden');
+
+                // 고를 수 있을 때만 안내 문구를 보여줍니다 (열람 전용에서는 감춥니다)
+                if (useGroups && quoteEnabled) {
+                    hintEl.innerText = grouping.hasDim
+                        ? t("spec-pick-hint-dim", "기준 규격(mm)과 치수(mm)를 선택하세요")
+                        : t("spec-pick-hint", "기준 규격(mm)과 두께(T)를 선택하세요");
+                    hintEl.classList.remove('hidden');
+                }
+
+                listEl.scrollTop = 0;
             } else {
                 listEl.innerHTML = '';
                 countEl.innerText = '';
@@ -2691,6 +2911,13 @@
                     flatIdx++;
                 });
             });
+
+            // 두께 버튼으로 고르는 화면에서는 기존 선택칸을 감춥니다.
+            // (선택값은 그대로 이 선택칸에 반영되므로 견적함 동작은 같습니다)
+            if (useGroups && quoteEnabled) {
+                if (selectBox) selectBox.classList.add('hidden');
+                pickSpec(0);
+            }
 
             // ── 가공 요청 (여러 개 선택 가능) ──
             var procBox = document.getElementById('procBox');
@@ -2751,7 +2978,11 @@
         }
 
         /** 규격을 바꿔도 길이 선택은 그대로 유지합니다 */
-        function onSpecChange() { }
+        function onSpecChange() {
+            // 같은 이름의 규격이 두 번 적혀 있어도 어긋나지 않도록 고른 자리를 기억합니다
+            var select = document.getElementById('specSelect');
+            specPickIdx = (select && select.selectedIndex >= 0) ? select.selectedIndex : -1;
+        }
 
         /** 지금 고른 길이 (길이 개념이 없는 제품이면 0) */
         function currentLength() {
@@ -2769,6 +3000,7 @@
         function closeSpecModal() {
             document.getElementById('specModal').classList.remove('is-open');
             activeProductForModal = null;
+            specPickIdx = -1;
         }
 
         function changeSpecModalQty(delta) {
@@ -2782,11 +3014,20 @@
         function confirmAddToCart() {
             if (!quoteEnabled) return;
             if (!activeProductForModal) return;
-            var spec = document.getElementById('specSelect').value || activeProductForModal.specRaw;
             var qty = Math.max(1, Math.min(999999, parseInt(document.getElementById('specModalQty').value) || 1));
 
             var p = activeProductForModal;
-            var specIdx = (p.specList || []).indexOf(spec);
+
+            // 고른 자리(specPickIdx)를 그대로 씁니다. 두께 버튼이든 선택칸이든 원본 순서와 1:1 입니다.
+            var specIdx = -1;
+            var spec;
+            if (specPickIdx > -1 && p.specList && p.specList[specPickIdx] != null) {
+                specIdx = specPickIdx;
+                spec = p.specList[specIdx];
+            } else {
+                spec = document.getElementById('specSelect').value || p.specRaw;
+                specIdx = (p.specList || []).indexOf(spec);
+            }
 
             // 묶음 이름(KS, BS 등)은 품목명 쪽으로 보내고,
             // 규격칸에는 규격만 남깁니다.
