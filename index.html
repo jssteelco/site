@@ -2664,7 +2664,8 @@
                 base: base,
                 baseView: base.replace(/\s*\*\s*/g, '×'),
                 thickView: isThick ? (m[1] + 'T') : m[1],
-                kind: isThick ? 'T' : 'dim'
+                kind: isThick ? 'T' : 'dim',
+                explicitT: /[Tt]$/.test(last)
             };
         }
 
@@ -2679,6 +2680,7 @@
             var flat = 0;
             var merged = false;
             var hasDim = false;
+            var hasExplicitT = false;   // 마지막 값에 'T' 가 적혀 있는 줄이 있는지
 
             rows.forEach(function (row) {
                 var items = row.items || [];
@@ -2696,6 +2698,10 @@
                     var kind0 = parsed[0].kind;
                     ok = parsed.every(function (x) { return x.kind === kind0; });
                     if (ok && kind0 === 'dim') hasDim = true;
+
+                    // 시트에 'T' 라고 적어 둔 줄은 두께가 확실하므로
+                    // 묶이는 기준 규격이 없어도 그룹 화면으로 보여줍니다
+                    if (ok && parsed.every(function (x) { return x.explicitT; })) hasExplicitT = true;
                 }
 
                 if (ok) {
@@ -2716,7 +2722,7 @@
                 flat += items.length;
             });
 
-            return { rows: out, merged: merged, hasDim: hasDim };
+            return { rows: out, merged: merged, hasDim: hasDim, hasExplicitT: hasExplicitT };
         }
 
         /** 두께(또는 기존 규격) 버튼 하나 */
@@ -2851,7 +2857,7 @@
 
             // 기준 규격 + 두께로 묶을 수 있는지 확인합니다 (애매하면 기존 표시로 되돌아갑니다)
             var grouping = buildSpecGroups(rows);
-            var useGroups = grouping.merged && list.length > 1;
+            var useGroups = (grouping.merged || grouping.hasExplicitT) && list.length > 0;
 
             var hintEl = document.getElementById('specModalHint');
             var pickedBox = document.getElementById('specPickedBox');
