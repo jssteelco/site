@@ -1682,12 +1682,28 @@
 
             // 주소에 ?lang=ja 처럼 붙어 있으면 그 언어로 시작합니다.
             //  예) https://jssteel.co.kr/?lang=ja#products
-            var urlLang = '';
+            // URL 경로 또는 기존 ?lang= 방식에서 시작 언어를 결정합니다.
+            // 예: /ja, /en, /vi, 또는 ?lang=ja
+            var validLangs = ['ko', 'en', 'ja', 'vi'];
+
+            var pathLang = (window.location.pathname
+                .split('/')
+                .filter(Boolean)[0] || '')
+                .toLowerCase();
+
+            var queryLang = '';
+
             try {
-                urlLang = (new URLSearchParams(window.location.search).get('lang') || '')
-                    .toLowerCase();
+                queryLang = (
+                    new URLSearchParams(window.location.search).get('lang') || ''
+                ).toLowerCase();
             } catch (e) { }
-            if (['ko', 'en', 'ja', 'vi'].indexOf(urlLang) === -1) urlLang = 'ko';
+
+            var urlLang = validLangs.indexOf(pathLang) !== -1
+                ? pathLang
+                : validLangs.indexOf(queryLang) !== -1
+                    ? queryLang
+                    : 'ko';
 
             var langSelect = document.getElementById('langSelector');
             if (langSelect) langSelect.value = urlLang;
@@ -2043,6 +2059,21 @@
 
         function changeLanguage(lang) {
             currentLang = lang;
+            // 선택한 언어에 맞게 주소를 정리합니다.
+            // 한국어는 /, 다른 언어는 /en, /ja, /vi를 사용합니다.
+            var langPath = lang === 'ko' ? '/' : '/' + lang;
+            var langUrl = langPath + (window.location.hash || '');
+
+            if (
+                window.location.pathname !== langPath ||
+                window.location.search
+            ) {
+                history.replaceState(
+                    history.state,
+                    '',
+                    langUrl
+                );
+            }
 
             // 검색엔진·스크린리더용 언어 표기
             var htmlLangMap = { ko: 'ko', en: 'en', ja: 'ja', vi: 'vi' };
