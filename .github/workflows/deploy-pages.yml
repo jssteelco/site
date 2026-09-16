@@ -1,0 +1,59 @@
+name: Deploy multilingual GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 파일 가져오기
+        uses: actions/checkout@v4
+
+      - name: GitHub Pages 설정
+        uses: actions/configure-pages@v6
+
+      - name: 배포 파일 만들기
+        run: |
+          mkdir -p site-output
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='site-output/' \
+            ./ site-output/
+
+          mkdir -p site-output/en
+          mkdir -p site-output/ja
+          mkdir -p site-output/vi
+
+          cp site-output/index.html site-output/en/index.html
+          cp site-output/index.html site-output/ja/index.html
+          cp site-output/index.html site-output/vi/index.html
+
+      - name: 배포 파일 업로드
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site-output
+
+      - name: 홈페이지 배포
+        id: deployment
+        uses: actions/deploy-pages@v5
