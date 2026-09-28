@@ -2986,7 +2986,10 @@
             return 0;
           }
           function ng(msg) { return { ok: false, msg: msg }; }
-          function res(v, src) { return { ok: true, value: r3(v), src: src }; }
+          // 단중은 유효숫자 3자리 (사내 계산법 · 단중표와 같은 기준)
+          //   예) 1.43745 -> 1.44,  16.617 -> 16.6,  6295.02 -> 6300
+          function sig3(v) { return Number((Number(v) * (1 + 1e-12)).toPrecision(3)); }   // 2.355 가 2.3549999.. 로 읽혀 내려가는 것 방지
+          function res(v, src) { return { ok: true, value: sig3(v), src: src }; }
 
 
           // ── 형상 ───────────────────────────────────────────────────────────
