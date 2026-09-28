@@ -1093,6 +1093,18 @@
             </div>
 
             <div id="specModalInputs" class="space-y-4 mb-6 hidden">
+                <!-- 치수 직접 입력 (단중 자동 계산) -->
+                <div id="calcBox" class="hidden border border-slate-200 bg-slate-50 rounded-lg p-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-slate-500" data-i18n="calc-label">치수 직접 입력 (mm)</span>
+                        <span id="calcBadge"
+                            class="hidden text-[11px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5"
+                            data-i18n="calc-custom">직접 입력</span>
+                    </div>
+                    <div id="calcFields" class="grid gap-2"></div>
+                    <p id="calcResult" class="mt-2 text-[13px] font-bold text-blue-900"></p>
+                </div>
+
                 <div id="specSelectBox">
                     <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-size-label">규격 / 사이즈
                         선택</label>
@@ -1111,7 +1123,7 @@
                         (M)</label>
                     <select id="lengthSelect" onchange="onLengthChange()"
                         class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
-                    <input type="number" id="lengthCustom" min="0.1" step="0.1" placeholder="예: 4.5"
+                    <input type="number" id="lengthCustom" min="0.1" step="0.1" placeholder="예: 4.5" oninput="updateCalcView()"
                         class="hidden w-full mt-2 bg-white border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none">
                 </div>
 
@@ -1120,7 +1132,7 @@
                     <div class="flex items-center gap-2 w-full">
                         <button onclick="changeSpecModalQty(-1)"
                             class="w-10 h-10 shrink-0 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">-</button>
-                        <input type="number" id="specModalQty" value="1" min="1"
+                        <input type="number" id="specModalQty" value="1" min="1" oninput="updateCalcView()"
                             class="flex-1 min-w-0 text-center font-bold text-slate-800 border border-slate-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <button onclick="changeSpecModalQty(1)"
                             class="w-10 h-10 shrink-0 rounded-lg bg-slate-100 font-black text-slate-600 hover:bg-slate-200">+</button>
@@ -1273,7 +1285,7 @@
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
                 "select-proc-label": "가공 요청 (선택)",
-                "length-custom": "직접 입력", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
+                "length-custom": "직접 입력", "calc-label": "치수 직접 입력 (mm)", "calc-custom": "직접 입력", "calc-a": "가로", "calc-b": "세로", "calc-t": "두께", "calc-od": "외경", "calc-h": "높이", "calc-w": "폭", "calc-lip": "립", "calc-dia": "지름", "calc-id": "내경", "calc-pw": "가로", "calc-pl": "세로", "calc-unit-wpm": "단중", "calc-unit-sheet": "장당 중량", "calc-src-table": "단중표", "calc-src-formula": "계산식", "calc-total": "총중량", "calc-hint": "치수를 바꾸면 단중이 자동으로 계산됩니다.", "alert-calc-invalid": "치수를 다시 확인해 주세요.", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
                 "alert-empty-cart": "견적함이 비어있습니다.",
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
@@ -1345,7 +1357,7 @@
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
                 "select-proc-label": "Processing (optional)",
-                "length-custom": "Enter manually", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
+                "length-custom": "Enter manually", "calc-label": "Custom size (mm)", "calc-custom": "Custom", "calc-a": "Width", "calc-b": "Height", "calc-t": "Thickness", "calc-od": "O.D.", "calc-h": "Height", "calc-w": "Width", "calc-lip": "Lip", "calc-dia": "Diameter", "calc-id": "I.D.", "calc-pw": "Width", "calc-pl": "Length", "calc-unit-wpm": "Unit weight", "calc-unit-sheet": "Weight per sheet", "calc-src-table": "weight table", "calc-src-formula": "formula", "calc-total": "Total", "calc-hint": "Change the dimensions to calculate the unit weight.", "alert-calc-invalid": "Please check the dimensions.", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
                 "alert-empty-cart": "Your quotation cart is empty.",
                 "alert-need-info": "Please enter your company name and contact information.",
@@ -1417,7 +1429,7 @@
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
                 "select-proc-label": "加工のご依頼 (任意)",
-                "length-custom": "直接入力", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
+                "length-custom": "直接入力", "calc-label": "寸法を直接入力 (mm)", "calc-custom": "直接入力", "calc-a": "幅", "calc-b": "高さ", "calc-t": "厚さ", "calc-od": "外径", "calc-h": "高さ", "calc-w": "幅", "calc-lip": "リップ", "calc-dia": "直径", "calc-id": "内径", "calc-pw": "幅", "calc-pl": "長さ", "calc-unit-wpm": "単重", "calc-unit-sheet": "1枚あたり重量", "calc-src-table": "単重表", "calc-src-formula": "計算式", "calc-total": "総重量", "calc-hint": "寸法を変えると単重が自動計算されます。", "alert-calc-invalid": "寸法をご確認ください。", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
                 "alert-empty-cart": "見積もりカートが空です。",
                 "alert-need-info": "会社名とご連絡先を入力してください。",
@@ -1489,7 +1501,7 @@
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
                 "select-proc-label": "Gia công (tùy chọn)",
-                "length-custom": "Nhập trực tiếp", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
+                "length-custom": "Nhập trực tiếp", "calc-label": "Nhập kích thước (mm)", "calc-custom": "Tùy chỉnh", "calc-a": "Rộng", "calc-b": "Cao", "calc-t": "Dày", "calc-od": "Đường kính ngoài", "calc-h": "Cao", "calc-w": "Rộng", "calc-lip": "Mép", "calc-dia": "Đường kính", "calc-id": "Đường kính trong", "calc-pw": "Rộng", "calc-pl": "Dài", "calc-unit-wpm": "Trọng lượng đơn vị", "calc-unit-sheet": "Trọng lượng mỗi tấm", "calc-src-table": "bảng trọng lượng", "calc-src-formula": "công thức", "calc-total": "Tổng", "calc-hint": "Thay đổi kích thước để tự tính trọng lượng.", "alert-calc-invalid": "Vui lòng kiểm tra kích thước.", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
@@ -1789,6 +1801,14 @@
             if (cancel) {
                 cancel.classList.toggle('w-1/3', quoteEnabled);
                 cancel.classList.toggle('w-full', !quoteEnabled);
+            }
+
+            // 견적 설정을 받기 전에 제품 창을 먼저 연 경우,
+            // 그 창은 '견적 꺼짐' 모양(버튼 선택 불가 + 규격 선택칸)으로 그려져 있습니다.
+            // 설정이 도착하면 같은 제품으로 창을 다시 그려 두께 버튼 방식으로 맞춥니다.
+            var specModalEl = document.getElementById('specModal');
+            if (activeProductForModal && specModalEl && specModalEl.classList.contains('is-open')) {
+                openSpecModal(activeProductForModal.id);
             }
 
             if (!quoteEnabled) {
@@ -2824,6 +2844,481 @@
         }
 
         /** 선택한 규격을 사람이 읽는 형태로 (견적함에는 원본값이 들어갑니다) */
+        // =========================================================================
+        // [JS STEEL] 단중 계산 (규격 직접 입력용)
+        //
+        //   ※ 이 블록은 홈페이지(index.html)와 서버(단중계산.gs)에 "똑같이" 들어갑니다.
+        //     한쪽을 고치면 반드시 다른 쪽도 같이 고치세요.
+        //     서버는 화면이 보낸 중량을 믿지 않고 이 계산으로 다시 확정합니다.
+        //
+        //   기준 순서
+        //     1) 사내 단중표(수정불가)에 있는 치수 -> 단중표 값
+        //     2) 없는 치수                        -> 공식 (사내 "각종 계산법")
+        // =========================================================================
+        var STEEL_CALC = (function () {
+
+          // ── 제품코드 -> 형상 ──────────────────────────────────────────────
+          //  여기 없는 제품(H형강·ㄱ형강·ㄷ형강·가설재·부자재·코일)은 직접 입력칸을 보이지 않습니다.
+          var SHAPE_BY_CODE = {
+            "JS-PIP-STR-00001": "PIPE",       // 아연파이프
+            "JS-PIP-WHT-00001": "PIPE",       // 백관
+            "JS-PIP-BLK-00001": "PIPE",       // 흑관 파이프
+            "JS-CON-SCA-00001": "PIPE",       // 단관비계파이프
+            "JS-PLT-STS-00001": "PIPE_STS",   // 스텐304 (파이프)
+            "JS-PLT-HRP-00003": "FLAT",       // 평철
+            "JS-BAR-RDB-00001": "ROUND",      // 환봉
+            "JS-PLT-HRP-00002": "PLATE",      // HR PLATE
+            "JS-PLT-CRS-00001": "PLATE_STS",  // STS SHEET
+            "JS-PLT-GIP-00001": "COIL",       // GI COIL
+            "JS-PLT-HRP-00001": "COIL"        // HR COIL
+          };
+          var SHAPE_BY_PREFIX = [
+            ["JS-PIP-SQP-", "SQ"],            // 아연·칼라·블랙·용융도금 각관
+            ["JS-PIP-SPP-", "PIPE"],          // 인발·하우스 파이프
+            ["JS-SHP-CCH-", "CCH"]            // 아연·칼라·블랙 C형강
+          ];
+
+          // 입력칸 (key 는 번역 키, ko 는 번역이 없을 때 보일 글자)
+          var FIELDS = {
+            SQ:        [["A", "calc-a", "가로"], ["B", "calc-b", "세로"], ["t", "calc-t", "두께"]],
+            PIPE:      [["D", "calc-od", "외경"], ["t", "calc-t", "두께"]],
+            PIPE_STS:  [["D", "calc-od", "외경"], ["t", "calc-t", "두께"]],
+            CCH:       [["H", "calc-h", "높이"], ["A", "calc-w", "폭"], ["C", "calc-lip", "립"], ["t", "calc-t", "두께"]],
+            FLAT:      [["W", "calc-w", "폭"], ["t", "calc-t", "두께"]],
+            ROUND:     [["D", "calc-dia", "지름"]],
+            PLATE:     [["t", "calc-t", "두께"], ["W", "calc-pw", "가로"], ["L", "calc-pl", "세로"]],
+            PLATE_STS: [["t", "calc-t", "두께"], ["W", "calc-pw", "가로"], ["L", "calc-pl", "세로"]],
+            // 코일: 두께는 규격 표기용 (중량은 폭·외경·내경으로만 정해집니다)
+            COIL:      [["t", "calc-t", "두께"], ["W", "calc-w", "폭"], ["O", "calc-od", "외경"], ["I", "calc-id", "내경"]]
+          };
+
+          // 입력 상한 (mm) — 터무니없는 값 차단
+          var MAX = { A: 1000, B: 1000, D: 1000, H: 1000, C: 200, W: 3000, L: 12000, t: 100, O: 3000, I: 2000 };
+
+
+          // ── 사내 단중표(수정불가) ─────────────────────────────────────────
+          // 각관: 키 = 가로+세로 (같은 둘레는 같은 단중)
+          var T_SQ = [1.2, 1.4, 1.5, 1.6, 1.8, 2.0, 2.1, 2.3, 2.9, 3.0, 3.2, 4.0, 4.2, 5.7];
+          var SQ = {
+            "25.4": [.404, .457, .482, .506, .551],
+            "30":   [.491, .558, .590, .621, .681],
+            "38.2": [.645, .738, .783, .827, .912],
+            "40":   [.679, .778, .826, .873, .963],
+            "50":   [.868, 1.000, 1.06, 1.12, 1.25, 1.36, 1.42, 1.53, 1.84, 1.89, 1.98],
+            "60":   [1.06, 1.22, 1.30, 1.38, 1.53, 1.68, 1.75, 1.89, 2.30, 2.36, 2.49],
+            "80":   [1.43, 1.66, 1.77, 1.88, 2.09, 2.31, 2.41, 2.62, 3.21, 3.30, 3.49],
+            "100":  [1.81, 2.10, 2.24, 2.38, 2.66, 2.93, 3.07, 3.34, 4.12, 4.25, 4.50],
+            "120":  [2.19, 2.54, 2.71, 2.88, 3.22, 3.56, 3.73, 4.06, 5.03, 5.19, 5.50],
+            "150":  [0, 3.2, 3.42, 0, 4.07, 4.50, 4.72, 5.14, 6.40, 6.60, 7.01, 8.6, 8.98, 11.7],
+            "200":  [0, 0, 4.59, 0, 5.48, 6.07, 6.37, 6.95, 8.67, 8.96, 9.52, 11.7, 12.3, 16.2],
+            "250":  [0, 0, 0, 0, 0, 0, 0, 0, 10.90, 11.3, 12.0, 14.9, 15.6, 20.7],
+            "300":  [0, 0, 0, 0, 0, 0, 0, 0, 13.20, 0, 0, 18.0, 18.9, 25.2]
+          };
+          // 단중표 손글씨 추가분 (200R, 250R)
+          var SQ_EXTRA = {
+            "400|4.2": 25.47, "400|5.7": 34.12, "400|8.7": 50.73, "400|11.7": 66.41,
+            "500|5.7": 43.07, "500|8.7": 64.39, "500|11.7": 84.78
+          };
+
+          // 원형관: 키 = 외경
+          var T_PI = [1.2, 1.4, 1.5, 1.6, 1.8, 2.0, 2.1, 2.3, 2.9, 3.0, 3.2];
+          var PI = {
+            "21.2":  [.592, .684, .729, .773, .861],
+            "21.7":  [.607, .701, .747, .793, .883],
+            "26.7":  [.755, .873, .932, .990, 1.11, 1.22, 1.27, 1.38, 1.70, 1.75, 1.85],
+            "27.2":  [.769, .891, .951, 1.01, 1.13, 1.24, 1.30, 1.41, 1.74, 1.79, 1.89],
+            "33.5":  [.956, 1.11, 1.18, 1.26, 1.41, 1.55, 1.63, 1.77, 2.19, 2.26, 2.39],
+            "42.2":  [1.21, 1.41, 1.51, 1.60, 1.79, 1.98, 2.08, 2.26, 2.81, 2.90, 3.08],
+            "42.7":  [1.23, 1.43, 1.52, 1.62, 1.82, 2.01, 2.10, 2.29, 2.85, 2.94, 3.12],
+            "48.1":  [1.39, 1.61, 1.72, 1.83, 2.06, 2.27, 2.38, 2.60, 3.23, 3.34, 3.54],
+            "48.6":  [0, 1.63, 0, 0, 2.08, 2.30, 2.41, 2.63, 3.27, 3.37, 3.58],
+            "59.9":  [1.74, 2.02, 2.16, 2.30, 2.58, 2.86, 2.99, 3.27, 4.08, 4.21, 4.47],
+            "60.5":  [1.75, 2.04, 2.18, 2.32, 2.61, 2.89, 3.02, 3.30, 4.12, 4.25, 4.52],
+            "75.6":  [2.20, 2.56, 2.74, 2.92, 3.28, 3.63, 3.81, 4.16, 5.20, 5.37, 5.71],
+            "76.3":  [2.22, 2.59, 2.77, 2.95, 3.31, 3.66, 3.84, 4.20, 5.25, 5.42, 5.77],
+            "89.1":  [0, 0, 3.24, 3.45, 3.88, 4.30, 4.51, 4.92, 6.16, 6.37, 6.78],
+            "114.3": [0, 0, 4.17, 4.45, 4.99, 5.54, 5.81, 6.35, 7.97, 8.23, 8.77],
+            "139.8": [0, 0, 5.12, 5.45, 6.13, 6.80, 7.13, 7.80, 9.79, 10.1, 10.8]
+          };
+          // KS 백관 · VH (하우스) 표
+          var PI_EXTRA = {
+            "34|3.25": 2.46, "42.7|3.25": 3.16, "48.6|3.25": 3.63, "60.5|3.65": 5.12,
+            "76.3|3.65": 6.54, "89.1|4.05": 8.49, "114.3|4.5": 12.2, "139.8|4.85": 16.1, "165.2|4.85": 19.2,
+            "15.9|1.2": .435, "19.1|1.2": .530, "19.1|1.5": .651, "22.2|1.2": .621, "22.2|1.5": .766,
+            "25.4|1.2": .716, "25.4|1.5": .884, "25.4|1.7": .994,
+            "31.8|1.2": .906, "31.8|1.5": 1.120, "31.8|1.7": 1.26
+          };
+
+          // C형강: 키 = 높이*폭*립
+          var T_C = [1.5, 1.6, 1.8, 2.0, 2.1, 2.3, 2.9, 3.0, 3.2];
+          var CC = {
+            "60*30*10":   [1.53, 1.63, 1.81, 1.99, 2.08, 2.25],
+            "75*45*15":   [2.18, 2.32, 2.59, 2.86, 2.99, 3.25],
+            "100*50*20":  [0, 2.88, 3.22, 3.56, 3.73, 4.06, 5.03, 5.19, 5.50],
+            "125*50*20":  [0, 0, 0, 0, 4.14, 4.51, 5.60, 5.78, 6.13],
+            "150*50*20":  [0, 0, 0, 0, 4.55, 4.96, 6.17, 6.37, 6.76],
+            "150*65*20":  [0, 0, 0, 0, 5.05, 0, 6.85, 7.07, 7.51],
+            "150*75*20":  [0, 0, 0, 0, 5.38, 0, 7.31, 7.54, 8.01],
+            "200*75*25":  [0, 0, 0, 0, 6.37, 0, 0, 8.96, 0]
+          };
+          // 시트에 립 없이 적힌 C형강의 기본 립
+          var C_LIP = { "60*30": 10, "75*45": 15, "100*50": 20, "125*50": 20,
+            "150*50": 20, "150*65": 20, "150*75": 20, "200*75": 25 };
+
+          // 호칭경 -> 외경 (KS)
+          var NOMINAL_OD = { "15A": 21.7, "20A": 27.2, "25A": 34, "32A": 42.7, "40A": 48.6, "50A": 60.5,
+            "65A": 76.3, "80A": 89.1, "100A": 114.3, "125A": 139.8, "150A": 165.2,
+            "200A": 216.3, "250A": 267.4, "300A": 318.5 };
+          // KS 백관 호칭경 -> 두께
+          var KS_T = { "25A": 3.25, "32A": 3.25, "40A": 3.25, "50A": 3.65, "65A": 3.65, "80A": 4.05,
+            "100A": 4.5, "125A": 4.85, "150A": 4.85, "200A": 5.85, "250A": 6.4, "300A": 7.0 };
+
+
+          // ── 도우미 ─────────────────────────────────────────────────────────
+          function k(n) { return String(parseFloat(Number(n).toFixed(2))); }
+          function num(v) { var n = Number(v); return (isFinite(n) && n > 0) ? n : 0; }
+          function r3(v) { return Math.round(v * 1000) / 1000; }
+          function inT(T, row, t) {
+            if (!row) return 0;
+            for (var i = 0; i < T.length; i++) {
+              if (Math.abs(T[i] - t) < 1e-9) return row[i] || 0;
+            }
+            return 0;
+          }
+          function ng(msg) { return { ok: false, msg: msg }; }
+          function res(v, src) { return { ok: true, value: r3(v), src: src }; }
+
+
+          // ── 형상 ───────────────────────────────────────────────────────────
+          function shapeOf(code) {
+            code = String(code || "").trim();
+            if (SHAPE_BY_CODE[code]) return SHAPE_BY_CODE[code];
+            for (var i = 0; i < SHAPE_BY_PREFIX.length; i++) {
+              if (code.indexOf(SHAPE_BY_PREFIX[i][0]) === 0) return SHAPE_BY_PREFIX[i][1];
+            }
+            return "";
+          }
+
+          /** 길이 대신 장당 중량으로 나오는 형상인지 */
+          //  판재(장당)·코일(롤당)은 길이를 받지 않고 개당 중량으로 나옵니다
+          function isSheet(shape) { return shape === "PLATE" || shape === "PLATE_STS" || shape === "COIL"; }
+
+
+          // ── 계산 ───────────────────────────────────────────────────────────
+          //  dims 는 { A, B, t ... } 형태. 결과 value 는
+          //    판재 -> 장당 kg,  그 외 -> kg/m
+          function calc(shape, dims) {
+            var d = {};
+            var f = FIELDS[shape];
+            if (!f) return ng("직접 입력을 지원하지 않는 제품입니다.");
+
+            for (var i = 0; i < f.length; i++) {
+              var key = f[i][0];
+              var v = num(dims && dims[key]);
+              if (!v) return ng("치수를 모두 입력해 주세요.");
+              if (v > (MAX[key] || 1000)) return ng("치수가 너무 큽니다.");
+              d[key] = v;
+            }
+            if (shape === "SQ" && !d.B) d.B = d.A;
+
+            var v2;
+            switch (shape) {
+              case "SQ":
+                if (d.t * 2 >= Math.min(d.A, d.B)) return ng("두께가 변의 절반 이상입니다.");
+                var s = k(d.A + d.B);
+                v2 = SQ_EXTRA[s + "|" + k(d.t)] || inT(T_SQ, SQ[s], d.t);
+                if (v2) return res(v2, "table");
+                return res(0.0157 * d.t * (d.A + d.B - 3.287 * d.t), "formula");
+
+              case "PIPE":
+              case "PIPE_STS":
+                if (d.t * 2 >= d.D) return ng("두께가 외경의 절반 이상입니다.");
+                var sts = (shape === "PIPE_STS") ? 7.93 / 7.85 : 1;
+                v2 = PI_EXTRA[k(d.D) + "|" + k(d.t)] || inT(T_PI, PI[k(d.D)], d.t);
+                if (v2) return res(v2 * sts, sts === 1 ? "table" : "formula");
+                return res((d.D - d.t) * d.t * 0.02466 * sts, "formula");
+
+              case "CCH":
+                if (d.t * 2 >= d.A) return ng("두께가 폭의 절반 이상입니다.");
+                if (d.C >= d.H / 2) return ng("립이 너무 깁니다.");
+                v2 = inT(T_C, CC[k(d.H) + "*" + k(d.A) + "*" + k(d.C)], d.t);
+                if (v2) return res(v2, "table");
+                var area = d.t * (d.H + 2 * d.A + 2 * d.C - 6.574 * d.t) / 100;   // cm²
+                if (area <= 0) return ng("성립하지 않는 치수입니다.");
+                return res(0.785 * area, "formula");
+
+              case "FLAT":
+                if (d.t > d.W) return ng("두께가 폭보다 큽니다.");
+                return res(d.W * d.t * 0.00785, "formula");
+
+              case "ROUND":
+                return res(d.D * d.D * 0.006165, "formula");
+
+              case "PLATE":
+              case "PLATE_STS":
+                var rho = (shape === "PLATE_STS") ? 7.93 : 7.85;
+                return res(d.W * d.L * d.t * rho / 1000000, "formula");
+
+              case "COIL":
+                // 사내 "각종 계산법" 3·9번: 6.04 x 폭(mm) x (외경² - 내경²)   (외경·내경은 m)
+                if (d.I >= d.O) return ng("내경이 외경보다 크거나 같습니다.");
+                var om = d.O / 1000, im = d.I / 1000;
+                return res(6.04 * d.W * (om * om - im * im), "formula");
+            }
+            return ng("계산할 수 없습니다.");
+          }
+
+
+          // ── 규격 표기 <-> 치수 ─────────────────────────────────────────────
+          function nums(s) {
+            return (String(s).match(/\d+(?:\.\d+)?/g) || []).map(Number);
+          }
+
+          /** 시트 규격 한 칸을 입력칸 값으로 풀어 줍니다 (못 풀면 null) */
+          function parseSpec(shape, spec, group) {
+            var s = String(spec || "").replace(/[×xX]/g, "*").replace(/[Øø]/g, "").trim();
+            if (!s) return null;
+            var n;
+
+            if (shape === "SQ") {
+              var r = s.match(/^(\d+(?:\.\d+)?)R\s*\*\s*(\d+(?:\.\d+)?)/i);
+              if (r) return { A: +r[1], B: +r[1], t: +r[2] };
+              n = nums(s);
+              return n.length === 3 ? { A: n[0], B: n[1], t: n[2] } : null;
+            }
+
+            if (shape === "PIPE" || shape === "PIPE_STS") {
+              var inner = s.match(/\(([^)]*\*[^)]*)\)/);          // 25A(34*3.25)
+              if (inner) { n = nums(inner[1]); return n.length >= 2 ? { D: n[0], t: n[1] } : null; }
+              var nom = s.match(/^(\d+A)\b/i);
+              if (nom) {
+                var key = nom[1].toUpperCase();
+                var od = NOMINAL_OD[key];
+                var rest = nums(s.substring(nom[1].length));
+                if (od && rest.length) return { D: od, t: rest[0] };        // 15A*1.7T
+                if (od && group === "KS" && KS_T[key]) return { D: od, t: KS_T[key] };
+                return od ? { D: od, t: 0 } : null;                          // 외경만 채움
+              }
+              n = nums(s);
+              return n.length >= 2 ? { D: n[0], t: n[1] } : null;
+            }
+
+            if (shape === "CCH") {
+              n = nums(s);
+              if (n.length === 4) return { H: n[0], A: n[1], C: n[2], t: n[3] };
+              if (n.length === 3) {
+                var lip = C_LIP[k(n[0]) + "*" + k(n[1])];
+                return lip ? { H: n[0], A: n[1], C: lip, t: n[2] } : null;
+              }
+              return null;
+            }
+
+            if (shape === "FLAT") {
+              n = nums(s); return n.length >= 2 ? { W: n[0], t: n[1] } : null;
+            }
+            if (shape === "ROUND") {
+              n = nums(s); return n.length >= 1 ? { D: n[0] } : null;
+            }
+            if (shape === "COIL") {
+              n = nums(s); return n.length >= 2 ? { t: n[0], W: n[1] } : null;   // 1.7*1219 -> 두께·폭만
+            }
+            if (isSheet(shape)) {
+              n = nums(s); return n.length >= 3 ? { t: n[0], W: n[1], L: n[2] } : null;
+            }
+            return null;
+          }
+
+          /** 입력한 치수를 견적서 규격칸 표기로 */
+          function specText(shape, d) {
+            var f = function (v) { return k(v); };
+            switch (shape) {
+              case "SQ":        return f(d.A) + "*" + f(d.B || d.A) + "*" + f(d.t) + "T";
+              case "PIPE":
+              case "PIPE_STS":  return f(d.D) + "*" + f(d.t) + "T";
+              case "CCH":       return f(d.H) + "*" + f(d.A) + "*" + f(d.C) + "*" + f(d.t) + "T";
+              case "FLAT":      return f(d.W) + "*" + f(d.t) + "T";
+              case "ROUND":     return "Ø" + f(d.D);
+              case "PLATE":
+              case "PLATE_STS": return f(d.t) + "T*" + f(d.W) + "*" + f(d.L);
+              case "COIL":      return f(d.t) + "T*" + f(d.W) + " (OD" + f(d.O) + "/ID" + f(d.I) + ")";
+            }
+            return "";
+          }
+
+          return {
+            shapeOf: shapeOf,
+            fields: function (shape) { return FIELDS[shape] || []; },
+            isSheet: isSheet,
+            calc: calc,
+            parseSpec: parseSpec,
+            specText: specText
+          };
+        })();
+
+        // ===================== 규격 직접 입력 (치수 -> 단중 자동 계산) =====================
+        var calcShape = '';      // 지금 제품의 형상 (빈 값 = 직접 입력 없음)
+        var calcMode = false;    // true = 입력칸을 직접 고친 상태 (버튼 선택 대신 입력 치수로 담습니다)
+
+        /** 제품을 열 때 입력칸을 만듭니다 */
+        function renderCalcBox(p) {
+            var box = document.getElementById('calcBox');
+            var wrap = document.getElementById('calcFields');
+            calcShape = STEEL_CALC.shapeOf(p && p.id);
+            calcMode = false;
+
+            if (!calcShape) {
+                wrap.innerHTML = '';
+                box.classList.add('hidden');
+                return;
+            }
+
+            var f = STEEL_CALC.fields(calcShape);
+            wrap.style.gridTemplateColumns = 'repeat(' + f.length + ', minmax(0, 1fr))';
+            wrap.innerHTML = f.map(function (x) {
+                return '<label class="block min-w-0">' +
+                    '<span class="block text-[11px] font-bold text-slate-500 mb-1">' + esc(t(x[1], x[2])) + '</span>' +
+                    '<input type="number" inputmode="decimal" min="0" step="0.01" data-calc-key="' + x[0] + '" ' +
+                    'oninput="onCalcInput()" ' +
+                    'class="w-full min-w-0 bg-white border border-slate-300 text-slate-800 font-mono font-bold text-sm ' +
+                    'rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"></label>';
+            }).join('');
+
+            box.classList.remove('hidden');
+            fillCalcFromSpec(0);
+        }
+
+        /** 규격 버튼·선택칸에서 고른 규격으로 입력칸을 채웁니다 */
+        function fillCalcFromSpec(idx) {
+            var p = activeProductForModal;
+            if (!calcShape || !p) return;
+
+            var short = (p.specShortList || [])[idx] || '';
+            var group = (p.specGroupList || [])[idx] || '';
+            var d = STEEL_CALC.parseSpec(calcShape, short, group) || {};
+
+            document.querySelectorAll('#calcFields [data-calc-key]').forEach(function (el) {
+                var v = d[el.getAttribute('data-calc-key')];
+                el.value = (v > 0) ? numText(v) : '';
+            });
+
+            calcMode = false;
+            document.getElementById('calcBadge').classList.add('hidden');
+            updateCalcView();
+        }
+
+        function readCalcDims() {
+            var d = {};
+            document.querySelectorAll('#calcFields [data-calc-key]').forEach(function (el) {
+                d[el.getAttribute('data-calc-key')] = parseFloat(el.value);
+            });
+            return d;
+        }
+
+        /** 입력칸을 고치면 버튼 선택을 풀고 '직접 입력' 으로 바꿉니다 */
+        function onCalcInput() {
+            if (!calcShape) return;
+            calcMode = true;
+
+            document.querySelectorAll('#specModalList [data-spec-idx]').forEach(function (el) {
+                el.className = SPEC_BTN_BASE + SPEC_BTN_OFF;
+                el.setAttribute('aria-pressed', 'false');
+            });
+            document.getElementById('calcBadge').classList.remove('hidden');
+            updateCalcView();
+        }
+
+        /**
+         * 입력 상태 반영
+         *  · 단중·중량은 화면에 보이지 않습니다. 담을 때 계산해 견적서에만 들어갑니다.
+         *  · 치수가 잘못됐을 때만 안내 문구를 띄웁니다.
+         */
+        function updateCalcView() {
+            var out = document.getElementById('calcResult');
+            if (!out || !calcShape) return;
+
+            var msg = '';
+            if (calcMode) {
+                var dims = readCalcDims();
+                var r = STEEL_CALC.calc(calcShape, dims);
+
+                if (r.ok) {
+                    // 선택 규격 칸에 입력한 치수를 보여줍니다
+                    //  · '직접 입력' 글자는 고정폭(mono) 글꼴 밖에 두어 크기가 튀지 않게 합니다
+                    document.getElementById('specPickedText').innerHTML =
+                        '<span class="font-sans text-[11px] font-black text-amber-700 mr-1">' +
+                        esc(t("calc-custom", "직접 입력")) + '</span>' +
+                        esc(STEEL_CALC.specText(calcShape, dims).replace(/\*/g, '×'));
+                    document.getElementById('specPickedBox').classList.remove('hidden');
+                    document.getElementById('specModalListBox').classList.remove('hidden');
+                } else {
+                    msg = (currentLang === 'ko') ? r.msg : t("alert-calc-invalid", "치수를 다시 확인해 주세요.");
+                }
+            }
+
+            out.className = 'mt-2 text-[12px] font-bold text-red-600' + (msg ? '' : ' hidden');
+            out.innerText = msg;
+        }
+
+        /** 직접 입력한 치수로 견적함에 담습니다 (서버가 같은 계산으로 다시 확정합니다) */
+        function addCustomToCart(p, qty) {
+            var dims = readCalcDims();
+            var r = STEEL_CALC.calc(calcShape, dims);
+            if (!r.ok) {
+                return customAlert((currentLang === 'ko') ? r.msg : t("alert-calc-invalid", "치수를 다시 확인해 주세요."));
+            }
+
+            var sheet = STEEL_CALC.isSheet(calcShape);
+            var len = 0;
+            if (!sheet) {
+                len = currentLength();
+                if (!(len > 0)) return customAlert(t("alert-need-length", "길이를 입력해 주세요."));
+            }
+
+            // 입력칸 순서대로 필요한 값만 보냅니다
+            var clean = {};
+            STEEL_CALC.fields(calcShape).forEach(function (f) { clean[f[0]] = dims[f[0]]; });
+
+            var unitWeight = sheet ? r.value : Math.round(r.value * len * 1000) / 1000;
+            var spec = STEEL_CALC.specText(calcShape, clean) + (len > 0 ? ' * ' + numText(len) : '');
+
+            var checked = [];
+            document.querySelectorAll('#procList .proc-chk:checked').forEach(function (el) {
+                checked.push(el.value);
+            });
+
+            // 품목명은 일반 품목과 같게 씁니다 (규격칸의 치수로 구분됩니다)
+            var baseName = p.name_ko;
+            var nameVariants = checked.length
+                ? checked.map(function (v) { return baseName + ' (' + v + ')'; })
+                : [baseName];
+
+            nameVariants.forEach(function (itemName) {
+                var existing = quotationCart.find(function (item) {
+                    return item.id === p.id && item.selectedSpec === spec && item.name_ko === itemName;
+                });
+                if (existing) {
+                    existing.qty += qty;
+                } else {
+                    quotationCart.push({
+                        id: p.id,
+                        name_ko: itemName,
+                        selectedSpec: spec,
+                        qty: qty,
+                        unitWeight: unitWeight,
+                        note: '',
+                        custom: { dims: clean, len: len }
+                    });
+                }
+            });
+
+            updateCartBadge();
+            renderCartUI();
+            document.getElementById('specModalQty').value = 1;
+            updateCalcView();
+            showToast(t("toast-added", "견적함에 추가되었습니다."));
+        }
+
+
         function specPickedView(p, idx) {
             var short = (p.specShortList || [])[idx] || '';
             var group = (p.specGroupList || [])[idx] || '';
@@ -2850,6 +3345,9 @@
 
             document.getElementById('specPickedText').innerText = specPickedView(p, idx);
             document.getElementById('specPickedBox').classList.remove('hidden');
+
+            // 치수 입력칸도 고른 규격으로 채웁니다
+            fillCalcFromSpec(idx);
         }
 
         function openSpecModal(productId) {
@@ -2929,6 +3427,9 @@
                 listBox.classList.add('hidden');
             }
 
+            // ── 치수 직접 입력칸 (각관·파이프·C형강 등) ──
+            renderCalcBox(product);
+
             // ── 규격 선택 ──
             // KS / BS 같은 묶음 이름이 있으면 선택칸에서도 구분되도록 함께 보여주고,
             // 같은 묶음끼리는 소제목으로 묶어 줍니다.
@@ -2998,6 +3499,9 @@
                 lenBox.classList.add('hidden');
             }
 
+            // 길이·규격 선택칸이 다 만들어진 뒤에 단중·총중량을 표시합니다
+            updateCalcView();
+
             document.getElementById('specModal').classList.add('is-open');
         }
 
@@ -3018,6 +3522,7 @@
             } else {
                 box.classList.add('hidden');
             }
+            updateCalcView();
         }
 
         /** 규격을 바꿔도 길이 선택은 그대로 유지합니다 */
@@ -3025,6 +3530,7 @@
             // 같은 이름의 규격이 두 번 적혀 있어도 어긋나지 않도록 고른 자리를 기억합니다
             var select = document.getElementById('specSelect');
             specPickIdx = (select && select.selectedIndex >= 0) ? select.selectedIndex : -1;
+            if (specPickIdx > -1) fillCalcFromSpec(specPickIdx);
         }
 
         /** 지금 고른 길이 (길이 개념이 없는 제품이면 0) */
@@ -3044,6 +3550,8 @@
             document.getElementById('specModal').classList.remove('is-open');
             activeProductForModal = null;
             specPickIdx = -1;
+            calcMode = false;
+            calcShape = '';
         }
 
         function changeSpecModalQty(delta) {
@@ -3052,6 +3560,7 @@
             current += delta;
             if (current < 1) current = 1;
             qtyInput.value = current;
+            updateCalcView();
         }
 
         function confirmAddToCart() {
@@ -3060,6 +3569,9 @@
             var qty = Math.max(1, Math.min(999999, parseInt(document.getElementById('specModalQty').value) || 1));
 
             var p = activeProductForModal;
+
+            // 치수를 직접 고쳤으면 그 치수로 담습니다
+            if (calcMode && calcShape) return addCustomToCart(p, qty);
 
             // 고른 자리(specPickIdx)를 그대로 씁니다. 두께 버튼이든 선택칸이든 원본 순서와 1:1 입니다.
             var specIdx = -1;
@@ -3246,7 +3758,8 @@
                             spec: i.selectedSpec,
                             qty: i.qty,
                             unitWeight: i.unitWeight || 0,
-                            note: i.note || ''
+                            note: i.note || '',
+                            custom: i.custom || null
                         };
                     })
                 })
