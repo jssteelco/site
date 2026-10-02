@@ -2231,6 +2231,35 @@
         //  예) [JA] JIS : 15A, 20A     여러 언어는 [KO,JA] 처럼 쉼표로
         var LANG_ALIAS = { KO: "KO", KR: "KO", EN: "EN", US: "EN", JA: "JA", JP: "JA", VI: "VI", VN: "VI" };
 
+        /**
+         * 두께 줄임 표기 펼치기
+         *   "50*30*1.4T / 1.8T / 2T"  ->  "50*30*1.4T", "50*30*1.8T", "50*30*2T"
+         *   · 첫 항목의 마지막 '*' 앞까지를 기준 규격으로 보고, 뒤 항목(숫자 또는 숫자T)에 붙입니다
+         *   · 뒤 항목에 '*' 가 있으면 완전한 규격으로 보고 그대로 둡니다
+         *   · 이 모양이 아니면(예: 이름에 '/' 가 든 규격) 펼치지 않고 원래대로 둡니다
+         *   ※ 홈페이지(index.html)·서버(Code.gs)·오프라인 카탈로그·PDF 가 같은 규칙이어야
+         *     중량 순서가 어긋나지 않습니다
+         */
+        function expandSlashSpecs(items) {
+          var out = [];
+          items.forEach(function (it) {
+            if (String(it).indexOf("/") === -1) { out.push(it); return; }
+            var parts = String(it).split("/").map(function (v) { return v.trim(); })
+              .filter(function (v) { return v.length > 0; });
+            var first = parts[0] || "";
+            var star = first.lastIndexOf("*");
+            var ok = parts.length > 1 && star > 0 && parts.slice(1).every(function (p) {
+              return /^[0-9]*\.?[0-9]+\s*[Tt]?$/.test(p) || p.indexOf("*") !== -1;
+            });
+            if (!ok) { out.push(it); return; }
+            var base = first.substring(0, star + 1);
+            parts.forEach(function (p, i) {
+              out.push((i === 0 || p.indexOf("*") !== -1) ? p : base + p);
+            });
+          });
+          return out;
+        }
+
         function parseProductsForLang() {
             var parsedDB = [];
             var langUpper = (currentLang || 'ko').toUpperCase();
@@ -2272,9 +2301,9 @@
                         var m = line.match(/^([^,;|:]{1,24})\s*:\s*(.+)$/);
                         if (m) { group = m[1].trim(); body = m[2]; }
 
-                        var items = body.split(/[,;|]/).map(function (v) {
+                        var items = expandSlashSpecs(body.split(/[,;|]/).map(function (v) {
                             return v.trim();
-                        }).filter(function (v) { return v.length > 0; });
+                        }).filter(function (v) { return v.length > 0; }));
 
                         if (items.length) {
                             allSpecRows.push({ group: group, items: items, langs: langs, startIdx: specPos });
@@ -2326,7 +2355,7 @@
 
                 // 빈칸도 자리를 지킵니다. "8.2, , 14.8" 이면 두 번째 규격은 비어 있는 것으로 봅니다.
                 var weightFlat = weightText
-                    ? weightText.split(/[\r\n,;|]/).map(function (v) {
+                    ? weightText.split(/[\r\n,;|\/]/).map(function (v) {
                         var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
                         return (isFinite(n) && n > 0) ? n : 0;
                     })
@@ -2357,7 +2386,7 @@
                 ).trim();
 
                 var wpmFlat = wpmText
-                    ? wpmText.split(/[\r\n,;|]/).map(function (v) {
+                    ? wpmText.split(/[\r\n,;|\/]/).map(function (v) {
                         var n = parseFloat(String(v).replace(/[^0-9.\-]/g, ""));
                         return (isFinite(n) && n > 0) ? n : 0;
                     })
