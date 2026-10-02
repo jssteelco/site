@@ -1096,7 +1096,13 @@
                 <!-- 치수 직접 입력 (단중 자동 계산) -->
                 <div id="calcBox" class="hidden border border-slate-200 bg-slate-50 rounded-lg p-3">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-slate-500" data-i18n="calc-label">치수 직접 입력 (mm)</span>
+                        <span class="flex items-center gap-2 min-w-0">
+                            <span class="text-xs font-bold text-slate-500 shrink-0" data-i18n="calc-label">치수 직접 입력 (mm)</span>
+                            <!-- 규격이 KS·BS 처럼 묶음으로만 나뉜 제품: 직접 입력이 어느 묶음인지 고릅니다 -->
+                            <span id="calcGroupBox" class="hidden flex flex-wrap gap-1" role="radiogroup"></span>
+                            <!-- 재질 (시트 '재질 옵션') — 누르면 선택, 다시 누르면 해제. 안 고르면 제품명 그대로 -->
+                            <span id="calcMatBox" class="hidden flex flex-wrap gap-1" role="radiogroup"></span>
+                        </span>
                         <span id="calcBadge"
                             class="hidden text-[11px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded px-1.5 py-0.5"
                             data-i18n="calc-custom">직접 입력</span>
@@ -1110,6 +1116,12 @@
                         선택</label>
                     <select id="specSelect" onchange="onSpecChange()"
                         class="w-full bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
+                </div>
+
+                <!-- 재질 선택 (시트의 '재질 옵션' 열, 하나만 고름) -->
+                <div id="matBox" class="hidden">
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5" data-i18n="select-mat-label">재질 (선택)</label>
+                    <div id="matList" class="flex flex-wrap gap-2" role="radiogroup"></div>
                 </div>
 
                 <div id="procBox" class="hidden">
@@ -1284,8 +1296,8 @@
                 "btn-add-cart": "견적 담기", "btn-detail": "자세히 보기", "cart-title": "견적 요청함", "cart-empty": "견적함에 담긴 제품이 없습니다.",
                 "cart-submit": "견적서 요청하기", "cart-submitting": "견적서 요청 중...", "toast-added": "견적함에 추가되었습니다.", "toast-sent": "견적서 요청이 완료되었습니다!",
                 "select-size-label": "규격 / 사이즈 선택", "select-length-label": "길이 (M)",
-                "select-proc-label": "가공 요청 (선택)",
-                "length-custom": "직접 입력", "calc-label": "치수 직접 입력 (mm)", "calc-custom": "직접 입력", "calc-a": "가로", "calc-b": "세로", "calc-t": "두께", "calc-od": "외경", "calc-h": "높이", "calc-w": "폭", "calc-lip": "립", "calc-dia": "지름", "calc-id": "내경", "calc-pw": "가로", "calc-pl": "세로", "calc-unit-wpm": "단중", "calc-unit-sheet": "장당 중량", "calc-src-table": "단중표", "calc-src-formula": "계산식", "calc-total": "총중량", "calc-hint": "치수를 바꾸면 단중이 자동으로 계산됩니다.", "alert-calc-invalid": "치수를 다시 확인해 주세요.", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
+                "select-proc-label": "가공 요청 (선택)", "select-mat-label": "재질 (선택)",
+                "length-custom": "직접 입력", "calc-label": "치수 직접 입력 (mm)", "calc-custom": "직접 입력", "calc-a": "가로", "calc-b": "세로", "calc-t": "두께", "calc-od": "외경", "calc-h": "높이", "calc-w": "폭", "calc-lip": "립", "calc-dia": "지름", "calc-group-none": "일반", "calc-id": "내경", "calc-pw": "가로", "calc-pl": "세로", "calc-unit-wpm": "단중", "calc-unit-sheet": "장당 중량", "calc-src-table": "단중표", "calc-src-formula": "계산식", "calc-total": "총중량", "calc-hint": "치수를 바꾸면 단중이 자동으로 계산됩니다.", "alert-calc-invalid": "치수를 다시 확인해 주세요.", "alert-need-length": "길이를 입력해 주세요.", "select-qty-label": "수량", "btn-cancel": "닫기", "btn-add-confirm": "장바구니 담기",
                 "alert-title": "알림", "alert-confirm": "확인",
                 "alert-empty-cart": "견적함이 비어있습니다.",
                 "alert-need-info": "회사명과 연락처를 입력해주세요.",
@@ -1356,8 +1368,8 @@
                 "btn-add-cart": "Add to Quote", "btn-detail": "View Details", "cart-title": "Quotation Cart", "cart-empty": "Your quote cart is empty.",
                 "cart-submit": "Submit Request", "cart-submitting": "Requesting Quote...", "toast-added": "Added to quotation cart.", "toast-sent": "Quote request completed!",
                 "select-size-label": "Select Specification / Size", "select-length-label": "Length (M)",
-                "select-proc-label": "Processing (optional)",
-                "length-custom": "Enter manually", "calc-label": "Custom size (mm)", "calc-custom": "Custom", "calc-a": "Width", "calc-b": "Height", "calc-t": "Thickness", "calc-od": "O.D.", "calc-h": "Height", "calc-w": "Width", "calc-lip": "Lip", "calc-dia": "Diameter", "calc-id": "I.D.", "calc-pw": "Width", "calc-pl": "Length", "calc-unit-wpm": "Unit weight", "calc-unit-sheet": "Weight per sheet", "calc-src-table": "weight table", "calc-src-formula": "formula", "calc-total": "Total", "calc-hint": "Change the dimensions to calculate the unit weight.", "alert-calc-invalid": "Please check the dimensions.", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
+                "select-proc-label": "Processing (optional)", "select-mat-label": "Material (optional)",
+                "length-custom": "Enter manually", "calc-label": "Custom size (mm)", "calc-custom": "Custom", "calc-a": "Width", "calc-b": "Height", "calc-t": "Thickness", "calc-od": "O.D.", "calc-h": "Height", "calc-w": "Width", "calc-lip": "Lip", "calc-dia": "Diameter", "calc-group-none": "Standard", "calc-id": "I.D.", "calc-pw": "Width", "calc-pl": "Length", "calc-unit-wpm": "Unit weight", "calc-unit-sheet": "Weight per sheet", "calc-src-table": "weight table", "calc-src-formula": "formula", "calc-total": "Total", "calc-hint": "Change the dimensions to calculate the unit weight.", "alert-calc-invalid": "Please check the dimensions.", "alert-need-length": "Please enter the length.", "select-qty-label": "Quantity", "btn-cancel": "Close", "btn-add-confirm": "Add to Cart",
                 "alert-title": "Notice", "alert-confirm": "OK",
                 "alert-empty-cart": "Your quotation cart is empty.",
                 "alert-need-info": "Please enter your company name and contact information.",
@@ -1428,8 +1440,8 @@
                 "btn-add-cart": "見積もり追加", "btn-detail": "詳細を見る", "cart-title": "見積もり依頼カート", "cart-empty": "カートに製品がありません。",
                 "cart-submit": "見積もりを依頼する", "cart-submitting": "見積もり依頼中...", "toast-added": "カートに追加されました。", "toast-sent": "見積もり依頼が完了しました！",
                 "select-size-label": "規格 / サイズ選択", "select-length-label": "長さ (M)",
-                "select-proc-label": "加工のご依頼 (任意)",
-                "length-custom": "直接入力", "calc-label": "寸法を直接入力 (mm)", "calc-custom": "直接入力", "calc-a": "幅", "calc-b": "高さ", "calc-t": "厚さ", "calc-od": "外径", "calc-h": "高さ", "calc-w": "幅", "calc-lip": "リップ", "calc-dia": "直径", "calc-id": "内径", "calc-pw": "幅", "calc-pl": "長さ", "calc-unit-wpm": "単重", "calc-unit-sheet": "1枚あたり重量", "calc-src-table": "単重表", "calc-src-formula": "計算式", "calc-total": "総重量", "calc-hint": "寸法を変えると単重が自動計算されます。", "alert-calc-invalid": "寸法をご確認ください。", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
+                "select-proc-label": "加工のご依頼 (任意)", "select-mat-label": "材質 (任意)",
+                "length-custom": "直接入力", "calc-label": "寸法を直接入力 (mm)", "calc-custom": "直接入力", "calc-a": "幅", "calc-b": "高さ", "calc-t": "厚さ", "calc-od": "外径", "calc-h": "高さ", "calc-w": "幅", "calc-lip": "リップ", "calc-dia": "直径", "calc-group-none": "一般", "calc-id": "内径", "calc-pw": "幅", "calc-pl": "長さ", "calc-unit-wpm": "単重", "calc-unit-sheet": "1枚あたり重量", "calc-src-table": "単重表", "calc-src-formula": "計算式", "calc-total": "総重量", "calc-hint": "寸法を変えると単重が自動計算されます。", "alert-calc-invalid": "寸法をご確認ください。", "alert-need-length": "長さを入力してください。", "select-qty-label": "数量", "btn-cancel": "閉じる", "btn-add-confirm": "カートに追加",
                 "alert-title": "お知らせ", "alert-confirm": "確認",
                 "alert-empty-cart": "見積もりカートが空です。",
                 "alert-need-info": "会社名とご連絡先を入力してください。",
@@ -1500,8 +1512,8 @@
                 "btn-add-cart": "Thêm vào Báo giá", "btn-detail": "Xem chi tiết", "cart-title": "Giỏ hàng Báo giá", "cart-empty": "Giỏ hàng báo giá của bạn đang trống.",
                 "cart-submit": "Gửi Yêu cầu", "cart-submitting": "Đang gửi Yêu cầu...", "toast-added": "Đã thêm vào giỏ hàng.", "toast-sent": "Yêu cầu báo giá đã hoàn tất!",
                 "select-size-label": "Chọn Quy cách / Kích thước", "select-length-label": "Chiều dài (M)",
-                "select-proc-label": "Gia công (tùy chọn)",
-                "length-custom": "Nhập trực tiếp", "calc-label": "Nhập kích thước (mm)", "calc-custom": "Tùy chỉnh", "calc-a": "Rộng", "calc-b": "Cao", "calc-t": "Dày", "calc-od": "Đường kính ngoài", "calc-h": "Cao", "calc-w": "Rộng", "calc-lip": "Mép", "calc-dia": "Đường kính", "calc-id": "Đường kính trong", "calc-pw": "Rộng", "calc-pl": "Dài", "calc-unit-wpm": "Trọng lượng đơn vị", "calc-unit-sheet": "Trọng lượng mỗi tấm", "calc-src-table": "bảng trọng lượng", "calc-src-formula": "công thức", "calc-total": "Tổng", "calc-hint": "Thay đổi kích thước để tự tính trọng lượng.", "alert-calc-invalid": "Vui lòng kiểm tra kích thước.", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
+                "select-proc-label": "Gia công (tùy chọn)", "select-mat-label": "Vật liệu (tùy chọn)",
+                "length-custom": "Nhập trực tiếp", "calc-label": "Nhập kích thước (mm)", "calc-custom": "Tùy chỉnh", "calc-a": "Rộng", "calc-b": "Cao", "calc-t": "Dày", "calc-od": "Đường kính ngoài", "calc-h": "Cao", "calc-w": "Rộng", "calc-lip": "Mép", "calc-dia": "Đường kính", "calc-group-none": "Thường", "calc-id": "Đường kính trong", "calc-pw": "Rộng", "calc-pl": "Dài", "calc-unit-wpm": "Trọng lượng đơn vị", "calc-unit-sheet": "Trọng lượng mỗi tấm", "calc-src-table": "bảng trọng lượng", "calc-src-formula": "công thức", "calc-total": "Tổng", "calc-hint": "Thay đổi kích thước để tự tính trọng lượng.", "alert-calc-invalid": "Vui lòng kiểm tra kích thước.", "alert-need-length": "Vui lòng nhập chiều dài.", "select-qty-label": "Số lượng", "btn-cancel": "Đóng", "btn-add-confirm": "Thêm vào Giỏ hàng",
                 "alert-title": "Thông báo", "alert-confirm": "Xác nhận",
                 "alert-empty-cart": "Giỏ hàng báo giá của bạn đang trống.",
                 "alert-need-info": "Vui lòng nhập tên công ty và thông tin liên hệ.",
@@ -1532,6 +1544,7 @@
         var currentCategory = 'ALL';
         var activeProductForModal = null;
         var specPickIdx = -1;            // 지금 고른 규격의 원본 순서 (-1 = 아직 안 고름)
+        var matSel = '';                 // 지금 고른 재질 ('' = 일반)
         var currentPage = 'home';
 
         var API_URL = "https://script.google.com/macros/s/AKfycbx5V0whzka3PyEVsjGFDsRrw7Hs00h89Z8J9zbBA9BwyQoCKsyhXv1hKOINwypCyH3N/exec";
@@ -2370,6 +2383,8 @@
                 var cat = row["대분류_" + langUpper] || row["대분류_KO"] || row["대분류"] || "기타자재";
                 var name = row["품명_" + langUpper] || row["품명_KO"] || row["품명"] || "제품명 미기재";
                 var proc = row["가공옵션_" + langUpper] || row["가공옵션_KO"] || row["가공옵션"] || "-";
+                // 재질 옵션 — 번역 열이 없으면 PRODUCT_DB 의 한국어 값을 그대로 씁니다 (서버 Code.gs 와 같은 순서)
+                var mat = row["재질옵션_" + langUpper] || row["재질옵션_KO"] || row["재질 옵션"] || row["재질옵션"] || "";
                 var desc = row["설명_" + langUpper] || row["설명_KO"] || row["설명_KR"] || "";
                 var rawImg = row["대표이미지_URL"] || row["대표이미지"] || row["이미지URL"] || row["이미지"] || "";
 
@@ -2398,6 +2413,10 @@
                     lengthList: lengthList,
                     wpmList: wpmList,
                     procList: procList,
+                    matList: hasProc(mat)
+                        ? String(mat).split(/[\r\n,;|]/).map(function (v) { return v.trim(); })
+                            .filter(function (v, i, a) { return v.length > 0 && v !== "-" && a.indexOf(v) === i; })
+                        : [],
                     proc_ko: String(proc).trim() || "-",
                     rawImgUrl: rawImg,
                     image: formatImageUrl(rawImg),
@@ -2831,11 +2850,13 @@
 
         /** 기존 규격 목록 (그룹화하지 않는 경우) */
         function renderSpecPlainRows(rows) {
+            // 두께로 묶을 수 없는 규격(25A, 100A(114.3*2.1) 등)도 버튼으로 고를 수 있게 합니다.
+            // idx 는 원본 순서 그대로라 견적함·중량 짝맞춤은 기존과 같습니다.
+            var flat = 0;
+            var pickable = !!quoteEnabled;
             return rows.map(function (row) {
                 var chips = row.items.map(function (spec) {
-                    return '<span class="text-[14px] font-mono font-bold text-slate-700 ' +
-                        'bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded whitespace-nowrap">' +
-                        esc(spec) + '</span>';
+                    return specBtnHtml(spec, flat++, pickable);
                 }).join('');
 
                 return specGroupTagHtml(row.group) +
@@ -3161,6 +3182,9 @@
         // ===================== 규격 직접 입력 (치수 -> 단중 자동 계산) =====================
         var calcShape = '';      // 지금 제품의 형상 (빈 값 = 직접 입력 없음)
         var calcMode = false;    // true = 입력칸을 직접 고친 상태 (버튼 선택 대신 입력 치수로 담습니다)
+        var calcGroups = [];     // 직접 입력에서 고를 묶음 (KS, BS ...) — 비어 있으면 묶음 선택 없음
+        var calcGroup = '';      // 지금 고른 묶음 ('' = 묶음 없음)
+        var calcGroupMode = '';  // 'radio' = 하나를 꼭 고름 (백관 KS/BS) / 'check' = 켜고 끄기 (아연각관 포스맥)
 
         /** 제품을 열 때 입력칸을 만듭니다 */
         function renderCalcBox(p) {
@@ -3186,8 +3210,160 @@
                     'rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"></label>';
             }).join('');
 
+            renderCalcGroups(p);
             box.classList.remove('hidden');
             fillCalcFromSpec(0);
+        }
+
+        /**
+         * 직접 입력용 묶음 선택
+         *  · radio : 규격이 전부 묶음에 들어 있고 묶음이 2개 이상 (예: 백관 KS / BS)
+         *            -> 하나를 꼭 고르고, 품목명 뒤에 붙음  "백관 KS"
+         *  · 그 외 -> 묶음 선택 없이 담습니다 (재질은 '재질 옵션' 열에서 따로 고름)
+         *  · 서버(단중계산.gs 의 customGroupsOf_)도 같은 규칙으로 다시 확인합니다
+         */
+        function quoteCalcGroupsOf(p) {
+            var list = (p && p.specGroupList) || [];
+            var named = [], hasPlain = false;
+            for (var i = 0; i < list.length; i++) {
+                var g = String(list[i] || '').trim();
+                if (!g) { hasPlain = true; continue; }
+                if (named.indexOf(g) === -1) named.push(g);
+            }
+            // 묶음(KS/BS 등) 선택 버튼은 쓰지 않습니다.
+            // 직접 입력 품목의 구분이 필요하면 시트 '재질 옵션' 열에 적어 재질 버튼으로 고릅니다.
+            return { mode: '', groups: [] };
+        }
+
+        function renderCalcGroups(p) {
+            var gbox = document.getElementById('calcGroupBox');
+            var info = quoteCalcGroupsOf(p);
+            calcGroups = info.groups;
+            calcGroupMode = info.mode;
+            calcGroup = (info.mode === 'radio') ? calcGroups[0] : '';
+
+            if (!calcGroups.length) {
+                gbox.innerHTML = '';
+                gbox.classList.add('hidden');
+                return;
+            }
+            // pick 은 맨 앞에 "일반"(묶음 없음) 버튼을 둡니다 (data-calc-group="")
+            var btns = (calcGroupMode === 'pick') ? [''].concat(calcGroups) : calcGroups;
+            gbox.innerHTML = btns.map(function (g) {
+                return '<button type="button" role="' + (calcGroupMode === 'check' ? 'checkbox' : 'radio') + '" ' +
+                    'data-calc-group="' + esc(g) + '" ' +
+                    'onclick="toggleCalcGroup(this.getAttribute(\'data-calc-group\'))" ' +
+                    'class="text-[11px] font-black px-2 py-0.5 rounded border"></button>';
+            }).join('');
+            gbox.querySelectorAll('[data-calc-group]').forEach(function (el) {
+                var g = el.getAttribute('data-calc-group');
+                el.innerHTML = (calcGroupMode === 'check'
+                    ? '<i class="fa-regular fa-square mr-1" data-calc-check></i>' : '') +
+                    (g ? esc(g) : esc(t("calc-group-none", "일반")));
+            });
+            gbox.classList.remove('hidden');
+            paintCalcGroups();
+        }
+
+        function paintCalcGroups() {
+            document.querySelectorAll('#calcGroupBox [data-calc-group]').forEach(function (el) {
+                var on = el.getAttribute('data-calc-group') === calcGroup;
+                el.setAttribute('aria-checked', on ? 'true' : 'false');
+                el.className = 'text-[11px] font-black px-2 py-0.5 rounded border ' + (on
+                    ? 'bg-blue-900 border-blue-900 text-white'
+                    : 'bg-white border-slate-300 text-slate-500 hover:border-blue-400');
+                var ic = el.querySelector('[data-calc-check]');
+                if (ic) ic.className = (on ? 'fa-solid fa-square-check' : 'fa-regular fa-square') + ' mr-1';
+            });
+        }
+
+        /** 규격 버튼을 고를 때 묶음도 따라갑니다 ('' = 묶음 없는 규격) */
+        function setCalcGroup(g) {
+            g = String(g || '');
+            if (calcGroupMode === 'radio' && calcGroups.indexOf(g) === -1) return;
+            if ((calcGroupMode === 'check' || calcGroupMode === 'pick') && g && calcGroups.indexOf(g) === -1) return;
+            calcGroup = g;
+            paintCalcGroups();
+        }
+
+        /** 사용자가 묶음 버튼을 누름 (직접 입력 상태로 바뀝니다) */
+        function toggleCalcGroup(g) {
+            if (!(calcGroupMode === 'pick' && g === '') && calcGroups.indexOf(g) === -1) return;
+            calcGroup = (calcGroupMode === 'check' && calcGroup === g) ? '' : g;
+            paintCalcGroups();
+            onCalcInput();
+        }
+
+        // ===================== 재질 선택 (시트 '재질 옵션') =====================
+        /**
+         * 재질 버튼
+         *  · 치수 직접 입력 상자가 있는 제품: 그 머리줄(KS/BS 자리)에 작은 버튼으로
+         *  · 없는 제품: 가공 요청 위의 '재질' 줄에
+         *  · "일반" 버튼은 없습니다. 아무것도 안 고르면 제품명 그대로 담깁니다.
+         *    같은 버튼을 다시 누르면 해제됩니다.
+         */
+        function renderMat(p) {
+            var mats = (p && p.matList) || [];
+            var inline = document.getElementById('calcMatBox');
+            var box = document.getElementById('matBox');
+            var list = document.getElementById('matList');
+            inline.innerHTML = ''; list.innerHTML = '';
+            inline.classList.add('hidden'); box.classList.add('hidden');
+            if (!mats.length || !quoteEnabled) return;
+
+            var useInline = !!calcShape;
+            var target = useInline ? inline : list;
+            var cls = useInline
+                ? 'text-[11px] font-black px-2 py-0.5 rounded border'
+                : 'px-3 py-2 rounded-lg border text-sm font-bold';
+            target.innerHTML = mats.map(function (v) {
+                return '<button type="button" role="radio" data-mat="' + esc(v) + '" data-mat-cls="' + cls + '" ' +
+                    'onclick="pickMat(this.getAttribute(\'data-mat\'))" class="' + cls + '"></button>';
+            }).join('');
+            target.querySelectorAll('[data-mat]').forEach(function (el) {
+                el.textContent = el.getAttribute('data-mat');
+            });
+            (useInline ? inline : box).classList.remove('hidden');
+            paintMat();
+        }
+
+        function paintMat() {
+            document.querySelectorAll('#calcMatBox [data-mat], #matList [data-mat]').forEach(function (el) {
+                var on = el.getAttribute('data-mat') === matSel;
+                el.setAttribute('aria-checked', on ? 'true' : 'false');
+                el.className = el.getAttribute('data-mat-cls') + ' ' + (on
+                    ? 'bg-blue-900 border-blue-900 text-white'
+                    : 'bg-white border-slate-300 text-slate-500 hover:border-blue-400');
+            });
+        }
+
+        /** 재질 누르기 — 같은 것을 다시 누르면 해제 (해제 = 제품명 그대로) */
+        function pickMat(v) {
+            var p = activeProductForModal;
+            v = String(v || '');
+            if (v && (!p || (p.matList || []).indexOf(v) === -1)) return;
+            matSel = (matSel === v) ? '' : v;
+            paintMat();
+        }
+
+        /**
+         * 견적서 품목명
+         *  · 규격 묶음(KS/BS 등)은 뒤에 붙입니다            -> 백관 KS
+         *  · 재질은 그 뒤에 붙입니다                        -> 아연파이프 포스맥
+         *  · 규격 묶음이 재질 목록에도 있으면 재질로만 한 번  -> 흑관 파이프 SGT355 (두 번 붙지 않음)
+         *  · 서버(Code.gs 의 quoteItemName_)도 같은 규칙입니다
+         */
+        function quoteItemName(p, specGroup, mat) {
+            var mats = (p && p.matList) || [];
+            var name = p.name_ko;
+            if (specGroup && mats.indexOf(specGroup) === -1) name += ' ' + specGroup;
+            if (mat) name += ' ' + mat;
+            return name;
+        }
+
+        /** 직접 입력 품목명 */
+        function calcItemName(p) {
+            return quoteItemName(p, calcGroup, matSel);
         }
 
         /** 규격 버튼·선택칸에서 고른 규격으로 입력칸을 채웁니다 */
@@ -3198,6 +3374,7 @@
             var short = (p.specShortList || [])[idx] || '';
             var group = (p.specGroupList || [])[idx] || '';
             var d = STEEL_CALC.parseSpec(calcShape, short, group) || {};
+            if (calcGroups.length) setCalcGroup(group);
 
             document.querySelectorAll('#calcFields [data-calc-key]').forEach(function (el) {
                 var v = d[el.getAttribute('data-calc-key')];
@@ -3250,6 +3427,7 @@
                     document.getElementById('specPickedText').innerHTML =
                         '<span class="font-sans text-[11px] font-black text-amber-700 mr-1">' +
                         esc(t("calc-custom", "직접 입력")) + '</span>' +
+                        (calcGroup ? esc(calcGroup) + ' ' : '') +
                         esc(STEEL_CALC.specText(calcShape, dims).replace(/\*/g, '×'));
                     document.getElementById('specPickedBox').classList.remove('hidden');
                     document.getElementById('specModalListBox').classList.remove('hidden');
@@ -3290,10 +3468,14 @@
             });
 
             // 품목명은 일반 품목과 같게 씁니다 (규격칸의 치수로 구분됩니다)
-            var baseName = p.name_ko;
-            var nameVariants = checked.length
-                ? checked.map(function (v) { return baseName + ' (' + v + ')'; })
-                : [baseName];
+            // 묶음(KS/BS)을 고른 경우 버튼으로 담을 때와 같이 품목명 뒤에 붙입니다 (예: 백관 KS)
+            var group = calcGroups.length ? calcGroup : '';
+            if (calcGroupMode === 'radio' && calcGroups.indexOf(group) === -1) {
+                return customAlert(t("alert-calc-invalid", "치수를 다시 확인해 주세요."));
+            }
+            var baseName = calcItemName(p);
+            // 가공 옵션은 여러 개 골라도 한 줄로 담습니다  예) 아연파이프 (포스맥, 타공)
+            var nameVariants = [checked.length ? baseName + ' (' + checked.join(', ') + ')' : baseName];
 
             nameVariants.forEach(function (itemName) {
                 var existing = quotationCart.find(function (item) {
@@ -3308,8 +3490,9 @@
                         selectedSpec: spec,
                         qty: qty,
                         unitWeight: unitWeight,
-                        note: '',
-                        custom: { dims: clean, len: len }
+                        note: group,
+                        material: matSel,
+                        custom: { dims: clean, len: len, group: group }
                     });
                 }
             });
@@ -3351,6 +3534,11 @@
 
             // 치수 입력칸도 고른 규격으로 채웁니다
             fillCalcFromSpec(idx);
+
+            // 재질 자동 맞춤: SGT355 규격을 누르면 재질도 SGT355, 일반 규격이면 일반
+            var g = (p.specGroupList || [])[idx] || '';
+            matSel = ((p.matList || []).indexOf(g) !== -1) ? g : '';
+            paintMat();
         }
 
         function openSpecModal(productId) {
@@ -3396,6 +3584,7 @@
             var selectBox = document.getElementById('specSelectBox');
 
             specPickIdx = -1;
+            matSel = '';
             pickedBox.classList.add('hidden');
             document.getElementById('specPickedText').innerText = '';
             document.getElementById('specPickedLabel').innerText = t("spec-picked-label", "선택 규격");
@@ -3461,10 +3650,15 @@
 
             // 두께 버튼으로 고르는 화면에서는 기존 선택칸을 감춥니다.
             // (선택값은 그대로 이 선택칸에 반영되므로 견적함 동작은 같습니다)
-            if (useGroups && quoteEnabled) {
+            // 묶음 표시든 일반 표시든 버튼으로 고르므로 선택칸은 늘 감춥니다.
+            // (규격 목록 자체가 감춰진 대체 문구 제품만 선택칸을 그대로 둡니다)
+            if (quoteEnabled && list.length > 0 && !isPlaceholderOnly) {
                 if (selectBox) selectBox.classList.add('hidden');
                 pickSpec(0);
             }
+
+            // ── 재질 (하나만) ──
+            renderMat(product);
 
             // ── 가공 요청 (여러 개 선택 가능) ──
             var procBox = document.getElementById('procBox');
@@ -3614,17 +3808,16 @@
 
             // 선택한 가공마다 항목을 따로 만듭니다.
             //  · 안 고르면        -> 아연각관
-            //  · 절단, 타공 선택  -> 아연각관 (절단) / 아연각관 (타공) 두 줄
+            //  · 절단, 타공 선택  -> 아연각관 (절단, 타공) 한 줄
             var checked = [];
             document.querySelectorAll('#procList .proc-chk:checked').forEach(function (el) {
                 checked.push(el.value);
             });
             var noteText = (p.specGroupList || [])[specIdx] || '';
 
-            var baseName = p.name_ko + (groupName ? ' ' + groupName : '');
-            var nameVariants = checked.length
-                ? checked.map(function (v) { return baseName + ' (' + v + ')'; })
-                : [baseName];
+            var baseName = quoteItemName(p, groupName, matSel);
+            // 가공 옵션은 여러 개 골라도 한 줄로 담습니다  예) 아연파이프 (포스맥, 타공)
+            var nameVariants = [checked.length ? baseName + ' (' + checked.join(', ') + ')' : baseName];
 
             nameVariants.forEach(function (itemName) {
                 var existing = quotationCart.find(function (item) {
@@ -3641,7 +3834,8 @@
                         selectedSpec: spec,
                         qty: qty,
                         unitWeight: unitWeight,
-                        note: noteText
+                        note: noteText,
+                        material: matSel
                     });
                 }
             });
@@ -3762,6 +3956,7 @@
                             qty: i.qty,
                             unitWeight: i.unitWeight || 0,
                             note: i.note || '',
+                            material: i.material || '',
                             custom: i.custom || null
                         };
                     })
